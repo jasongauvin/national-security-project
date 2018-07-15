@@ -1,5 +1,4 @@
 // CHAMP DE RECHERCHE
-
 $("#champRecherche").on('keyup', function (event) {
     var addrVal = $("#champRecherche").val();
     if ($("#champRecherche").val().length) {
@@ -53,34 +52,65 @@ function getAddressList(string, id, url) {
     });
 }
 
+var mapAdvancedSearch_AddressStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 0.5],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: 'assets/img/marker.png'
+    })
+});
+
+var mapAdvancedSearch_AddressGeometryVector = new ol.layer.Vector(
+    {
+        name: 'MapAdvancedSearch_Address',
+        source: new ol.source.Vector(),
+        style: mapAdvancedSearch_AddressStyle
+    });
+
+var map_advanced_search_address_popup = new ol.Overlay.Popup(
+    {
+        popupClass: "black", //"tips anim", "tooltips", "warning" "black" "default", "tips", "shadow",
+        closeBox: false,
+        onclose: function () { console.log("You close the box"); },
+        positioning: 'bottom-right',
+        autoPan: true,
+        autoPanAnimation: { duration: 100 }
+    });
+
+function getSelectedAddress(name, longitude, latitude, id) {
+    mapAdvancedSearch_AddressGeometryVector.getSource().clear();
+    map_advanced_search_address_popup.hide(undefined, '');
+    name = name.replace(/[|]/g, "'")
+    //console.log(name+'||'+longitude+'||'+latitude);
+    //$("#champRecherche").val(name);
+    // $("#nearby_address").empty();
+    // $("#nearby_address").append(name);
+    // $("#" + id).hide();
+    var point_pos_search_inp = new ol.geom.Point(
+        ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')
+    );
+    //console.log(point_pos_search_inp);
+    var point_position_search_inp = new ol.Feature(point_pos_search_inp);
+    mapAdvancedSearch_AddressGeometryVector.getSource().addFeature(point_position_search_inp);
+    var defaultCenter = ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857');
+    //map.getView().setZoom(10);
+    map_advanced_search_address_popup.show(mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures()[0].getGeometry().getCoordinates(), name);
+    /*var extent = mapAdvancedSearch_AddressGeometryVector.getSource().getExtent();
+    map.getView().fit(extent, map.getSize());
+    map.getView().setZoom(10);*/
+    view.animate({
+        center: defaultCenter,
+        duration: 2000,
+        zoom: 20
+    });
+    //getNearbyPois(critere);
+}
 
 
-// function getSelectedAddress(name, longitude, latitude, id) {
-//     mapAdvancedSearch_AddressGeometryVector.getSource().clear();
-//     map_advanced_search_address_popup.hide(undefined, '');
-//     name = name.replace(/[|]/g, "'")
-//     //console.log(name+'||'+longitude+'||'+latitude);
-//     $("#address_find_input").val(name);
-//     $("#nearby_address").empty();
-//     $("#nearby_address").append(name);
-//     $("#" + id).hide();
-//     var point_pos_search_inp = new ol.geom.Point(
-//         ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')
-//     );
-//     console.log(point_pos_search_inp);
-//     var point_position_search_inp = new ol.Feature(point_pos_search_inp);
-//     mapAdvancedSearch_AddressGeometryVector.getSource().addFeature(point_position_search_inp);
-//     var defaultCenter = ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857');
-//     //map.getView().setZoom(10);
-//     map_advanced_search_address_popup.show(mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures()[0].getGeometry().getCoordinates(), name);
-//     /*var extent = mapAdvancedSearch_AddressGeometryVector.getSource().getExtent();
-//     map.getView().fit(extent, map.getSize());
-//     map.getView().setZoom(10);*/
-//     view.animate({
-//         center: defaultCenter,
-//         duration: 2000,
-//         zoom: 10
-//     });
-//     //getNearbyPois(critere);
-// }
+map.addLayer(mapAdvancedSearch_AddressGeometryVector);
+//map.addOverlay(map_advanced_search_address_popup);
+
+
+
 // /CHAMP DE RECHERCHE
