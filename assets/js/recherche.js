@@ -44,7 +44,7 @@ function getAddressList(string, id, url) {
             }
         },
         error: function () {
-            alert('error parsing')
+            console.log('error parsing');
         },
         complete: function () {
 
