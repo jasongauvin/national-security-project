@@ -140,7 +140,7 @@ var agent_police_geojson = new ol.format.GeoJSON();
 					                textAlign: 'center',
 					                textBaseline: 'bottom',
 					                text: feature.get('nom')+' ('+feature.get('type')+')',
-					                fill: new ol.style.Fill({ color: 'rgba(207, 16, 175, 1)' }),
+					                fill: new ol.style.Fill({ color: 'rgba(0, 0, 247)' }),
 									stroke: new ol.style.Stroke({
 										color: 'rgba(10, 9, 9, 0)', 
 										width:  1
