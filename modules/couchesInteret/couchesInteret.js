@@ -8,6 +8,10 @@ function changerClasseCss(id, classe) {
 
 // INTERACTION POUR COUCHES D'INTÉRÊT
 $("#couchesInteret").click(function () {
+    $("#tabBord").text("COUCHES D'INTÉRÊT");
+    $("#tabBordCouleur").attr('class', '');
+    $("#couchesAgentsCouleur").attr('class', '');
+    $("#couchesInteretCouleur").attr('class', 'active open');
     $("#Boutontoggle").attr('class', 'style-toggle open');
     document.getElementById("style_selector_container").style.display = "block";
     document.getElementById("Boutontoggle").style.display = "block";
