@@ -29,11 +29,7 @@ $("#mosquees").change(function () {
         nearbyPoisGeometryVector.changed();
     } else {
         changerClasseCss("listeCoucheMosquees", "dropdown hidden");
-        critere = null;
-
         removePoisFeatures('Mosquée');
-        $('#ulMosquees').empty();
-        $('#ulMosquees').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -45,10 +41,7 @@ $("#ecoles").change(function () {
         nearbyPoisGeometryVector.changed();
     } else {
         changerClasseCss("listeCoucheEcoles", "dropdown hidden");
-        critere = null;
         removePoisFeatures('Ecole Supérieure Et Institut Public');
-        $('#ulEcoles').empty();
-        $('#ulEcoles').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -60,10 +53,7 @@ $("#banques").change(function () {
         nearbyPoisGeometryVector.changed();
     } else {
         changerClasseCss("listeCoucheBanques", "dropdown hidden");
-        critere = null;
         removePoisFeatures('Banque');
-        $('#ulBanques').empty();
-        $('#ulBanques').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -75,10 +65,7 @@ $("#hotels").change(function () {
         nearbyPoisGeometryVector.changed();
     } else {
         changerClasseCss("listeCoucheHotels", "dropdown hidden");
-        critere = null;
         removePoisFeatures('Hôtel');
-        $('#ulHotels').empty();
-        $('#ulHotels').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -88,15 +75,10 @@ function removePoisFeatures(categorie) {
         if (feature.get('souscategorie') == categorie) {
             nearbyPoisGeometryVector.getSource().removeFeature(feature);
         }
-        /*console.log("removed");
-        console.log(feature);
-        vectorLayer.getSource().removeFeature(feature);*/
     });
     $("#nearby_pois_count").empty();
     $("#nearby_pois_count").append(nearbyPoisGeometryVector.getSource().getFeatures().length + ' POIS');
 }
-
-
 
 function getNearbyPois(critere) {
 
@@ -156,9 +138,9 @@ function getNearbyPois(critere) {
                 if (f.length > 0) {
                     res += '<div class="todo-actions" style="overflow-y: scroll; height:250px;" >';
                     res += '<span class="desc">';
-                    
+
                     function arrayColumn(arr, n) {
-                        return arr.map(x=> x[n]);
+                        return arr.map(x => x[n]);
                     }
 
                     var ar = [];
@@ -166,13 +148,11 @@ function getNearbyPois(critere) {
                         ar.push([i, f[i].get("distance")]);
                     }
 
-                    ar.sort(function(a,b){
+                    ar.sort(function (a, b) {
                         return a[1] - b[1];
                     });
 
-                    //console.log(arrayColumn(ar, 0)[1] );
-                    j = 0;
-                    for (var i = arrayColumn(ar, 0)[0]; j < f.length; i=arrayColumn(ar, 0)[++j]) {
+                    for (var j = 0,i = arrayColumn(ar, 0)[0]; j < f.length; i = arrayColumn(ar, 0)[++j]) {
                         //console.log(f[i].get("distance"));
 
                         var dis = ((f[i].get("distance") < 1000) ? Math.round(f[i].get("distance")) + ' m' : (f[i].get("distance") / 1000).toFixed(3) + ' km');
@@ -364,7 +344,7 @@ function getFeatureStyle(feature) {
         strokeColor = "#ecb255";
         sscat = "icon icon-credit";
     } else if (feature.get('souscategorie') == 'Mosquée') {
-        ;
+
         theGlyph = "fa-usd";
         form = "circle";
         fontSize = 0.8;
