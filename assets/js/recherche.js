@@ -8,6 +8,7 @@ $("#champRecherche").on('keyup', function (event) {
         // TRIGGER TOUCHE ENTRER
         if (event.keyCode === 13) {
             $( $("#listeChampRecherche").children(":first") ).click();
+            $("#listeAddr").hide();
         }
         // /TRIGGER TOUCHE ENTRER
     } else {

@@ -494,14 +494,6 @@ var Main = function () {
         setFooterStyle();
         setBoxedBackgrounds();
     };
-    $('.drop-down-wrapper').perfectScrollbar({
-        wheelSpeed: 50,
-        minScrollbarLength: 20,
-        suppressScrollX: true
-    });
-    $('.navbar-tools .dropdown').on('shown.bs.dropdown', function () {
-        $(this).find('.drop-down-wrapper').scrollTop(0).perfectScrollbar('update');
-    });
     var setColorScheme = function () {
         $('.icons-color a').bind('click', function () {
             $('.icons-color img').each(function () {

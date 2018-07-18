@@ -20,13 +20,7 @@ $("#couchesInteret").click(function () {
 });
 // /INTERACTION POUR COUCHES D'INTÉRÊT
 
-// L'AFFICHAGE DES LISTES DES COUCHES DANS LE HEADER
-// $("#listeCoucheBanques").attr('class', 'dropdown');
-// /L'AFFICHAGE DES LISTES DES COUCHES DANS LE HEADER
-
-
 // GESTION DES CHECKBOX DES COUCHES DISPONIBLES
-
 $("#mosquees").change(function () {
     if (this.checked) {
         changerClasseCss("listeCoucheMosquees", "dropdown open");
@@ -39,7 +33,7 @@ $("#mosquees").change(function () {
 
         removePoisFeatures('Mosquée');
         $('#ulMosquees').empty();
-        $('#ulMosquees').append('<div><br><br><p class="text-center">Pas de données à afficher.</p></div>');
+        $('#ulMosquees').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -54,7 +48,7 @@ $("#ecoles").change(function () {
         critere = null;
         removePoisFeatures('Ecole Supérieure Et Institut Public');
         $('#ulEcoles').empty();
-        $('#ulEcoles').append('<div><br><br><p class="text-center">Pas de données à afficher.</p></div>');
+        $('#ulEcoles').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -69,7 +63,7 @@ $("#banques").change(function () {
         critere = null;
         removePoisFeatures('Banque');
         $('#ulBanques').empty();
-        $('#ulBanques').append('<div><br><br><p class="text-center">Pas de données à afficher.</p></div>');
+        $('#ulBanques').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -84,7 +78,7 @@ $("#hotels").change(function () {
         critere = null;
         removePoisFeatures('Hôtel');
         $('#ulHotels').empty();
-        $('#ulHotels').append('<div><br><br><p class="text-center">Pas de données à afficher.</p></div>');
+        $('#ulHotels').append('<div><p class="text-center">Pas de données à afficher.</p></div>');
     }
 });
 
@@ -120,7 +114,7 @@ function getNearbyPois(critere) {
             },
             type: 'GET',
             dataType: 'JSON',
-            async: false,
+            async: true,
             cache: false,
             timeout: 1000,
             success: function (result) {
@@ -128,7 +122,7 @@ function getNearbyPois(critere) {
                 if (critere == 301) {
                     $("#nbrMosquees").empty();
                     // $("#nbrMosquees").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
-                    $("#nbrMosquees").append((result.features.length ));
+                    $("#nbrMosquees").append((result.features.length));
                     $("#nbrMosqueesTitre").text($('#nbrMosquees').text() + " Mosquées disponibles");
                 }
                 else if (critere == 142) {
@@ -158,139 +152,156 @@ function getNearbyPois(critere) {
 
                 nearbyPoisGeometryVector.getSource().addFeatures(features);
                 var f = nearbyPoisGeometryVector.getSource().getFeatures();
-                //console.log(f);
 
                 if (f.length > 0) {
-                    res += '<div class="todo-actions">';
+                    res += '<div class="todo-actions" style="overflow-y: scroll; height:250px;" >';
+                    res += '<span class="desc">';
+                    
+                    function arrayColumn(arr, n) {
+                        return arr.map(x=> x[n]);
+                    }
+
+                    var ar = [];
                     for (var i = 0; i < f.length; i++) {
+                        ar.push([i, f[i].get("distance")]);
+                    }
 
-                        var dis = ((f[i].get("distance") < 1000) ? Math.round(f[i].get("distance")) + ' m' : Math.round(f[i].get("distance") / 1000) + ' km');
-                        if (f[i].get('souscategorie') == 'Super Marché Et Surface Commerciale') {
-                            sscat = "icon icon-cart";
-                            //name.replace(/[']/g, "|");
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                    ar.sort(function(a,b){
+                        return a[1] - b[1];
+                    });
 
-                            res += '<div class="desc"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="label label-danger">' + dis + '</span></small></div>';
-                            res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                            //res += '<hr>';
-                            if (f[i].get("tl") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
-                            }
-                            if (f[i].get("fax") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
-                            }
-                            if (f[i].get("email") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
-                            }
-                            if (f[i].get("siteweb") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
-                            }
-                        } else if (f[i].get('souscategorie') == 'Librairie Et Papeterie') {
-                            sscat = "icon icon-library";
-                            //name.replace(/[']/g, "|");
+                    //console.log(arrayColumn(ar, 0)[1] );
+                    j = 0;
+                    for (var i = arrayColumn(ar, 0)[0]; j < f.length; i=arrayColumn(ar, 0)[j++]) {
+                        //console.log(f[i].get("distance"));
+
+                        var dis = ((f[i].get("distance") < 1000) ? Math.round(f[i].get("distance")) + ' m' : (f[i].get("distance") / 1000).toFixed(3) + ' km');
+                        //console.log(f[i]);
+
+                        // if (f[i].get('souscategorie') == 'Super Marché Et Surface Commerciale') {
+                        //     sscat = "icon icon-cart";
+                        //     //name.replace(/[']/g, "|");
+                        //     res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+
+                        //     res += '<div class="desc"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="label label-danger">' + dis + '</span></small></div>';
+                        //     res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
+                        //     //res += '<hr>';
+                        //     if (f[i].get("tl") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
+                        //     }
+                        //     if (f[i].get("fax") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
+                        //     }
+                        //     if (f[i].get("email") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
+                        //     }
+                        //     if (f[i].get("siteweb") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
+                        //     }
+                        // } else if (f[i].get('souscategorie') == 'Librairie Et Papeterie') {
+                        //     sscat = "icon icon-library";
+                        //     //name.replace(/[']/g, "|");
+                        //     res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                        //     res += '<div class="d-flex w-100 justify-content-between"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary">' + dis + '</span></small></div>';
+                        //     res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
+                        //     res += '<hr>';
+                        //     if (f[i].get("tl") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
+                        //     }
+                        //     if (f[i].get("fax") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
+                        //     }
+                        //     if (f[i].get("email") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
+                        //     }
+                        //     if (f[i].get("siteweb") != "") {
+                        //         res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
+                        //     }
+                        // } else 
+
+
+                        if (f[i].get('souscategorie') == 'Ecole Supérieure Et Institut Public') {
+
                             res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary">' + dis + '</span></small></div>';
-                            res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                            res += '<hr>';
+                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+
                             if (f[i].get("tl") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
+                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
                             }
                             if (f[i].get("fax") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
+                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
                             }
                             if (f[i].get("email") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
+                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
                             }
                             if (f[i].get("siteweb") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
-                            }
-                        } else if (f[i].get('souscategorie') == 'Ecole Supérieure Et Institut Public') {
-                            sscat = "icon icon-library";
-                            //name.replace(/[']/g, "|");
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary">' + dis + '</span></small></div>';
-                            res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                            if (f[i].get("tl") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
-                            }
-                            if (f[i].get("fax") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
-                            }
-                            if (f[i].get("email") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
-                            }
-                            if (f[i].get("siteweb") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
+                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
                             }
                         } else if (f[i].get('souscategorie') == 'Hôtel') {
-                            sscat = "icon icon-local_hotel";
-                            //name.replace(/[']/g, "|");
+
                             res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary">' + dis + '</span></small></div>';
-                            res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                            res += '<hr>';
-                            if (f[i].get("tl") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
-                            }
-                            if (f[i].get("fax") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
-                            }
-                            if (f[i].get("email") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
-                            }
-                            if (f[i].get("siteweb") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
-                            }
-                        } else if (f[i].get('souscategorie') == 'Banque') {
-                            sscat = "icon icon-credit";
-                            //name.replace(/[']/g, "|");
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary">' + dis + '</span></small></div>';
-                            res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                            res += '<hr>';
-                            if (f[i].get("tl") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
-                            }
-                            if (f[i].get("fax") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
-                            }
-                            if (f[i].get("email") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
-                            }
-                            if (f[i].get("siteweb") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
-                            }
-                        } else if (f[i].get('souscategorie') == 'Mosquée') {
-                            sscat = "icon icon-home6";
-                            //name.replace(/[']/g, "|");
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary">' + dis + '</span></small></div>';
-                            res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                            // res += '<hr>';
+                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
 
                             if (f[i].get("tl") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
+                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
                             }
                             if (f[i].get("fax") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
+                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
                             }
                             if (f[i].get("email") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
+                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
                             }
                             if (f[i].get("siteweb") != "") {
-                                res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
+                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                            }
+                        } else if (f[i].get('souscategorie') == 'Banque') {
+                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+
+                            if (f[i].get("tl") != "") {
+                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                            }
+                            if (f[i].get("fax") != "") {
+                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                            }
+                            if (f[i].get("email") != "") {
+                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                            }
+                            if (f[i].get("siteweb") != "") {
+                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                            }
+                        } else if (f[i].get('souscategorie') == 'Mosquée') {
+                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+
+                            if (f[i].get("tl") != "") {
+                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                            }
+                            if (f[i].get("fax") != "") {
+                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                            }
+                            if (f[i].get("email") != "") {
+                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                            }
+                            if (f[i].get("siteweb") != "") {
+                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
                             }
                         }
 
                     }
-                    res += '</div>';
+
+                    res += '</span></div>';
                 }
 
                 // if (critere == 70) {
                 //     $("#shopping_tab").empty();
                 //     $("#shopping_tab").append(res);
                 // } else 
-                
+
                 if (critere == 301) {
                     $("#ulMosquees").empty();
                     $("#ulMosquees").append(res);
@@ -311,16 +322,11 @@ function getNearbyPois(critere) {
                 console.log('error parse !');
             },
             complete: function () {
-                $("#main_pois_list_content").show();
-                $('.pois-toggle').removeClass('close').addClass('open');
-                $('.pois-toggle').empty();
-                $('.pois-toggle').append('<i class="icon-chevron-thin-right"></i>');
-                /*var extent = nearbyPoisGeometryVector.getSource().getExtent();
-                map.getView().fit(extent, map.getSize());*/
+                // var extent = nearbyPoisGeometryVector.getSource().getExtent();
+                // map.getView().fit(extent, map.getSize());
             }
         });
     }
-    //http://www.navcities.com/api/proximite/?lon=-6.8&lat=33.4&crit=263&userkey=demo
 }
 
 function nearbyPoisStyle(feature, resolution) {
