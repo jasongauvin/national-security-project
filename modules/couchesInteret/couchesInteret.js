@@ -172,7 +172,7 @@ function getNearbyPois(critere) {
 
                     //console.log(arrayColumn(ar, 0)[1] );
                     j = 0;
-                    for (var i = arrayColumn(ar, 0)[0]; j < f.length; i=arrayColumn(ar, 0)[j++]) {
+                    for (var i = arrayColumn(ar, 0)[0]; j < f.length; i=arrayColumn(ar, 0)[++j]) {
                         //console.log(f[i].get("distance"));
 
                         var dis = ((f[i].get("distance") < 1000) ? Math.round(f[i].get("distance")) + ' m' : (f[i].get("distance") / 1000).toFixed(3) + ' km');
