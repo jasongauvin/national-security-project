@@ -124,27 +124,31 @@ function getNearbyPois(critere) {
             cache: false,
             timeout: 1000,
             success: function (result) {
-                //console.log(result);
+                //console.log(result.features.length +'|'+nearbyPoisGeometryVector.getSource().getFeatures().length);
                 if (critere == 301) {
                     $("#nbrMosquees").empty();
-                    $("#nbrMosquees").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    // $("#nbrMosquees").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    $("#nbrMosquees").append((result.features.length ));
                     $("#nbrMosqueesTitre").text($('#nbrMosquees').text() + " Mosquées disponibles");
                 }
                 else if (critere == 142) {
                     $("#nbrEcoles").empty();
-                    $("#nbrEcoles").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    // $("#nbrEcoles").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    $("#nbrEcoles").append((result.features.length));
                     $("#nbrEcolesTitre").text($('#nbrEcoles').text() + " Écoles disponibles");
 
                 }
                 else if (critere == 150) {
                     $("#nbrBanques").empty();
-                    $("#nbrBanques").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    // $("#nbrBanques").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    $("#nbrBanques").append((result.features.length));
                     $("#nbrBanquesTitre").text($('#nbrBanques').text() + " Banques disponibles");
 
                 }
                 else if (critere == 266) {
                     $("#nbrHotels").empty();
-                    $("#nbrHotels").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    // $("#nbrHotels").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    $("#nbrHotels").append((result.features.length));
                     $("#nbrHotelsTitre").text($('#nbrHotels').text() + " Hôtels disponibles");
 
                 }
