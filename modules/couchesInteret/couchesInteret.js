@@ -153,53 +153,9 @@ function getNearbyPois(critere) {
                     });
 
                     for (var j = 0,i = arrayColumn(ar, 0)[0]; j < f.length; i = arrayColumn(ar, 0)[++j]) {
-                        //console.log(f[i].get("distance"));
-
+                        
                         var dis = ((f[i].get("distance") < 1000) ? Math.round(f[i].get("distance")) + ' m' : (f[i].get("distance") / 1000).toFixed(3) + ' km');
-                        //console.log(f[i]);
-
-                        // if (f[i].get('souscategorie') == 'Super Marché Et Surface Commerciale') {
-                        //     sscat = "icon icon-cart";
-                        //     //name.replace(/[']/g, "|");
-                        //     res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-
-                        //     res += '<div class="desc"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="label label-danger">' + dis + '</span></small></div>';
-                        //     res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                        //     //res += '<hr>';
-                        //     if (f[i].get("tl") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
-                        //     }
-                        //     if (f[i].get("fax") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
-                        //     }
-                        //     if (f[i].get("email") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
-                        //     }
-                        //     if (f[i].get("siteweb") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
-                        //     }
-                        // } else if (f[i].get('souscategorie') == 'Librairie Et Papeterie') {
-                        //     sscat = "icon icon-library";
-                        //     //name.replace(/[']/g, "|");
-                        //     res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                        //     res += '<div class="d-flex w-100 justify-content-between"><h5><i class="icon-ribbon"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary">' + dis + '</span></small></div>';
-                        //     res += '<p class="mb-1"><i class="icon-location-outline"></i> ' + f[i].get("adresse") + '</p><p class="mb-1"><i class="icon-bookmark2"></i> ' + f[i].get("categorie") + '</p><p class="mb-1"><small><i class="' + sscat + '" style="color: orange"></i> ' + f[i].get("souscategorie") + '</small></p>';
-                        //     res += '<hr>';
-                        //     if (f[i].get("tl") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small></p>';
-                        //     }
-                        //     if (f[i].get("fax") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small></p>';
-                        //     }
-                        //     if (f[i].get("email") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small></p>';
-                        //     }
-                        //     if (f[i].get("siteweb") != "") {
-                        //         res += '<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small></p>';
-                        //     }
-                        // } else 
-
-
+                       
                         if (f[i].get('souscategorie') == 'Ecole Supérieure Et Institut Public') {
 
                             res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
@@ -325,119 +281,34 @@ map.addLayer(nearbyPoisGeometryVector);
 
 function getFeatureStyle(feature) {
 
-    if (feature.get('souscategorie') == 'Super Marché Et Surface Commerciale') {
-        theGlyph = "fa-cart-plus";
-        form = "circle";
-        fontSize = 0.8;
-        radius = 14;
-        color = "#ecb255";
-        fillColor = "#3f4455";
-        strokeColor = "#ecb255";
-        sscat = "icon icon-cart";
-    } else if (feature.get('souscategorie') == 'Banque') {
-        theGlyph = "fa-usd";
-        form = "circle";
-        fontSize = 0.8;
-        radius = 14;
-        color = "#ecb255";
-        fillColor = "#3f4455";
-        strokeColor = "#ecb255";
-        sscat = "icon icon-credit";
-    } else if (feature.get('souscategorie') == 'Mosquée') {
+    var st = [];
 
-        theGlyph = "fa-usd";
-        form = "circle";
-        fontSize = 0.8;
-        radius = 14;
-        color = "#537e84";
-        fillColor = "#3f4455";
-        strokeColor = "#1b6873";
-        sscat = "icon icon-home6";
-    } else if (feature.get('souscategorie') == 'Librairie Et Papeterie') {
-
-        theGlyph = "maki-town_hall";
-        form = "circle";
-        fontSize = 0.8;
-        radius = 14;
-        color = "#e03636";
-        fillColor = "#3f4455";
-        strokeColor = "#e81212";
-        sscat = "icon icon-library";
-    } else if (feature.get('souscategorie') == 'Ecole Supérieure Et Institut Public') {
-
-        theGlyph = "maki-town_hall";
-        form = "circle";
-        fontSize = 0.8;
-        radius = 14;
-        color = "#e03636";
-        fillColor = "#3f4455";
-        strokeColor = "#e81212";
-        sscat = "icon icon-library";
-    } else if (feature.get('souscategorie') == 'Hôtel') {
-
-        theGlyph = "fa-hotel";
-        form = "circle";
-        fontSize = 0.8;
-        radius = 14;
-        color = "#985f7f";
-        fillColor = "#3f4455";
-        strokeColor = "#dc228a";
-        sscat = "icon icon-local_hotel";
+    function AppliquerStyleIcone(img){
+        st.push(new ol.style.Style({
+            image: new ol.style.Icon( ({
+              anchor: [0.5, 46],
+              anchorXUnits: 'fraction',
+              anchorYUnits: 'pixels',
+              src: "assets/img/"+img+".png"
+            }))
+          }));
     }
 
-    var st = [];
-    // Shadow style
-    st.push(new ol.style.Style(
-        {
-            image: new ol.style.Shadow(
-                {
-                    radius: 15,
-                    blur: 5,
-                    offsetX: 0,
-                    offsetY: 0,
-                    fill: new ol.style.Fill(
-                        {
-                            color: "rgba(0,0,0,0.5)"
-                        })
-                })
-        })
-    );
-    // Font style
-    st.push(new ol.style.Style(
-        {
-            image: new ol.style.FontSymbol(
-                {
-                    form: form, //"hexagone", 
-                    gradient: false,
-                    glyph: theGlyph,//car[Math.floor(Math.random()*car.length)], 
-                    fontSize: Number(fontSize),
-                    radius: Number(radius),
-                    //offsetX: -15,
-                    rotation: Number(0) * Math.PI / 180,
-                    //rotateWithView: $("#rwview").prop('checked'),
-                    offsetY: true ? -Number(radius) : 0,
-                    color: color,
-                    fill: new ol.style.Fill(
-                        {
-                            color: fillColor
-                        }),
-                    stroke: new ol.style.Stroke(
-                        {
-                            color: strokeColor,
-                            width: Number(2)
-                        })
-                }),
-            stroke: new ol.style.Stroke(
-                {
-                    width: 2,
-                    color: '#f80'
-                }),
-            fill: new ol.style.Fill(
-                {
-                    color: [255, 136, 0, 0.6]
-                })
-        })
-    );
+    switch (feature.get('souscategorie')) {
+        case "Banque":
+            AppliquerStyleIcone("banque");
+            break;
+        case "Mosquée":
+            AppliquerStyleIcone("mosquee");    
+            break;
+        case "Ecole Supérieure Et Institut Public":
+            AppliquerStyleIcone("ecole");
+            break;
+        case "Hôtel":
+            AppliquerStyleIcone("hotel");
+            break;
+    }
+    
     return st;
 }
 
