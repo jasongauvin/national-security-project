@@ -4,6 +4,12 @@ $("#champRecherche").on('keyup', function (event) {
     if ($("#champRecherche").val().length) {
         $("#listeAddr").show();
         getAddressList(addrVal, 'listeAddr', "http://www.navcities.com/api/geocoding/?user=demo&maxNumberOfPois=5&find=");
+
+        // TRIGGER TOUCHE ENTRER
+        if (event.keyCode === 13) {
+            $( $("#listeChampRecherche").children(":first") ).click();
+        }
+        // /TRIGGER TOUCHE ENTRER
     } else {
         $("#listeAddr").hide();
     }
