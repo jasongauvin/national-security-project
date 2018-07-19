@@ -86,7 +86,8 @@ function getNearbyPois(critere) {
         var features = mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures();
         var coordinates = ol.proj.transform(features[0].getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
 
-        var res = '';
+        var res = '', res_b = '', res_e = '', res_h = '', res_m = '';
+
         $.ajax({
             url: 'http://www.navcities.com/api/proximite/?user=demo&maxNumberOfPois=20',
             data: {
@@ -153,103 +154,97 @@ function getNearbyPois(critere) {
                     });
 
                     for (var j = 0,i = arrayColumn(ar, 0)[0]; j < f.length; i = arrayColumn(ar, 0)[++j]) {
+                        //console.log(f[i]);
                         
                         var dis = ((f[i].get("distance") < 1000) ? Math.round(f[i].get("distance")) + ' m' : (f[i].get("distance") / 1000).toFixed(3) + ' km');
                        
                         if (f[i].get('souscategorie') == 'Ecole Supérieure Et Institut Public') {
-
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
-                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+                            res_e += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res_e += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res_e += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
 
                             if (f[i].get("tl") != "") {
-                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                                res_e += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
                             }
                             if (f[i].get("fax") != "") {
-                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                                res_e += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
                             }
                             if (f[i].get("email") != "") {
-                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                                res_e += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
                             }
                             if (f[i].get("siteweb") != "") {
-                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                                res_e += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
                             }
                         } else if (f[i].get('souscategorie') == 'Hôtel') {
-
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
-                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+                            res_h += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res_h += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res_h += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
 
                             if (f[i].get("tl") != "") {
-                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                                res_h += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
                             }
                             if (f[i].get("fax") != "") {
-                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                                res_h += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
                             }
                             if (f[i].get("email") != "") {
-                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                                res_h += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
                             }
                             if (f[i].get("siteweb") != "") {
-                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                                res_h += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
                             }
                         } else if (f[i].get('souscategorie') == 'Banque') {
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
-                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+                            res_b += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res_b += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res_b += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
 
                             if (f[i].get("tl") != "") {
-                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                                res_b += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
                             }
                             if (f[i].get("fax") != "") {
-                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                                res_b += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
                             }
                             if (f[i].get("email") != "") {
-                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                                res_b += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
                             }
                             if (f[i].get("siteweb") != "") {
-                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                                res_b += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
                             }
                         } else if (f[i].get('souscategorie') == 'Mosquée') {
-                            res += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
-                            res += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
-                            res += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+                            res_m += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res_m += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res_m += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
 
                             if (f[i].get("tl") != "") {
-                                res += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                                res_m += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
                             }
                             if (f[i].get("fax") != "") {
-                                res += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                                res_m += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
                             }
                             if (f[i].get("email") != "") {
-                                res += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                                res_m += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
                             }
                             if (f[i].get("siteweb") != "") {
-                                res += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                                res_m += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
                             }
                         }
 
                     }
 
-                    res += '</span></div>';
+                    var fin = '</span></div>';
                 }
-
-                // if (critere == 70) {
-                //     $("#shopping_tab").empty();
-                //     $("#shopping_tab").append(res);
-                // } else 
 
                 if (critere == 301) {
                     $("#ulMosquees").empty();
-                    $("#ulMosquees").append(res);
+                    $("#ulMosquees").append(res+res_m+fin);
                 } else if (critere == 150) {
                     $("#ulBanques").empty();
-                    $("#ulBanques").append(res);
+                    $("#ulBanques").append(res+res_b+fin);
                 } else if (critere == 142) {
                     $("#ulEcoles").empty();
-                    $("#ulEcoles").append(res);
+                    $("#ulEcoles").append(res+res_e+fin);
                 } else if (critere == 266) {
                     $("#ulHotels").empty();
-                    $("#ulHotels").append(res);
+                    $("#ulHotels").append(res+res_h+fin);
                 }
 
 
@@ -322,18 +317,18 @@ function zoomToPoi(nom, coord0, coord1, el) {
             map.getView().fit(ext, map.getSize());
             var coordinates = ol.proj.transform([Number(feature.get('x')), Number(feature.get('y'))], 'EPSG:4326', 'EPSG:3857');
             poi_popup.show(feature.getGeometry().getCoordinates(), name);
-            map.getView().setZoom(17);
+            map.getView().setZoom(18);
         }
     });
-    removeActiveClass();
+    // removeActiveClass();
     $(el).addClass("active");
 }
 
 var poi_popup = new ol.Overlay.Popup(
     {
-        popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
+        popupClass: "default anim", //"default anim" "tooltips", "warning" "black" "default", "tips", "shadow",
         closeBox: true,
-        onclose: function () { removeActiveClass(); },
+       // onclose: function () { /*removeActiveClass();*/ },
         positioning: 'bottom-auto',
         autoPan: true,
         autoPanAnimation: { duration: 100 }
@@ -341,8 +336,8 @@ var poi_popup = new ol.Overlay.Popup(
 map.addOverlay(poi_popup);
 
 
-function removeActiveClass() {
-    $("#pois_list_content").find('div.tab-content').find('a').removeClass('active');
-}
+// function removeActiveClass() {
+//     $("#pois_list_content").find('div.tab-content').find('a').removeClass('active');
+// }
 
 // /GESTION DES CHECKBOX DES COUCHES DISPONIBLES

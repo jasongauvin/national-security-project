@@ -9,6 +9,29 @@ $("#champRecherche").on('keyup', function (event) {
         if (event.keyCode === 13) {
             $( $("#listeChampRecherche").children(":first") ).click();
             $("#listeAddr").hide();
+
+            // MISE À JOUR DES LISTES DES COUCHES
+            if ( $('#mosquees').is(':checked') ){
+                $('#mosquees').prop("checked", false).trigger("change");
+                $('#mosquees').prop("checked", true).trigger("change");
+            }
+
+            if ( $('#ecoles').is(':checked') ){
+                $('#ecoles').prop("checked", false).trigger("change");
+                $('#ecoles').prop("checked", true).trigger("change");
+            }
+
+            if ( $('#banques').is(':checked') ){
+                $('#banques').prop("checked", false).trigger("change");
+                $('#banques').prop("checked", true).trigger("change");
+            }
+
+            if ( $('#hotels').is(':checked') ){
+                $('#hotels').prop("checked", false).trigger("change");
+                $('#hotels').prop("checked", true).trigger("change");
+            }
+            // /MISE À JOUR DES LISTES DES COUCHES
+
         }
         // /TRIGGER TOUCHE ENTRER
     } else {
@@ -79,7 +102,7 @@ var map_advanced_search_address_popup = new ol.Overlay.Popup(
     {
         popupClass: "black", //"tips anim", "tooltips", "warning" "black" "default", "tips", "shadow",
         closeBox: false,
-        onclose: function () { console.log("You close the box"); },
+        // onclose: function () { console.log("You close the box"); },
         positioning: 'bottom-right',
         autoPan: true,
         autoPanAnimation: { duration: 100 }
