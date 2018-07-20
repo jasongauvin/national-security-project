@@ -7,10 +7,6 @@ function changerClasseCss(id, classe) {
 // INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
 function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit) {
 
-    // AFFICHAGE DE BOUTON TOGGLE DU MENU DROIT
-    $("#Boutontoggle").css("display", "block");
-    // /AFFICHAGE DE BOUTON TOGGLE DU MENU DROIT
-
     // CHANGEMENT DE TEXTE DANS LE TITRE DU BORD [ TABLEAU DE BORD / ... ]
     $("#tabBord").text($('#' + idModule).text());
     // /CHANGEMENT DE TEXTE DANS LE TITRE DU BORD [ TABLEAU DE BORD / ... ]
@@ -28,5 +24,14 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit) {
     // TITRE DU MENU DROIT
     $("#titreMenuDroit").text(titreMenuDroit);
     // /TITRE DU MENU DROIT
+
+    // AFFICHAGE DE BOUTON TOGGLE DU MENU DROIT
+    $("#boutonToggle").css("display", "block");
+    changerClasseCss("boutonToggle", "style-toggle open");
+    // /AFFICHAGE DE BOUTON TOGGLE DU MENU DROIT
+
+    // AFFICHAGE DU CONTENEUR DU MENU DROIT
+    $("#style_selector_container").css("display", "block");
+    // /AFFICHAGE DU CONTENEUR DU MENU DROIT
 }
 // /INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION

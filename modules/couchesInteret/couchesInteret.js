@@ -1,9 +1,9 @@
 // INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
 $("#couchesInteret").parent().click(function () {
     interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles");
+// /INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
 
- // LE CONTENU DU MENU DROIT
-
+// LE CONTENU DU MENU DROIT
 $("#style_selector div:eq(1)").after().append("<br />\
 <ul style='padding: inherit;background: white;'>\
     <label>\
@@ -19,9 +19,9 @@ $("#style_selector div:eq(1)").after().append("<br />\
         <input id='hotels' type='checkbox'>Hôtels\
     </label>\
 </ul>");
-// LE CONTENU DU MENU DROIT
+// /LE CONTENU DU MENU DROIT
+
 });
-// /INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
 
 // GESTION DES CHECKBOX DES COUCHES DISPONIBLES
 $(document).on("change","#mosquees",function () {
