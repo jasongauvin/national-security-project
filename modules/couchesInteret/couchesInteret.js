@@ -1,27 +1,30 @@
-var geojsonFormat_geom = new ol.format.GeoJSON();
+// INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
+$("#couchesInteret").parent().click(function () {
+    interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles");
 
-// CHANGEMENT DE CLASSE CSS
-function changerClasseCss(id, classe) {
-    $('#' + id).attr('class', classe);
-}
-// /CHANGEMENT DE CLASSE CSS
+ // LE CONTENU DU MENU DROIT
 
-// INTERACTION POUR COUCHES D'INTÉRÊT
-$("#couchesInteret").click(function () {
-    $("#tabBord").text("COUCHES D'INTÉRÊT");
-    $("#tabBordCouleur").attr('class', '');
-    $("#couchesAgentsCouleur").attr('class', '');
-    $("#couchesInteretCouleur").attr('class', 'active open');
-    $("#Boutontoggle").attr('class', 'style-toggle open');
-    document.getElementById("style_selector_container").style.display = "block";
-    document.getElementById("Boutontoggle").style.display = "block";
-    $("#titreMenuDroit").text('Les couches disponibles');
-
+$("#style_selector div:eq(1)").after().append("<br />\
+<ul style='padding: inherit;background: white;'>\
+    <label>\
+        <input id='mosquees' type='checkbox'>Mosquées\
+    </label>\
+    <label>\
+        <input id='banques' type='checkbox'>Banques\
+    </label>\
+    <label>\
+        <input id='ecoles' type='checkbox'>Écoles\
+    </label>\
+    <label>\
+        <input id='hotels' type='checkbox'>Hôtels\
+    </label>\
+</ul>");
+// LE CONTENU DU MENU DROIT
 });
-// /INTERACTION POUR COUCHES D'INTÉRÊT
+// /INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
 
 // GESTION DES CHECKBOX DES COUCHES DISPONIBLES
-$("#mosquees").change(function () {
+$(document).on("change","#mosquees",function () {
     if (this.checked) {
         changerClasseCss("listeCoucheMosquees", "dropdown open");
         critere = 301;
@@ -33,7 +36,7 @@ $("#mosquees").change(function () {
     }
 });
 
-$("#ecoles").change(function () {
+$(document).on("change","#ecoles",function () {
     if (this.checked) {
         changerClasseCss("listeCoucheEcoles", "dropdown open");
         critere = 142;
@@ -45,7 +48,7 @@ $("#ecoles").change(function () {
     }
 });
 
-$("#banques").change(function () {
+$(document).on("change","#banques",function () {
     changerClasseCss("listeCoucheBanques", "dropdown open");
     if (this.checked) {
         critere = 150;
@@ -57,7 +60,7 @@ $("#banques").change(function () {
     }
 });
 
-$("#hotels").change(function () {
+$(document).on("change","#hotels",function () {
     changerClasseCss("listeCoucheHotels", "dropdown open");
     if (this.checked) {
         critere = 266;

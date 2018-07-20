@@ -1,17 +1,8 @@
-// INTERACTION POUR GESTION DES AGENTS
-$("#gestionAgents").click(function () {
-	
-	$("#tabBordCouleur").attr('class', '');
-	$("#couchesInteretCouleur").attr('class', '');
-	$("#couchesAgentsCouleur").attr('class', 'active open');
-
-	document.getElementById("style_selector_container").style.display = "none";
-	document.getElementById("Boutontoggle").style.display = "none";
-	
-	$("#tabBord").text("GESTION DES AGENTS");
+// INTERACTION GRAPHIQUE POUR LE MODULE GESTION DES AGENTS
+$("#gestionAgents").parent().click(function () {
+	interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents");
 });
-// /INTERACTION POUR GESTION DES AGENTS
-
+// /INTERACTION GRAPHIQUE POUR LE MODULE GESTION DES AGENTS
 
 var agent_icon = 'assets/img/agent-64.png';
 var add_police_agent_DrawInteraction;
