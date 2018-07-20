@@ -592,7 +592,7 @@ li.dropdown.current-user .dropdown-menu li a {
 #listeAddr li a {
 	border: 1px solid #ddd;
 	background-color: #f6f6f6;
-	padding: 5px;
+	padding: 2px;
 	text-decoration: none;
 	font-size: 17px;
 	color: black;
@@ -2269,12 +2269,12 @@ span.star:before {
 }
 
 .accordion-teal .panel-heading .accordion-toggle {
-	background: #F3F7F8;
-	border-left: 2px solid #569099;
-	color: #437278;
+	background: #534bae;
+	border-left: 2px solid #000051;
+	color: #fff;
 }
 .accordion-teal .panel-heading .accordion-toggle.collapsed {
-	background: #F3F7F8;
+	background: #d9d9d9;
 	border-left: none;
 }
 /* ---------------------------------------------------------------------- */

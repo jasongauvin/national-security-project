@@ -1,10 +1,9 @@
 // INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
 $("#couchesInteret").parent().click(function () {
-    interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles");
-// /INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
+    interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles", 350, 170);
 
 // LE CONTENU DU MENU DROIT
-$("#style_selector div:eq(1)").after().append("<br />\
+$("#style_selector div:eq(1)").after().append("\
 <ul style='padding: inherit;background: white;'>\
     <label>\
         <input id='mosquees' type='checkbox'>Mosquées\
@@ -22,6 +21,7 @@ $("#style_selector div:eq(1)").after().append("<br />\
 // /LE CONTENU DU MENU DROIT
 
 });
+// /INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
 
 // GESTION DES CHECKBOX DES COUCHES DISPONIBLES
 $(document).on("change","#mosquees",function () {

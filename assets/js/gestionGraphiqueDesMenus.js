@@ -5,7 +5,7 @@ function changerClasseCss(id, classe) {
 // /CHANGEMENT DE CLASSE CSS D'UN ÉLÉMENT IDENTIFIÉ PAR UN ID
 
 // INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
-function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit) {
+function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, largeurMenu, marginTop) {
 
     // CHANGEMENT DE TEXTE DANS LE TITRE DU BORD [ TABLEAU DE BORD / ... ]
     $("#tabBord").text($('#' + idModule).text());
@@ -30,8 +30,17 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit) {
     changerClasseCss("boutonToggle", "style-toggle open");
     // /AFFICHAGE DE BOUTON TOGGLE DU MENU DROIT
 
+    // DIMENSIONNEMENT DE LA LARGEUR DU MENU DROIT
+    $("#style_selector").css("width", largeurMenu+"px");
+    // /DIMENSIONNEMENT DE LA LARGEUR DU MENU DROIT
+
+    // DIMENSIONNEMENT DU MARGIN HAUT DU MENU DROIT
+    $("#style_selector").css("margin-top", marginTop+"px");
+    // DIMENSIONNEMENT DU MARGIN HAUT DU MENU DROIT
+    
     // AFFICHAGE DU CONTENEUR DU MENU DROIT
     $("#style_selector_container").css("display", "block");
     // /AFFICHAGE DU CONTENEUR DU MENU DROIT
+
 }
 // /INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION

@@ -59,12 +59,12 @@ function getAddressList(string, id, url) {
                     var name = features[i].properties.nom;
                     name = name.replace(/[']/g, "|");
                     if (features[i].properties.typedata == 'POI') {
-                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="icon icon-location3"></i> ' + features[i].properties.nom + ' ' + features[i].properties.adresse + '</a>';
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="glyphicon glyphicon-map-marker"></i> ' + features[i].properties.nom + ' ' + features[i].properties.adresse + '</a>';
 
                     } else if (features[i].properties.typedata == 'Localite') {
-                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="icon icon-address"></i> ' + features[i].properties.adresse + '</a>';
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="glyphicon glyphicon-map-marker"></i> ' + features[i].properties.adresse + '</a>';
                     } else {
-                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="icon icon-timeline"></i>' + features[i].properties.nom + '</a>';
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="glyphicon glyphicon-map-marker"></i>' + features[i].properties.nom + '</a>';
                     }
 
                 }

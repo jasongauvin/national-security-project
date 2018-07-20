@@ -1,6 +1,6 @@
 // INTERACTION GRAPHIQUE POUR LE MODULE GESTION DES AGENTS
 $("#gestionAgents").parent().click(function () {
-	interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents");
+	interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 350, 170);
 });
 // /INTERACTION GRAPHIQUE POUR LE MODULE GESTION DES AGENTS
 
