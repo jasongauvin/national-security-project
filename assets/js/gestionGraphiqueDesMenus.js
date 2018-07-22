@@ -11,6 +11,10 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
     $("#tabBord").text($('#' + idModule).text());
     // /CHANGEMENT DE TEXTE DANS LE TITRE DU BORD [ TABLEAU DE BORD / ... ]
 
+    // CHANGEMENT DE L'ICONE DU BORD
+    $("#iconeTabBord").attr('class', $('#' + idModule).prev().attr("class"));
+    // /CHANGEMENT DE L'ICONE DU BORD
+
     // ENLÈVEMENT DE LA CLASSE "active open" DE TOUS LES SOUS ÉLÉMENTS DE LA CLASSE main-navigation-menu
     $('.main-navigation-menu li').each(function () {
         this.className = '';
