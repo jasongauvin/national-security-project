@@ -360,41 +360,11 @@
 						</li>
 						
 						<li class="dropdown current-user">
-							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-								<img src="assets/img/avatar-1-small.jpg" class="circle-img" alt="">
-								<span class="username">Utilisateur</span>
-								<i class="clip-chevron-down"></i>
-							</a>
-							<ul class="dropdown-menu">
-								<li>
-									<a href="pages_user_profile.html">
-										<i class="clip-user-2"></i>
-										&nbsp;My Profile
-									</a>
-								</li>
-								<li>
-									<a href="pages_calendar.html">
-										<i class="clip-calendar"></i>
-										&nbsp;My Calendar
-									</a>
-								<li>
-									<a href="pages_messages.html">
-										<i class="clip-bubble-4"></i>
-										&nbsp;My Messages (3)
-									</a>
-								</li>
-								<li class="divider"></li>
-								<li>
-									<a href="utility_lock_screen.html"><i class="clip-locked"></i>
-										&nbsp;Lock Screen </a>
-								</li>
-								<li>
-									<a href="login_example1.html">
-										<i class="clip-exit"></i>
-										&nbsp;Log Out
-									</a>
-								</li>
-							</ul>
+							<h5 data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#" style="margin-top: 6px;">
+								<!-- <img src="assets/img/avatar-1-small.jpg" class="circle-img" alt=""> -->
+								<span id="dateHeureActuelle"></span>
+								<!-- <i class="clip-chevron-down"></i> -->
+							</h5>
 						</li>
 						<!-- end: USER DROPDOWN -->
 					</ul>
@@ -539,7 +509,10 @@
 		<script src="assets/js/main.js"></script>
 		<script src="assets/js/scrolling.js"></script>
 		<!-- /SCRIPTS DE LA TEMPLATE -->
-
+		
+		<!-- SCRIPT DE LA DATE ET L'HEURE ACTUELLE -->
+		<script src="assets/js/dateHeureActuelle.js"></script>
+		<!-- /SCRIPT DE LA DATE ET L'HEURE ACTUELLE -->
 
 		<!-- SCRIPT DE CONTEXT MENU -->
 		<link href="assets/plugins/context-menu/ol-contextmenu.min.css" rel="stylesheet">
