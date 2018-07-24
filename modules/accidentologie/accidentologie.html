@@ -1,0 +1,99 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="panel-group accordion-custom accordion-teal" id="accordion" style="margin-bottom: 0px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Importation
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="col-lg-7">
+                            <span class="btn btn-success fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Add files...</span>
+                                <input id="file" type="file" name="file">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Ajout
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <a id="pointerAccidentologie" class="btn btn-primary" href="#">
+                            <i class="clip-plus-circle"></i> Pointer sur la carte</a>
+                        <div class="input-group">
+                            <input name="date" data-date-format="dd-mm-yyyy" data-date-viewmode="years" class="form-control date-picker" type="date">
+                            <span class="input-group-addon">
+                                <i class="clip-calendar"></i>
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <input name="heure" class="form-control date-picker" type="time" name="alerttime">
+                            <span class="input-group-addon">
+                                <i class="clip-clock"></i>
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <input min="0" name="nbrBlesses" class="form-control date-picker" type="number" placeholder="nbr blessés">
+                            <span class="input-group-addon">
+                                <i class="clip-user-4"></i>
+                            </span>
+                        </div>
+                        <div class="input-group">
+                            <input min="0" name="nbrMorts" class="form-control date-picker" type="number" placeholder="nbr morts">
+                            <span class="input-group-addon">
+                                <i class="clip-user-3"></i>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <p>Types de véhicules
+                            </p>
+                            <select name="typesVehicules" class="form-control" multiple>
+                                <option value="voiture">Voiture</option>
+                                <option value="moto">Moto</option>
+                                <option value="velo">Vélo</option>
+                                <option value="quad">Quad</option>
+                                <option value="camion">Camion</option>
+                                <option value="autobus">Autobus</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Modification
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">Anim
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Suppression
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse">
+                    <div class="panel-body">Anim
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,6 @@
-// INTERACTION GRAPHIQUE POUR LE MODULE GESTION DES AGENTS
-$("#gestionAgents").parent().click(function () {
-	interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 350, 170);
-});
-// /INTERACTION GRAPHIQUE POUR LE MODULE GESTION DES AGENTS
+// INTERACTION GRAPHIQUE POUR LE MENU DROIT
+interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 350, 170);
+// /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 var agent_icon = 'assets/img/agent-64.png';
 var add_police_agent_DrawInteraction;
