@@ -2,8 +2,8 @@
 $("#accidentologie").parent().click(function () {
     interactionGraphiqueMenuDeNavigation(3, "accidentologie", "Boîte à outils accidentologie", 400, 10);
 
-// LE CONTENU DU MENU DROIT
-$("#style_selector div:eq(1)").after().append("\
+    // LE CONTENU DU MENU DROIT
+    $("#style_selector div:eq(1)").after().append("\
 <div class='panel panel-default'>\
 <div class='panel-body'>\
     <div class='panel-group accordion-custom accordion-teal' id='accordion' style='margin-bottom: 0px;' >\
@@ -35,9 +35,9 @@ $("#style_selector div:eq(1)").after().append("\
                 <div class='input-group'><input class='form-control date-picker' type='int' placeholder='nbr blessés' ><span class='input-group-addon'><i class='clip-user-4'></i></span></div>\
                 <div class='input-group'><input class='form-control date-picker' type='int' placeholder='nbr morts' ><span class='input-group-addon'><i class='clip-user-3'></i></span></div>\
 				<div class='form-group'>\
-                    <label for='form-field-select-4'>\
+                    <p>\
                         Types de véhicules\
-                    </label>\
+                    </p>\
                     <select class='form-control' multiple>\
                         <option value='Voiture'>Voiture</option>\
                         <option value='Moto'>Moto</option>\
@@ -80,32 +80,49 @@ $("#style_selector div:eq(1)").after().append("\
 </div>\
 </div>\
 ");
-// /LE CONTENU DU MENU DROIT
+    // /LE CONTENU DU MENU DROIT
 });
 // /INTERACTION GRAPHIQUE POUR LE MODULE ACCIDENTOLOGIE
 
+var draw;
+
+$(document).on("click", "#pointerAccidentologie", function () {
+
+    // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
+
+    $("#map").mouseover(function () {
+        $("#map").css("cursor", "none");
+
+        var source = new ol.source.Vector();
+
+        draw = new ol.interaction.Draw({
+            type: 'Point',
+            source: source,
+            style: new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: 'assets/img/pointeur.png',
+                    size: [128, 128],
+                    opacity: 1,
+                    scale: 0.4
+                })
+            })
+        });
+        map.addInteraction(draw);
+    }).mouseout(function () {
+        $("#map").css("cursor", "visible");
+    });
 
 
-$(document).on("click","#pointerAccidentologie",function () {
 
-// CHANGEMENT DE POINTEUR LORS DE L'AJOUT
-$("#map").css("cursor","none");
-
-var source = new ol.source.Vector();
-
-var draw = new ol.interaction.Draw({
-    type: 'Point',
-    source: source,
-    style: new ol.style.Style({
-        image: new ol.style.Icon({
-            src: 'assets/img/pointeur.png',
-            size: [128, 128],
-            opacity: 1,
-            scale: 0.4
-        })
-    })
 });
-map.addInteraction(draw);
 
-});
+
+$(document).on('click', function (event) {
+    if (!$(event.target).closest('#map').length) {
+        console.log("yup");
+        map.removeInteraction(draw);
+    }
+  });
+
+
 // /CHANGEMENT DE POINTEUR LORS DE L'AJOUT
