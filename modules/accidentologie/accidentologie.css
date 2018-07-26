@@ -1,4 +1,4 @@
-#file {
+#fichierExcel {
     position: absolute;
     top: 0;
     right: 0;
@@ -8,3 +8,13 @@
     direction: ltr;
     cursor: pointer;
 }
+
+.fileupload-loading {
+    float: right;
+    margin-right: 40px;
+    margin-top: 7px;
+    width: 32px;
+    height: 32px;
+    background: url("../../assets/img/loading.gif") center no-repeat;
+    display: none;
+  }
