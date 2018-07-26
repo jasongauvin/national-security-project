@@ -38,8 +38,8 @@ $(document).on("change","#ecoles",function () {
 });
 
 $(document).on("change","#banques",function () {
-    changerClasseCss("listeCoucheBanques", "dropdown open");
     if (this.checked) {
+        changerClasseCss("listeCoucheBanques", "dropdown open");
         critere = 150;
         getNearbyPois(critere);
         nearbyPoisGeometryVector.changed();
@@ -50,8 +50,8 @@ $(document).on("change","#banques",function () {
 });
 
 $(document).on("change","#hotels",function () {
-    changerClasseCss("listeCoucheHotels", "dropdown open");
     if (this.checked) {
+        changerClasseCss("listeCoucheHotels", "dropdown open");
         critere = 266;
         getNearbyPois(critere);
         nearbyPoisGeometryVector.changed();
