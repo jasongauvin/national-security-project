@@ -12,7 +12,7 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 });
 // /LE CONTENU HTML DU MENU DROIT
 
-var draw;
+var draw, json;
 
 $(document).on("click", "#pointerAccidentologie", function () {
 
@@ -45,79 +45,97 @@ $(document).on("click", "#pointerAccidentologie", function () {
 });
 
 
-$(document).on("change", "#fichierExcel", function (e) {
+
+
+
+$(document).on("change", "#fichierExcel", function () {
+    
+
     $(".fileupload-loading").css("display", "block");
-    //ExportToTable();
-
-    insertAjax();
-});
-
-function ExportToTable() {  
-    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;  
-    /*Checks whether the file is a valid excel file*/  
-    if (regex.test($("#fichierExcel").val().toLowerCase())) {  
-        var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/  
-        if ($("#fichierExcel").val().toLowerCase().indexOf(".xlsx") > 0) {  
-            xlsxflag = true;  
-        }  
-            var reader = new FileReader();  
-            reader.onload = function (e) {  
-                var data = e.target.result;  
-                /*Converts the excel data in to object*/  
-                if (xlsxflag) {  
-                    var workbook = XLSX.read(data, { type: 'binary' });  
+    
+    function exporterExcelVersJSON() {
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+        /*Checks whether the file is a valid excel file*/  
+        if (regex.test($("#fichierExcel").val().toLowerCase())) {  
+            var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/  
+            if ($("#fichierExcel").val().toLowerCase().indexOf(".xlsx") > 0) {  
+                xlsxflag = true;  
+            }  
+                var reader = new FileReader();  
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    /*Converts the excel data in to object*/  
+                    if (xlsxflag) {
+                        var workbook = XLSX.read(data, { type: 'binary' });  
+                    }
+                    else {
+                        var workbook = XLS.read(data, { type: 'binary' });  
+                    }
+                    /*Gets all the sheetnames of excel in to a variable*/  
+                    var sheet_name_list = workbook.SheetNames;  
+     
+                    var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/  
+                    sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/  
+                        /*Convert the cell value to Json*/
+                        if (xlsxflag) {  
+                            exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);  
+                        }  
+                        else {  
+                            exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);  
+                        }  
+                        if (exceljson.length > 0 && cnt == 0) {
+                            getJSON(exceljson);
+                        }  
+                    });
+                }  
+                if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/  
+                    reader.readAsArrayBuffer($("#fichierExcel")[0].files[0]);  
                 }  
                 else {  
-                    var workbook = XLS.read(data, { type: 'binary' });  
+                    reader.readAsBinaryString($("#fichierExcel")[0].files[0]);  
                 }  
-                /*Gets all the sheetnames of excel in to a variable*/  
-                var sheet_name_list = workbook.SheetNames;  
- 
-                var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/  
-                sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/  
-                    /*Convert the cell value to Json*/  
-                    if (xlsxflag) {  
-                        var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);  
-                    }  
-                    else {  
-                        var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);  
-                    }  
-                    if (exceljson.length > 0 && cnt == 0) {  
-                        BindTable(exceljson);  
-                        cnt++;
-                    }  
-                });
-            }  
-            if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/  
-                reader.readAsArrayBuffer($("#fichierExcel")[0].files[0]);  
-            }  
-            else {  
-                reader.readAsBinaryString($("#fichierExcel")[0].files[0]);  
-            }  
+    
+        }  
+        else {  
+            console.log("Veuillez ajouter un fichier Excel valide!");  
+        }
+    }
 
-    }  
-    else {  
-        alert("Veuillez ajouter un fichier Excel valide!");  
-    }  
-}
+    exporterExcelVersJSON();
 
-// STOCKAGE DE JSON DANS LA TABLE ACCIDENTOLOGIE
-function BindTable(jsondata) { 
+    function getJSON(exceljson){
+        json = exceljson;
+
+        // console.log("excel cols");
+
+        // console.log(Object.keys(json[0]));
+
+
+        insertAjax(Object.keys(json[0]));
+
+
+    }
+   
+});
+
+
+
+function BindTable(jsondata) {
     var columns = BindTableHeader(jsondata);
 
     for (var i = 0; i < jsondata.length; i++) {
 
-        console.log("############ ligne "+i);
+        // console.log("############ ligne "+i);
         for (var colIndex = 0; colIndex < columns.length; colIndex++) {
             var cellValue = jsondata[i][columns[colIndex]];  
-            if (cellValue == null)  
+            if (cellValue == null)
                 cellValue = "";
-            console.log(cellValue);
+            // console.log(cellValue);
         }  
-    }  
-}  
+    }
+    
+}
 
-// OBTENTION DE TOUS LES NOMS DE COLONNES À PARTIR DE JSON
 function BindTableHeader(jsondata) {
     var columnSet = [];
 
@@ -135,34 +153,26 @@ function BindTableHeader(jsondata) {
 }
 
 
-function insertAjax(){
-$.ajax({
-    url: "modules/accidentologie/accidentologie.php",
-    data:{
-        insert  :true,
-        typesVehicules   	:"test, camion"
-        // type    :$("#add_police_agent_select_type").val(),
-        // geom    : $("#add_police_agent_input_geom").val()
-    },
-    type: 'POST',
-    dataType: 'JSON',
-    cache: false,
-    timeout: 1000,
-    success: function(result) {
-        console.log(result.success? "Succès": "Échoué");
-        // runAgentPoliceNotification('Vous avez bien ajouté un agent ', 'success', 'Ajout de nouveau agent ', '<i class="icon-success-large-outline"></i>');
-        // refreshAgentPoliceTable(-6.835259, 34.016575);
-        // loadAgentPolice('update');
-    },
-    error: function(jqXhr){
-        console.log("Erreur");
-        console.log(jqXhr.responseText);
-    },
-    complete: function(){
-        console.log("complete");
-        // $("#add_police_agent_modal").modal('hide');
-    }
-});
+
+function insertAjax(json){
+    $.ajax({
+        url: "modules/accidentologie/accidentologie.php",
+        data: {
+            importation: true,
+            noms_cols_excel: json
+        },
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (result) {
+            if(result){
+                // LES NOMS DE COLONNES [FICHIER EXCEL, TABLE ACCIDENT] SONT IDENTIQUES
+                console.log("cols ide");
+            }
+        },
+        error: function (jqXhr) {
+            console.log(jqXhr.responseText);
+        }
+    });
 }
 
 // /OBTENTION DE TOUS LES NOMS DE COLONNES À PARTIR DE JSON
