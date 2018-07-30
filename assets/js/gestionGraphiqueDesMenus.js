@@ -48,3 +48,34 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
 
 }
 // /INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
+
+// FERMETURE DE NOTIFICATIONS
+function fermerNotif(temps) {
+    window.setTimeout(function () {
+        $('#notification').removeClass("in");
+        $('#notification').addClass("out");
+        $("#notification").css("display", "none");
+    }, temps);
+}
+// /FERMETURE DE NOTIFICATIONS
+
+function afficherNotif(type, msg) {
+    if (type == "erreur") {
+        $("#notification").attr("class", "alert alert-block alert-danger fade in");
+        $("#notification h4 ").html("<i class='clip-cancel-circle-2' ></i> Erreur !");
+        $("#notification p").html(msg);
+        $("#notification").css("display", "block");
+    }
+    else if (type == "succes") {
+        $("#notification").attr("class", "alert alert-block alert-success fade in");
+        $("#notification h4 ").html("<i class='clip-checkmark-circle-2'></i> Succès !");
+        $("#notification p").html(msg);
+        $("#notification").css("display", "block");
+    }
+    else if (type == "erreur_fatale") {
+        $("#notification").attr("class", "alert alert-block alert-danger fade in");
+        $("#notification h4 ").html("<i class='clip-cancel-circle-2' ></i> Erreur !");
+        $("#notification p").html("L'importation a échoué, essayer de vérifier la syntaxe de vos données");
+        $("#notification").css("display", "block");
+    }
+}

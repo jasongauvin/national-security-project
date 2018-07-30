@@ -11,10 +11,11 @@
 
 .fileupload-loading {
     float: right;
-    margin-right: 40px;
-    margin-top: 7px;
-    width: 32px;
-    height: 32px;
+    left: 230px;
+    top: 66px;
+    width: 128px;
+    height: 128px;
+    position:absolute; 
     background: url("../../assets/img/loading.gif") center no-repeat;
     display: none;
   }

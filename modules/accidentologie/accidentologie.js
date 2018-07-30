@@ -50,8 +50,8 @@ $(document).on("click", "#pointerAccidentologie", function () {
 
 $(document).on("change", "#fichierExcel", function () {
     
-
-    $(".fileupload-loading").css("display", "block");
+    // $("#barreProgres").fadeIn(200);
+    // $("#barreProgres").css("display", "block");
     
     function exporterExcelVersJSON() {
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
@@ -105,72 +105,71 @@ $(document).on("change", "#fichierExcel", function () {
 
     function getJSON(exceljson){
         json = exceljson;
-
-        // console.log("excel cols");
-
-        // console.log(Object.keys(json[0]));
-
-
-        insertAjax(Object.keys(json[0]));
-
-
+        insertAjax(Object.keys(json[0]), json);
     }
    
 });
 
 
 
-function BindTable(jsondata) {
-    var columns = BindTableHeader(jsondata);
+// function BindTable(jsondata) {
+//     var columns = BindTableHeader(jsondata);
 
-    for (var i = 0; i < jsondata.length; i++) {
+//     for (var i = 0; i < jsondata.length; i++) {
 
-        // console.log("############ ligne "+i);
-        for (var colIndex = 0; colIndex < columns.length; colIndex++) {
-            var cellValue = jsondata[i][columns[colIndex]];  
-            if (cellValue == null)
-                cellValue = "";
-            // console.log(cellValue);
-        }  
-    }
+//         // console.log("############ ligne "+i);
+//         for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+//             var cellValue = jsondata[i][columns[colIndex]];  
+//             if (cellValue == null)
+//                 cellValue = "";
+//             // console.log(cellValue);
+//         }  
+//     }
     
-}
+// }
 
-function BindTableHeader(jsondata) {
-    var columnSet = [];
+// function BindTableHeader(jsondata) {
+//     var columnSet = [];
 
-    for (var i = 0; i < jsondata.length; i++) {
-        var rowHash = jsondata[i];
-        for (var key in rowHash) {
-            if (rowHash.hasOwnProperty(key)) {
-                if ($.inArray(key, columnSet) == -1) {
-                    columnSet.push(key);
-                }
-            }
-        }
-    }
-    return columnSet;
-}
+//     for (var i = 0; i < jsondata.length; i++) {
+//         var rowHash = jsondata[i];
+//         for (var key in rowHash) {
+//             if (rowHash.hasOwnProperty(key)) {
+//                 if ($.inArray(key, columnSet) == -1) {
+//                     columnSet.push(key);
+//                 }
+//             }
+//         }
+//     }
+//     return columnSet;
+// }
 
 
 
-function insertAjax(json){
+function insertAjax(noms_cols_excel, lignes_excel){
     $.ajax({
         url: "modules/accidentologie/accidentologie.php",
         data: {
             importation: true,
-            noms_cols_excel: json
+            noms_cols_excel: noms_cols_excel,
+            lignes_excel: lignes_excel
         },
         type: 'POST',
         dataType: 'JSON',
-        success: function (result) {
-            if(result){
-                // LES NOMS DE COLONNES [FICHIER EXCEL, TABLE ACCIDENT] SONT IDENTIQUES
-                console.log("cols ide");
+        success: function (resultat) {
+
+            if(resultat.type == "erreur"){
+                afficherNotif("erreur", resultat.msg);
+                fermerNotif(10000);
+            }
+            else if(resultat.type == "succes"){
+                afficherNotif("succes", resultat.msg);
+                fermerNotif(10000);   
             }
         },
-        error: function (jqXhr) {
-            console.log(jqXhr.responseText);
+        error: function () {
+            afficherNotif("erreur_fatale");
+            fermerNotif(10000);
         }
     });
 }
