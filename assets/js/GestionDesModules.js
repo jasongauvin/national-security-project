@@ -1,5 +1,5 @@
 // TRAITEMENT AJAX
-function ajax(url, data) {
+function ajax(url, data, error) {
     $.ajax({
         url: url,
         data: data,
@@ -16,10 +16,7 @@ function ajax(url, data) {
                 fermerNotif(10000);
             }
         },
-        error: function () {
-            afficherNotif("erreur_fatale");
-            fermerNotif(10000);
-        }
+        error: error
     });
 }
 // /TRAITEMENT AJAX

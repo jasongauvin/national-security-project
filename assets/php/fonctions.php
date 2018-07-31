@@ -17,7 +17,7 @@ function colsTabVersArray($nom_table){
 
 // L'INSERTION DANS UNE TABLE
 function insertion($nom_table, $requete){
-    pg_query($GLOBALS["db"], $requete);
+    return pg_query($GLOBALS["db"], $requete);
 }
 // /L'INSERTION DANS UNE TABLE
 

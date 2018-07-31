@@ -75,7 +75,7 @@ function afficherNotif(type, msg) {
     else if (type == "erreur_fatale") {
         $("#notification").attr("class", "alert alert-block alert-danger fade in");
         $("#notification h4 ").html("<i class='clip-cancel-circle-2' ></i> Erreur !");
-        $("#notification p").html("L'importation a échoué, essayer de vérifier la syntaxe de vos données");
+        $("#notification p").html(msg);
         $("#notification").css("display", "block");
     }
 }

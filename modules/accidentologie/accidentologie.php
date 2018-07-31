@@ -6,11 +6,14 @@ require_once "../../assets/php/fonctions.php";
 
 // LE CAS D'INSERTION
 if($_POST["insertion"]){
-    //$requete = pg_query($db, "INSERT INTO accident VALUES (DEFAULT, 1, 2, true, 'blo blo blo', to_timestamp('16-05-2016 15:36:38', 'dd-mm-yyyy hh24:mi:ss'), st_geomfromtext('POINT(-71.064544 42.28787)', 4326))");
-    // $a = colsTabVersJSON("accident");
-    // //$requete = true;
-    // //$requete = true;
-    // echo $a; 
+    $desc = $_POST['desc']? "'".$_POST['desc']."'": "null";
+
+   if(insertion("accident", "INSERT INTO accident VALUES (DEFAULT, ".$_POST['nbrBlesses'].", ".$_POST['nbrMorts'].", ".$_POST['gravite'].", $desc, to_timestamp('".$_POST['dateHeure']."', 'yyyy-mm-dd hh24:mi'), st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )")){
+    echo json_encode(array(
+        "type" => "succes",
+        "msg" => "L'accident ajouté avec succès"
+        ));
+   }
 }
 // /LE CAS D'INSERTION
 
@@ -39,8 +42,8 @@ if($_POST["importation"]){
             
         }
 
-        $in = insertion("accident", $transaction .= "COMMIT;");
-
+        insertion("accident", $transaction .= "COMMIT;");
+        
         echo json_encode(array(
             "type" => "succes",
             "msg" => $in." ".count($_POST["lignes_excel"])." accidents importés avec succès"
@@ -69,20 +72,6 @@ if($_POST["importation"]){
 }
 // /LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
 
-
-
-// $csv = array_map('str_getcsv', file('test.csv'));
-
-
-// $colonnes = array("Emplacement","Date","Heure","NbrBlesses","NbrMorts","typesVehicules");
-
-// function verifCols($colsTabAccid, $colsCsv){
-//    return $colsTabAccid == $colsCsv;
-// }
-
-// echo verifCols($colonnes, $csv[0]);
-
-// echo $csv[0][0];
 
 
 ?>

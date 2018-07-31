@@ -12,7 +12,7 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 });
 // /LE CONTENU HTML DU MENU DROIT
 
-var draw, json;
+var draw, json, coords;
 
 $(document).on("click", "#pointerAccidentologie", function () {
 
@@ -44,11 +44,8 @@ $(document).on("click", "#pointerAccidentologie", function () {
     });
 
     map.on('click', function(evt){
-    var coords = ol.proj.toLonLat(evt.coordinate);
-    var lat = coords[1];
-    var lon = coords[0];
-    $("#pointerAccidentologie").html('<i class="clip-plus-circle"></i> '+lon.toFixed(6)+", "+lat.toFixed(6))
-    
+    coords = ol.proj.toLonLat(evt.coordinate);
+    $("#pointerAccidentologie").html('<i class="clip-plus-circle"></i> '+coords[0].toFixed(6)+", "+coords[1].toFixed(6));
     });
     
 });
@@ -56,13 +53,23 @@ $(document).on("click", "#pointerAccidentologie", function () {
 
 $(document).on("click", "#ajouter", function (e) {
     e.preventDefault();
-    
-    console.log($("#nbrBlesses").val());
-    console.log($("#nbrMorts").val());
-    console.log($("#gravite").val());
-    console.log($("#desc").val());
-    console.log($("#heure").val());
-    console.log($("#date").val())
+
+    data = {
+        insertion: true,
+        nbrBlesses: $("#nbrBlesses").val() == 0? "null": $("#nbrBlesses").val(),
+        nbrMorts: $("#nbrMorts").val() == 0? "null": $("#nbrMorts").val(),
+        gravite: $("#gravite").val() == ""? "null": $("#gravite").val(),
+        desc: $("#desc").val(),
+        dateHeure: $("#date").val()+" "+$("#heure").val(),
+        emplacement: coords,
+    }
+
+    error = function (jqXhr) {
+        console.log(jqXhr.responseText);
+        afficherNotif("erreur_fatale", "L'insertion a échoué, essayer de vérifier la syntaxe de vos données");
+        fermerNotif(10000);
+    }
+    ajax("modules/accidentologie/accidentologie.php", data, error);    
 
 });
 
@@ -129,7 +136,12 @@ $(document).on("change", "#fichierExcel", function () {
             noms_cols_excel: Object.keys(json[0]),
             lignes_excel: json
         }
-        ajax("modules/accidentologie/accidentologie.php", data);    
+        error = function () {
+            afficherNotif("erreur_fatale", "L'importation a échoué, essayer de vérifier la syntaxe de vos données");
+            fermerNotif(10000);
+        }
+
+        ajax("modules/accidentologie/accidentologie.php", data, error);    
     }
    
 });
