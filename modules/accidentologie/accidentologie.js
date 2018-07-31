@@ -1,5 +1,5 @@
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
-interactionGraphiqueMenuDeNavigation(3, "accidentologie", "Boîte à outils accidentologie", 400, 10);
+interactionGraphiqueMenuDeNavigation(3, "accidentologie", "Boîte à outils accidentologie", 500, 0);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
@@ -39,14 +39,32 @@ $(document).on("click", "#pointerAccidentologie", function () {
         map.addInteraction(draw);
 
     }).mouseout(function () {
+        map.removeInteraction(draw);
         $("#map").css("cursor", "visible");
     });
 
+    map.on('click', function(evt){
+    var coords = ol.proj.toLonLat(evt.coordinate);
+    var lat = coords[1];
+    var lon = coords[0];
+    $("#pointerAccidentologie").html('<i class="clip-plus-circle"></i> '+lon.toFixed(6)+", "+lat.toFixed(6))
+    
+    });
+    
 });
 
 
+$(document).on("click", "#ajouter", function (e) {
+    e.preventDefault();
+    
+    console.log($("#nbrBlesses").val());
+    console.log($("#nbrMorts").val());
+    console.log($("#gravite").val());
+    console.log($("#desc").val());
+    console.log($("#heure").val());
+    console.log($("#date").val())
 
-
+});
 
 $(document).on("change", "#fichierExcel", function () {
     
@@ -105,89 +123,13 @@ $(document).on("change", "#fichierExcel", function () {
 
     function getJSON(exceljson){
         json = exceljson;
-        insertAjax(Object.keys(json[0]), json);
+        
+        data = {
+            importation: true,
+            noms_cols_excel: Object.keys(json[0]),
+            lignes_excel: json
+        }
+        ajax("modules/accidentologie/accidentologie.php", data);    
     }
    
 });
-
-
-
-// function BindTable(jsondata) {
-//     var columns = BindTableHeader(jsondata);
-
-//     for (var i = 0; i < jsondata.length; i++) {
-
-//         // console.log("############ ligne "+i);
-//         for (var colIndex = 0; colIndex < columns.length; colIndex++) {
-//             var cellValue = jsondata[i][columns[colIndex]];  
-//             if (cellValue == null)
-//                 cellValue = "";
-//             // console.log(cellValue);
-//         }  
-//     }
-    
-// }
-
-// function BindTableHeader(jsondata) {
-//     var columnSet = [];
-
-//     for (var i = 0; i < jsondata.length; i++) {
-//         var rowHash = jsondata[i];
-//         for (var key in rowHash) {
-//             if (rowHash.hasOwnProperty(key)) {
-//                 if ($.inArray(key, columnSet) == -1) {
-//                     columnSet.push(key);
-//                 }
-//             }
-//         }
-//     }
-//     return columnSet;
-// }
-
-
-
-function insertAjax(noms_cols_excel, lignes_excel){
-    $.ajax({
-        url: "modules/accidentologie/accidentologie.php",
-        data: {
-            importation: true,
-            noms_cols_excel: noms_cols_excel,
-            lignes_excel: lignes_excel
-        },
-        type: 'POST',
-        dataType: 'JSON',
-        success: function (resultat) {
-
-            if(resultat.type == "erreur"){
-                afficherNotif("erreur", resultat.msg);
-                fermerNotif(10000);
-            }
-            else if(resultat.type == "succes"){
-                afficherNotif("succes", resultat.msg);
-                fermerNotif(10000);   
-            }
-        },
-        error: function () {
-            afficherNotif("erreur_fatale");
-            fermerNotif(10000);
-        }
-    });
-}
-
-// /OBTENTION DE TOUS LES NOMS DE COLONNES À PARTIR DE JSON
-
-
-
-// $(document).on("click","#map",function (event){
-//     map.removeInteraction(draw);
-// });
-
-// $(document).on('click', function (event) {
-//     if (!$(event.target).closest('#map').length) {
-//         console.log("yup");
-//         map.removeInteraction(draw);
-//     }
-//   });
-
-
-// /CHANGEMENT DE POINTEUR LORS DE L'AJOUT

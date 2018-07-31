@@ -10,7 +10,7 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <div class="col-lg-7">
+                        <div class="col-lg-11" style="padding-left: 57px;">
                             <span class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>Ajouter un fichier Excel</span>
@@ -28,46 +28,82 @@
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
+                    <form>
                     <div class="panel-body">
-                        <a id="pointerAccidentologie" class="btn btn-primary" href="#">
-                            <i class="clip-plus-circle"></i> Pointer sur la carte</a>
-                        <div class="input-group">
-                            <input name="date" data-date-format="dd-mm-yyyy" data-date-viewmode="years" class="form-control date-picker" type="date">
-                            <span class="input-group-addon">
-                                <i class="clip-calendar"></i>
-                            </span>
-                        </div>
-                        <div class="input-group">
-                            <input name="heure" class="form-control date-picker" type="time" name="alerttime">
-                            <span class="input-group-addon">
-                                <i class="clip-clock"></i>
-                            </span>
-                        </div>
-                        <div class="input-group">
-                            <input min="0" name="nbrBlesses" class="form-control date-picker" type="number" placeholder="nbr blessés">
-                            <span class="input-group-addon">
-                                <i class="clip-user-4"></i>
-                            </span>
-                        </div>
-                        <div class="input-group">
-                            <input min="0" name="nbrMorts" class="form-control date-picker" type="number" placeholder="nbr morts">
-                            <span class="input-group-addon">
-                                <i class="clip-user-3"></i>
-                            </span>
-                        </div>
+                        <a id="pointerAccidentologie" class="btn btn-primary" href="#" style="margin-bottom: 13px;">
+                            <i class="clip-plus-circle"></i> Localiser l'emplacement d'accident
+                        </a>
+                        <br>
                         <div class="form-group">
-                            <p>Types de véhicules
-                            </p>
-                            <select name="typesVehicules" class="form-control" multiple>
-                                <option value="voiture">Voiture</option>
-                                <option value="moto">Moto</option>
-                                <option value="velo">Vélo</option>
-                                <option value="quad">Quad</option>
-                                <option value="camion">Camion</option>
-                                <option value="autobus">Autobus</option>
-                            </select>
+                            <label class="control-label" style="float: left;">
+                                Nombre de blessés
+                            </label>
+                            <div class="col-sm-8">
+                                <input type="number" min="0" max="30" placeholder="0" id="nbrBlesses" class="form-control">
+                            </div>
                         </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="control-label" style="float: left;">
+                                Nombre de morts&nbsp;&nbsp;
+                            </label>
+                            <div class="col-sm-8">
+                                <input type="number" min="0" max="30" placeholder="0" id="nbrMorts" class="form-control" style="margin-left: 2px;">
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label" style="float: left;">
+                                Gravité
+                            </label>
+                            <div class="col-sm-8">
+                                <select style="margin-left: 90px;" class="form-control" id="gravite">
+                                    <option value="false">Moins grave</option>
+                                    <option value="">Grave</option>
+                                    <option value="true">Plus grave</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label" style="float: left;">
+                                Description
+                            </label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" id="desc" style="overflow: hidden; word-wrap: break-word; height: 30px;margin-left: 59px;"></textarea>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label" style="float: left;">
+                                Heure d'accident
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="heure" class="form-control date-picker" type="text" style="margin-left: 17px;">
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label class="control-label" style="float: left;">
+                                Date d'accident
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="date" data-date-format="dd-mm-yyyy" data-date-viewmode="years" class="form-control date-picker" type="date" style="margin-left: 26px;">
+                            </div>
+                        </div>
+                        <br>
+                        <button type="reset" class="btn btn-default">Réinitialiser</button>
+                        <button id="ajouter" type="submit" class="btn btn-success">Ajouter</button>
                     </div>
+                    </form>
                 </div>
             </div>
             <div class="panel panel-default">

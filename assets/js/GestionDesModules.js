@@ -1,3 +1,29 @@
+// TRAITEMENT AJAX
+function ajax(url, data) {
+    $.ajax({
+        url: url,
+        data: data,
+        type: 'POST',
+        dataType: 'JSON',
+        success: function (resultat) {
+
+            if (resultat.type == "erreur") {
+                afficherNotif("erreur", resultat.msg);
+                fermerNotif(10000);
+            }
+            else if (resultat.type == "succes") {
+                afficherNotif("succes", resultat.msg);
+                fermerNotif(10000);
+            }
+        },
+        error: function () {
+            afficherNotif("erreur_fatale");
+            fermerNotif(10000);
+        }
+    });
+}
+// /TRAITEMENT AJAX
+
 // CHARGEMENT DU SCRIPT DU MODULE COUCHES D'INTÉRÊT LORS DU CLIQUE
 $("#couchesInteret").parent().click(function () {
     $.getScript("modules/couchesInteret/couchesInteret.js");
