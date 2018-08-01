@@ -1,27 +1,16 @@
-// INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
-$("#couchesInteret").parent().click(function () {
-    interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles", 350, 170);
+// INTERACTION GRAPHIQUE POUR LE MENU DROIT
+interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles", 350, 170);
+// /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
-// LE CONTENU DU MENU DROIT
-$("#style_selector div:eq(1)").after().append("\
-<ul style='padding: inherit;background: white;'>\
-    <label>\
-        <input id='mosquees' type='checkbox'>Mosquées\
-    </label>\
-    <label>\
-        <input id='banques' type='checkbox'>Banques\
-    </label>\
-    <label>\
-        <input id='ecoles' type='checkbox'>Écoles\
-    </label>\
-    <label>\
-        <input id='hotels' type='checkbox'>Hôtels\
-    </label>\
-</ul>");
-// /LE CONTENU DU MENU DROIT
+// LE STYLE CSS DU CONTENU HTML DU MENU DROIT
+$("<link>").attr("rel","stylesheet").attr("type","text/css").attr("href","modules/couchesInteret/couchesInteret.css").appendTo("head");
+// /LE STYLE CSS DU CONTENU HTML DU MENU DROIT
 
+// LE CONTENU HTML DU MENU DROIT
+$.get("modules/couchesInteret/couchesInteret.html", function (data) {
+    $("#style_selector div:eq(1)").after().append(data);
 });
-// /INTERACTION GRAPHIQUE POUR LE MODULE COUCHES D'INTÉRÊT
+// /LE CONTENU HTML DU MENU DROIT
 
 // GESTION DES CHECKBOX DES COUCHES DISPONIBLES
 $(document).on("change","#mosquees",function () {
@@ -49,8 +38,8 @@ $(document).on("change","#ecoles",function () {
 });
 
 $(document).on("change","#banques",function () {
-    changerClasseCss("listeCoucheBanques", "dropdown open");
     if (this.checked) {
+        changerClasseCss("listeCoucheBanques", "dropdown open");
         critere = 150;
         getNearbyPois(critere);
         nearbyPoisGeometryVector.changed();
@@ -61,8 +50,8 @@ $(document).on("change","#banques",function () {
 });
 
 $(document).on("change","#hotels",function () {
-    changerClasseCss("listeCoucheHotels", "dropdown open");
     if (this.checked) {
+        changerClasseCss("listeCoucheHotels", "dropdown open");
         critere = 266;
         getNearbyPois(critere);
         nearbyPoisGeometryVector.changed();

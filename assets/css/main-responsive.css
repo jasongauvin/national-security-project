@@ -235,9 +235,6 @@
 	.navbar-tools .nav > li.dropdown .dropdown-toggle {
 		margin-top: 0px !important;
 	}
-	.main-content > .container {
-		/*padding:0;*/
-	}
 	.sidebar-search input {
 		display: none;
 		width: 0;
@@ -395,9 +392,6 @@
 	/***
 	 Main content
 	 ***/
-	.main-content {
-		/* min-height: 860px; */
-	}
 
 }
 /* ---------------------------------------------------------------------- */
@@ -416,9 +410,6 @@
 	}
 	.page-full-width .main-content {
     	margin-left: 0 !important;
-	}
-	.main-content > .container {
-		/* min-height: 760px; */
 	}
 	ul.main-navigation-menu > li.active > a .selected:before {
 		display: block;

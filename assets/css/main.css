@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------- */
 /*	Import fonts
 /* ---------------------------------------------------------------------- */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
-@import url(http://fonts.googleapis.com/css?family=Raleway:400,300,200,100,500,600,700,800,900);
+/* @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,300,200,100,500,600,700,800,900); */
 
 /* ---------------------------------------------------------------------- */
 /*	Basic Elements & Classes
@@ -4098,8 +4098,8 @@ body.header-default .daterangepicker {
 	border-bottom: 1px solid rgba(23, 24, 26, 0.15);
 	color: #000000;
 	font-size: 15px;
-	height: 44px;
-	line-height: 44px;
+	height: 35px;
+	line-height: 35px;
 	text-align: center;
 }
 .box-title {

@@ -1,0 +1,21 @@
+#fichierExcel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    font-size: 23px;
+    direction: ltr;
+    cursor: pointer;
+}
+
+.fileupload-loading {
+    float: right;
+    left: 230px;
+    top: 66px;
+    width: 128px;
+    height: 128px;
+    position:absolute; 
+    background: url("../../assets/img/loading.gif") center no-repeat;
+    display: none;
+}

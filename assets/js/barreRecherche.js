@@ -1,4 +1,5 @@
 // CHAMP DE RECHERCHE
+
 $("#champRecherche").on('keyup', function (event) {
     var addrVal = $("#champRecherche").val();
     if ($("#champRecherche").val().length) {
@@ -8,28 +9,31 @@ $("#champRecherche").on('keyup', function (event) {
         // TRIGGER TOUCHE ENTRER
         if (event.keyCode === 13) {
             $( $("#listeChampRecherche").children(":first") ).click();
-            $("#listeAddr").hide();
+            // $("#listeAddr").hide();
 
-            // MISE À JOUR DES LISTES DES COUCHES
-            if ( $('#mosquees').is(':checked') ){
-                $('#mosquees').prop("checked", false).trigger("change");
-                $('#mosquees').prop("checked", true).trigger("change");
-            }
+            // // MISE À JOUR DES LISTES DES COUCHES
 
-            if ( $('#ecoles').is(':checked') ){
-                $('#ecoles').prop("checked", false).trigger("change");
-                $('#ecoles').prop("checked", true).trigger("change");
-            }
+            // if ( $('#mosquees').is(':checked') ){
+            //     $('#mosquees').prop("checked", false).trigger("change");
+            //     $('#mosquees').prop("checked", true).trigger("change");
+            // }
 
-            if ( $('#banques').is(':checked') ){
-                $('#banques').prop("checked", false).trigger("change");
-                $('#banques').prop("checked", true).trigger("change");
-            }
+            // if ( $('#ecoles').is(':checked') ){
+            //     $('#ecoles').prop("checked", false).trigger("change");
+            //     $('#ecoles').prop("checked", true).trigger("change");
+            // }
 
-            if ( $('#hotels').is(':checked') ){
-                $('#hotels').prop("checked", false).trigger("change");
-                $('#hotels').prop("checked", true).trigger("change");
-            }
+            // if ( $('#banques').is(':checked') ){
+            //     $('#banques').prop("checked", false).trigger("change");
+            //     $('#banques').prop("checked", true).trigger("change");
+            // }
+
+            // if ( $('#hotels').is(':checked') ){
+            //     $('#hotels').prop("checked", false).trigger("change");
+            //     $('#hotels').prop("checked", true).trigger("change");
+            // }
+            
+
             // /MISE À JOUR DES LISTES DES COUCHES
 
         }
@@ -109,32 +113,30 @@ var map_advanced_search_address_popup = new ol.Overlay.Popup(
     });
 
 function getSelectedAddress(name, longitude, latitude, id) {
+    // CACHER LA LISTE DES ADRESSES
+    $("#listeAddr").hide();
+    // /CACHER LA LISTE DES ADRESSES
+
     mapAdvancedSearch_AddressGeometryVector.getSource().clear();
     map_advanced_search_address_popup.hide(undefined, '');
-    name = name.replace(/[|]/g, "'")
-    //console.log(name+'||'+longitude+'||'+latitude);
-    //$("#champRecherche").val(name);
-    // $("#nearby_address").empty();
-    // $("#nearby_address").append(name);
-    // $("#" + id).hide();
+    name = name.replace(/[|]/g, "'");
+
     var point_pos_search_inp = new ol.geom.Point(
         ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')
     );
-    //console.log(point_pos_search_inp);
+    
     var point_position_search_inp = new ol.Feature(point_pos_search_inp);
     mapAdvancedSearch_AddressGeometryVector.getSource().addFeature(point_position_search_inp);
     var defaultCenter = ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857');
-    //map.getView().setZoom(10);
+    
     map_advanced_search_address_popup.show(mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures()[0].getGeometry().getCoordinates(), name);
-    /*var extent = mapAdvancedSearch_AddressGeometryVector.getSource().getExtent();
-    map.getView().fit(extent, map.getSize());
-    map.getView().setZoom(10);*/
+    
     view.animate({
         center: defaultCenter,
         duration: 2000,
         zoom: 20
     });
-    //getNearbyPois(critere);
+
 }
 
 
