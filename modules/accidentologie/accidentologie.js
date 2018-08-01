@@ -18,7 +18,7 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 // /LE CONTENU HTML DU MENU DROIT
 
 // AFFICHAGE DE LA COUCHE ACCIDENT
-actualiserCoucheAccident();
+// actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
 
 $(document).on("click", "#pointerAccidentologie", function () {
@@ -78,8 +78,8 @@ $(document).on("click", "#ajouter", function (e) {
 
     success = function (resultat) {
         if (resultat.type == "succes") {
-            actualiserCoucheAccident();
             afficherNotif("succes", resultat.msg);
+            actualiserCoucheAccident();
         }
     }
 
@@ -145,6 +145,7 @@ $(document).on("change", "#fichierExcel", function () {
     function getJSON(exceljson) {
         json = exceljson;
 
+        // L'APPEL AJAX AVEC LES PARAMÈTRES
         data = {
             importation: true,
             noms_cols_excel: Object.keys(json[0]),
@@ -154,8 +155,18 @@ $(document).on("change", "#fichierExcel", function () {
             rapportErreurs(jqXhr);
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des accidents");
         }
-        
-        ajax("modules/accidentologie/accidentologie.php", data, error_fatale);
+        success = function (resultat) {
+            if (resultat.type == "erreur") {
+                afficherNotif("erreur", resultat.msg);
+            }
+            else if (resultat.type == "succes") {
+                afficherNotif("succes", resultat.msg);
+                setTimeout(actualiserCoucheAccident(), 3000);
+            }
+        }
+
+        ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
+        // /L'APPEL AJAX AVEC LES PARAMÈTRES
     }
 
 });
@@ -200,18 +211,15 @@ function actualiserCoucheAccident() {
     data = {
         selection: true
     }
-
     success = function (result) {
         var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
         afficherNotif("info", "La couche des accidents a été bien actualisée");
     }
-
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
         afficherNotif("erreur_fatale", "Une erreur est survenu lors du chargement de la couche des accidents");
     }
-
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
     // /L'APPEL AJAX AVEC LES PARAMÈTRES
 
@@ -220,4 +228,3 @@ function actualiserCoucheAccident() {
     // /L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
 
 }
-

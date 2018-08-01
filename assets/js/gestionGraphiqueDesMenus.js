@@ -51,40 +51,57 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
 
 // GESTION DES NOTIFICATIONS
 function afficherNotif(type, msg, temps = 10000) {
+    var classe, titre;
     if (type == "erreur") {
-        $("#notification").attr("class", "alert alert-block alert-danger fade in");
-        $("#notification h4 ").html("<i class='clip-cancel-circle-2' ></i> Erreur !");
-        $("#notification p").html(msg);
-        $("#notification").css("display", "block");
+        classe = "alert alert-block alert-danger fade in";
+        titre = "<i class='clip-cancel-circle-2' ></i> Erreur !";
     }
     else if (type == "succes") {
-        $("#notification").attr("class", "alert alert-block alert-success fade in");
-        $("#notification h4 ").html("<i class='clip-checkmark-circle-2'></i> Succès !");
-        $("#notification p").html(msg);
-        $("#notification").css("display", "block");
+        classe = "alert alert-block alert-success fade in";
+        titre = "<i class='clip-checkmark-circle-2'></i> Succès !";
     }
     else if (type == "erreur_fatale") {
-        $("#notification").attr("class", "alert alert-block alert-danger fade in");
-        $("#notification h4 ").html("<i class='clip-cancel-circle-2' ></i> Erreur !");
-        $("#notification p").html(msg);
-        $("#notification").css("display", "block");
+        classe = "alert alert-block alert-danger fade in";
+        titre = "<i class='clip-cancel-circle-2' ></i> Erreur !";
     }
-    else if(type == "warning"){
-        $("#notification").attr("class", "alert alert-block alert-warning fade in");
-        $("#notification h4 ").html("<i class='clip-warning' ></i> Attention !");
-        $("#notification p").html(msg);
-        $("#notification").css("display", "block");
-    }else if(type == "info"){
-        $("#notification").attr("class", "alert alert-block alert-info fade in");
-        $("#notification h4 ").html("<i class='clip-info-2' ></i> Info !");
-        $("#notification p").html(msg);
-        $("#notification").css("display", "block");
+    else if (type == "warning") {
+        classe = "alert alert-block alert-warning fade in";
+        titre = "<i class='clip-warning' ></i> Attention !";
+    } else if (type == "info") {
+        classe = "alert alert-block alert-info fade in";
+        titre = "<i class='clip-info-2' ></i> Info !"
     }
 
-    window.setTimeout(function () {
-        $('#notification').removeClass("in");
-        $('#notification').addClass("out");
-        $("#notification").css("display", "none");
-    }, temps);
+    // DÉFINITION DU STYLE ET CONTENU DE NOTIFICATION
+    $.notify.addStyle('style', {
+        html:
+            "<div id='notif' style='width: 440px;'>" +
+                "<button data-dismiss='alert' class='close' type='button'>" +
+                    "&times;" +
+                "</button>" +
+                "<h4 class='alert-heading' data-notify-html='title'></h4>" +
+                "<p data-notify-html='contenu'></p>" +
+            "</div>"
+    });
+
+    $.notify({
+        title: titre,
+        contenu: msg
+    }, {
+            style: 'style',
+            className: classe,
+            autoHide: true,
+            autoHideDelay: temps,
+            showAnimation: 'slideDown',
+            hideAnimation: 'slideUp',
+            clickToHide: true
+        });
+    // /DÉFINITION DU STYLE ET CONTENU DE NOTIFICATION
+
+    $("#notif").removeClass("notifyjs-foo-base notifyjs-foo-alert");
+    $("#notif").addClass("alert");
+    $('.notifyjs-container').css('left', '-633px');
+    $('.notifyjs-container').css('top', '99px');
+
 }
 // /GESTION DES NOTIFICATIONS
