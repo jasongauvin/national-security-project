@@ -8,7 +8,7 @@ require_once "../../assets/php/fonctions.php";
 if($_POST["ajout"]){
     $desc = $_POST['desc']? "'".$_POST['desc']."'": "null";
 
-   if(insertion("accident", "INSERT INTO accident VALUES (DEFAULT, ".$_POST['nbrBlesses'].", ".$_POST['nbrMorts'].", ".$_POST['gravite'].", $desc, to_timestamp('".$_POST['dateHeure']."', 'yyyy-mm-dd hh24:mi'), st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )")){
+   if(executerRequete("INSERT INTO accident VALUES (DEFAULT, ".$_POST['nbrBlesses'].", ".$_POST['nbrMorts'].", ".$_POST['gravite'].", $desc, to_timestamp('".$_POST['dateHeure']."', 'yyyy-mm-dd hh24:mi'), st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )")){
     echo json_encode(array(
         "type" => "succes",
         "msg" => "L'accident a été bien ajouté avec succès"
@@ -42,7 +42,7 @@ if($_POST["importation"]){
             
         }
 
-        insertion("accident", $transaction .= "COMMIT;");
+        executerRequete($transaction .= "COMMIT;");
         
         echo json_encode(array(
             "type" => "succes",
@@ -75,7 +75,6 @@ if($_POST["importation"]){
 // LE CAS SELECTION
 if($_POST['selection']){
 	$query = "SELECT gid ,st_asgeojson(emplacement) as geom FROM accident ";
-	if($query) {
         $result = pg_query($db,$query);
         if($result) {
 		    while($row = pg_fetch_assoc($result)) {
@@ -96,7 +95,6 @@ if($_POST['selection']){
 			    echo '{"type":"FeatureCollection", "features":"empty"}';
 		    }
         }
-    }
 }
 // /LE CAS SELECTION
 ?>

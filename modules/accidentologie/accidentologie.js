@@ -154,7 +154,7 @@ $(document).on("change", "#fichierExcel", function () {
             rapportErreurs(jqXhr);
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des accidents");
         }
-
+        
         ajax("modules/accidentologie/accidentologie.php", data, error_fatale);
     }
 
@@ -214,7 +214,7 @@ function actualiserCoucheAccident() {
 
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
     // /L'APPEL AJAX AVEC LES PARAMÈTRES
-    
+
     // L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
     map.addLayer(coucheAccident);
     // /L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
