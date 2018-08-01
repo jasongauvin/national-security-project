@@ -1,5 +1,5 @@
 <?php
-include('connect.php');
+include('../../assets/php/connect.php');
 
 function ConvertDistance ($longueur) {
 	//$longueur input en kilometre

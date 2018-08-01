@@ -54,7 +54,7 @@ var add_police_agent_DrawInteraction;
 					runAgentPoliceNotification('Geometry is missing !', 'warning', 'Nouveau Agent', '<i class="icon-flag-outline"></i>');
 				}else{
 					$.ajax({
-						url: 'assets/php/agent.php',
+						url: 'modules/gestionAgents/gestionAgents.php',
 						data:{
 							insert  :true,
 							nom   	:$("#add_police_agent_input_nom").val(),
@@ -169,18 +169,18 @@ var agent_police_geojson = new ol.format.GeoJSON();
 				});
 				map.addLayer(agentPoliceVectorLayer);
 
+				
+
 				function loadAgentPolice(param){
 				    agentPoliceSourceLayer.clear();
 				    $.ajax({
-						url: 'assets/php/agent.php',
+						url: 'modules/gestionAgents/gestionAgents.php',
 						data:{
 							select  :true
 						},
 						type: 'POST',
 						dataType: 'JSON',
-						/*async: false,
-						cache: false,
-						timeout: 2000,*/
+						
 						success: function(result) {
 							var features = agent_police_geojson.readFeatures(result,{featureProjection: 'EPSG:3857'});
 				        	agentPoliceSourceLayer.addFeatures(features);
@@ -197,3 +197,5 @@ var agent_police_geojson = new ol.format.GeoJSON();
 					});
 				}
 				loadAgentPolice('update');
+
+				
