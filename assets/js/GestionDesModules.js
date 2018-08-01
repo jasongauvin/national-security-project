@@ -16,11 +16,9 @@ function rapportErreurs(err){
 function ajax(url, data, error, success = function (resultat) {
     if (resultat.type == "erreur") {
         afficherNotif("erreur", resultat.msg);
-        fermerNotif(10000);
     }
     else if (resultat.type == "succes") {
         afficherNotif("succes", resultat.msg);
-        fermerNotif(10000);
     }
 }, complete = null) {
 

@@ -4,7 +4,7 @@
 require_once "../../assets/php/fonctions.php";
 // /INCLURE DES FONCTIONS UTILES PHP-POSTGRES
 
-// LE CAS D'INSERTION
+// LE CAS D'AJOUT
 if($_POST["ajout"]){
     $desc = $_POST['desc']? "'".$_POST['desc']."'": "null";
 
@@ -15,7 +15,7 @@ if($_POST["ajout"]){
         ));
    }
 }
-// /LE CAS D'INSERTION
+// /LE CAS D'AJOUT
 
 // LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
 if($_POST["importation"]){
@@ -73,7 +73,7 @@ if($_POST["importation"]){
 // /LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
 
 // LE CAS SELECTION
-if($_POST['select']){
+if($_POST['selection']){
 	$query = "SELECT gid ,st_asgeojson(emplacement) as geom FROM accident ";
 	if($query) {
         $result = pg_query($db,$query);

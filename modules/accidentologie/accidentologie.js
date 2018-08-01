@@ -196,7 +196,7 @@ var coucheAccident = new ol.layer.Vector({
     agentPoliceSourceLayer.clear();
 
     data = {
-        select: true
+        selection: true
     }
 
     success = function (result) {
