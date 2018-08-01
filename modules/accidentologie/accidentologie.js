@@ -1,3 +1,8 @@
+// DECLARATION DES VARIABLES
+var agent_police_geojson = new ol.format.GeoJSON(), agentPoliceSourceLayer = new ol.source.Vector();
+var draw, json, coords;
+// /DECLARATION DES VARIABLES
+
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
 interactionGraphiqueMenuDeNavigation(3, "accidentologie", "Boîte à outils accidentologie", 500, 0);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -12,7 +17,9 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 });
 // /LE CONTENU HTML DU MENU DROIT
 
-var draw, json, coords;
+// AFFICHAGE DE LA COUCHE ACCIDENT
+actualiserCoucheAccident();
+// /AFFICHAGE DE LA COUCHE ACCIDENT
 
 $(document).on("click", "#pointerAccidentologie", function () {
 
@@ -55,7 +62,7 @@ $(document).on("click", "#ajouter", function (e) {
     e.preventDefault();
 
     data = {
-        insertion: true,
+        ajout: true,
         nbrBlesses: $("#nbrBlesses").val() == 0? "null": $("#nbrBlesses").val(),
         nbrMorts: $("#nbrMorts").val() == 0? "null": $("#nbrMorts").val(),
         gravite: $("#gravite").val() == ""? "null": $("#gravite").val(),
@@ -64,12 +71,19 @@ $(document).on("click", "#ajouter", function (e) {
         emplacement: coords,
     }
 
-    error = function (jqXhr) {
-        console.log(jqXhr.responseText);
-        afficherNotif("erreur_fatale", "L'insertion a échoué, essayer de vérifier la syntaxe de vos données");
-        fermerNotif(10000);
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors d'ajout de l'accident");
     }
-    ajax("modules/accidentologie/accidentologie.php", data, error);    
+
+    success = function (resultat) {
+        if (resultat.type == "succes") {
+            actualiserCoucheAccident();
+            afficherNotif("succes", resultat.msg);
+        }
+    }
+
+    ajax("modules/accidentologie/accidentologie.php", data, error_fatale,success);    
 
 });
 
@@ -121,8 +135,8 @@ $(document).on("change", "#fichierExcel", function () {
                 }  
     
         }  
-        else {  
-            console.log("Veuillez ajouter un fichier Excel valide!");  
+        else {
+            afficherNotif("warning", "Veuillez ajouter un fichier Excel valide");
         }
     }
 
@@ -136,12 +150,69 @@ $(document).on("change", "#fichierExcel", function () {
             noms_cols_excel: Object.keys(json[0]),
             lignes_excel: json
         }
-        error = function () {
-            afficherNotif("erreur_fatale", "L'importation a échoué, essayer de vérifier la syntaxe de vos données");
-            fermerNotif(10000);
+        error_fatale = function (jqXhr) {
+            rapportErreurs(jqXhr);
+            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des accidents");
         }
 
-        ajax("modules/accidentologie/accidentologie.php", data, error);    
+        ajax("modules/accidentologie/accidentologie.php", data, error_fatale);
     }
    
 });
+
+
+function actualiserCoucheAccident(){
+
+// DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
+var styleCoucheAccident = function (feature) {
+    
+    var src = 'assets/img/accident.png';
+    var style_accident = {
+        'Point':
+            new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 0.5],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'fraction',
+                    src: src
+                })
+            })
+    };
+    return style_accident[feature.getGeometry().getType()];
+}
+// /DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
+
+// DÉFINITION DE LA COUCHE ACCIDENT
+var coucheAccident = new ol.layer.Vector({
+    name: 'CoucheAccident',
+    title: 'Couche Accident',
+    visible: true,
+    source: agentPoliceSourceLayer,
+    style: styleCoucheAccident
+});
+// /DÉFINITION DE LA COUCHE ACCIDENT
+
+
+    agentPoliceSourceLayer.clear();
+
+    data = {
+        select: true
+    }
+
+    success = function (result) {
+        var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+        agentPoliceSourceLayer.addFeatures(features);
+        afficherNotif("info", "La couche des accidents a été bien actualisée");
+    }
+
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors du chargement de la couche des accidents");
+    }
+
+    ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
+
+    map.addLayer(coucheAccident);
+
+}
+

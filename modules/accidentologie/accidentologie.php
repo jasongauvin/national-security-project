@@ -5,13 +5,13 @@ require_once "../../assets/php/fonctions.php";
 // /INCLURE DES FONCTIONS UTILES PHP-POSTGRES
 
 // LE CAS D'INSERTION
-if($_POST["insertion"]){
+if($_POST["ajout"]){
     $desc = $_POST['desc']? "'".$_POST['desc']."'": "null";
 
    if(insertion("accident", "INSERT INTO accident VALUES (DEFAULT, ".$_POST['nbrBlesses'].", ".$_POST['nbrMorts'].", ".$_POST['gravite'].", $desc, to_timestamp('".$_POST['dateHeure']."', 'yyyy-mm-dd hh24:mi'), st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )")){
     echo json_encode(array(
         "type" => "succes",
-        "msg" => "L'accident ajouté avec succès"
+        "msg" => "L'accident a été bien ajouté avec succès"
         ));
    }
 }
@@ -46,7 +46,7 @@ if($_POST["importation"]){
         
         echo json_encode(array(
             "type" => "succes",
-            "msg" => $in." ".count($_POST["lignes_excel"])." accidents importés avec succès"
+            "msg" => $in." ".count($_POST["lignes_excel"])." accidents ont été importés avec succès"
         ));
         
     }
@@ -72,6 +72,31 @@ if($_POST["importation"]){
 }
 // /LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
 
-
-
+// LE CAS SELECTION
+if($_POST['select']){
+	$query = "SELECT gid ,st_asgeojson(emplacement) as geom FROM accident ";
+	if($query) {
+        $result = pg_query($db,$query);
+        if($result) {
+		    while($row = pg_fetch_assoc($result)) {
+		    	$row['removable']='true';
+			    $type = '"type": "Feature"';
+	            $geometry = '"geometry": '.$row['geom'];
+	            unset($row['geom']);
+	            $properties = '"properties": '.json_encode($row);
+	            $feature[] = '{'.$type.', '.$geometry.', '.$properties.'}';
+				
+            }
+            $header = '{"type": "FeatureCollection", "features": [';
+            $footer = ']}';
+		    if(count($feature) > 0) {
+			    echo $header.implode(', ', $feature).$footer;
+		    }
+		    else {
+			    echo '{"type":"FeatureCollection", "features":"empty"}';
+		    }
+        }
+    }
+}
+// /LE CAS SELECTION
 ?>

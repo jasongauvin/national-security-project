@@ -49,17 +49,8 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
 }
 // /INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
 
-// FERMETURE DE NOTIFICATIONS
-function fermerNotif(temps) {
-    window.setTimeout(function () {
-        $('#notification').removeClass("in");
-        $('#notification').addClass("out");
-        $("#notification").css("display", "none");
-    }, temps);
-}
-// /FERMETURE DE NOTIFICATIONS
-
-function afficherNotif(type, msg) {
+// GESTION DES NOTIFICATIONS
+function afficherNotif(type, msg, temps = 10000) {
     if (type == "erreur") {
         $("#notification").attr("class", "alert alert-block alert-danger fade in");
         $("#notification h4 ").html("<i class='clip-cancel-circle-2' ></i> Erreur !");
@@ -78,4 +69,22 @@ function afficherNotif(type, msg) {
         $("#notification p").html(msg);
         $("#notification").css("display", "block");
     }
+    else if(type == "warning"){
+        $("#notification").attr("class", "alert alert-block alert-warning fade in");
+        $("#notification h4 ").html("<i class='clip-warning' ></i> Attention !");
+        $("#notification p").html(msg);
+        $("#notification").css("display", "block");
+    }else if(type == "info"){
+        $("#notification").attr("class", "alert alert-block alert-info fade in");
+        $("#notification h4 ").html("<i class='clip-info-2' ></i> Info !");
+        $("#notification p").html(msg);
+        $("#notification").css("display", "block");
+    }
+
+    window.setTimeout(function () {
+        $('#notification').removeClass("in");
+        $('#notification').addClass("out");
+        $("#notification").css("display", "none");
+    }, temps);
 }
+// /GESTION DES NOTIFICATIONS

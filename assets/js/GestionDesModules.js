@@ -1,22 +1,37 @@
+// VARIABLES GLOBALES
+// ACTIVER LE RAPPORT D'ERREURS (AFFICHAGE DES ERREURS DANS LE CONSOLE DU NAVIGATEUR)
+var rappErreurs = true;
+// /ACTIVER LE RAPPORT D'ERREURS (AFFICHAGE DES ERREURS DANS LE CONSOLE DU NAVIGATEUR)
+// /VARIABLES GLOBALES
+
+// AFFICHAGE DU RAPPORT D'ERREURS
+function rapportErreurs(err){
+    if(rappErreurs){
+        console.log(err.responseText);
+    }
+}
+// AFFICHAGE DU RAPPORT D'ERREURS
+
 // TRAITEMENT AJAX
-function ajax(url, data, error) {
+function ajax(url, data, error, success = function (resultat) {
+    if (resultat.type == "erreur") {
+        afficherNotif("erreur", resultat.msg);
+        fermerNotif(10000);
+    }
+    else if (resultat.type == "succes") {
+        afficherNotif("succes", resultat.msg);
+        fermerNotif(10000);
+    }
+}, complete = null) {
+
     $.ajax({
         url: url,
         data: data,
         type: 'POST',
         dataType: 'JSON',
-        success: function (resultat) {
-
-            if (resultat.type == "erreur") {
-                afficherNotif("erreur", resultat.msg);
-                fermerNotif(10000);
-            }
-            else if (resultat.type == "succes") {
-                afficherNotif("succes", resultat.msg);
-                fermerNotif(10000);
-            }
-        },
-        error: error
+        success: success,
+        error: error,
+        complete: complete
     });
 }
 // /TRAITEMENT AJAX
