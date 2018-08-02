@@ -18,7 +18,7 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 // /LE CONTENU HTML DU MENU DROIT
 
 // AFFICHAGE DE LA COUCHE ACCIDENT
-// actualiserCoucheAccident();
+actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
 
 $(document).on("click", "#pointerAccidentologie", function () {
@@ -161,7 +161,7 @@ $(document).on("change", "#fichierExcel", function () {
             }
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
-                setTimeout(actualiserCoucheAccident(), 3000);
+                actualiserCoucheAccident();
             }
         }
 
