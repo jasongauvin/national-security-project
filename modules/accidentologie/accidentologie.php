@@ -75,8 +75,7 @@ if($_POST["importation"]){
 // LE CAS SELECTION
 if($_POST['selection']){
     $feature = array();
-	$query = "SELECT gid ,st_asgeojson(emplacement) as geom FROM accident ";
-        $result = pg_query($db,$query);
+    $result = executerRequete("SELECT gid ,nbrblesses, nbrmorts, gravite, description, dateheure, st_asgeojson(emplacement) AS geom FROM accident");
         if($result) {
 		    while($row = pg_fetch_assoc($result)) {
 		    	$row['removable']='true';

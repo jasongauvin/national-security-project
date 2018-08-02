@@ -20,13 +20,14 @@ function ajax(url, data, error, success = function (resultat) {
     else if (resultat.type == "succes") {
         afficherNotif("succes", resultat.msg);
     }
-}, complete = null) {
+}, complete = null, beforeSend = null) {
 
     $.ajax({
         url: url,
         data: data,
         type: 'POST',
         dataType: 'JSON',
+        beforeSend, beforeSend,
         success: success,
         error: error,
         complete: complete

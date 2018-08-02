@@ -1,6 +1,6 @@
 // DECLARATION DES VARIABLES
 var agent_police_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
-var draw, json, coords;
+var draw, json, coords, coucheAccident;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -21,18 +21,14 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
 
-$(document).on("click", "#pointerAccidentologie", function () {
-
+$(document).on("click", "#pointerAccidentAjouter", function () {
     // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
 
     $("#map").mouseover(function () {
         $("#map").css("cursor", "none");
-
-        var source = new ol.source.Vector();
-
+        map.removeInteraction(draw);
         draw = new ol.interaction.Draw({
             type: 'Point',
-            source: source,
             style: new ol.style.Style({
                 image: new ol.style.Icon({
                     src: 'assets/img/pointeur.png',
@@ -52,8 +48,141 @@ $(document).on("click", "#pointerAccidentologie", function () {
 
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
-        $("#pointerAccidentologie").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+        $("#pointerAccidentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
     });
+
+});
+
+$(document).on("click", "#pointerAccidentModifier", function () {
+
+    map.on('singleclick', function(evt) {
+        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+            layer = [coucheAccident];
+            //you can add a condition on layer to restrict the listener
+            return feature;
+            });
+        if (feature) {
+            map.on('pointermove', function(e){
+                var pixel = map.getEventPixel(e.originalEvent);
+                var hit = map.hasFeatureAtPixel(pixel);
+                map.getViewport().style.cursor = hit ? 'pointer' : '';
+              });
+
+            $("#modifierAccident #nbrBlesses").val(feature.get("nbrblesses"));
+            $("#modifierAccident #nbrMorts").val(feature.get("nbrmorts"));
+            $("#modifierAccident #gravite").val(feature.get("gravite"));
+            $("#modifierAccident #desc").val(feature.get("description"));
+            $("#modifierAccident #heure").val(feature.get("dateheure").split(" ")[1]);
+            $("#modifierAccident #date").val(feature.get("dateheure").split(" ")[0]);
+            
+            //here you can add you code to display the coordinates or whatever you want to do
+        }
+    });
+
+    // console.log("clkickmodif");
+
+    // $("#map").mouseover(function () {
+    //     $("#map").css("cursor", "none");
+    //     map.removeInteraction(draw);
+    //     draw = new ol.interaction.Draw({
+    //         type: 'Point',
+    //         style: new ol.style.Style({
+    //             image: new ol.style.Icon({
+    //                 src: 'assets/img/main.png',
+    //                 size: [64, 64],
+    //                 opacity: 1
+    //             })
+    //         })
+    //     });
+
+    //     map.addInteraction(draw);
+
+    // }).mouseout(function () {
+    //     map.removeInteraction(draw);
+    //     $("#map").css("cursor", "visible");
+    // });
+
+
+
+    // var mapListenerInfoBull;
+
+    //         var container = document.getElementById('agent_popup');
+    //     	var content1 = document.getElementById('agent_popup_content');
+    //     	var closer = document.getElementById('popup-closer');
+
+    //     	var overlay = new ol.Overlay({
+	// 	        element: container,
+	// 	        autoPan: true,
+	// 	        autoPanAnimation: {
+	// 	        	duration: 300
+	// 	        }
+	//       	});
+
+    //     	map.addOverlay(overlay);
+
+	//       	closer.onclick = function() {
+	// 	        overlay.setPosition(undefined);
+	// 	        closer.blur();
+	// 	        return false;
+    //           };
+              
+    // mapListenerInfoBull = function(e) {
+    //     var feature = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {    
+    //         return feature;
+    //     });
+    //     var layer = map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {    
+    //         return layer;
+    //     });
+
+    //     if(feature && (layer!=null)) {
+    //            if( layer.get('name') == 'Nearby Pois') {
+    //                console.log('ggggggggggggggggg');
+    //                var c_popup_content = '<div class="card" style="margin-top: 10px;margin-bottom: -5px;">';		
+    //             c_popup_content	+= '<div class="card-body" style="border-bottom: 1px solid;">';
+    //                 c_popup_content	+='<h5><i class="icon-ribbon"></i> '+feature.get('nom')+'</h5>';
+    //                 c_popup_content	+='<p class="mb-1"><i class="icon-bookmark2"></i> '+feature.get("categorie")+'</p>';
+    //                 c_popup_content	+='<p class="mb-1"><i class="'+sscat+'" style="color: orange"></i> '+feature.get("souscategorie")+' </p>';
+    //                 c_popup_content	+='<p class="mb-1"><i class="icon-location-outline"></i> '+feature.get('adresse')+'</p>';
+    //                 if(feature.get("tl") != ""){
+    //                     c_popup_content+='<p class="mb-1"><small><i class="icon-phone" style="color: green"></i> '+feature.get("tl")+'</small></p>';
+    //                 }
+    //                 if(feature.get("fax") !=""){
+    //                     c_popup_content+='<p class="mb-1"><small><i class="icon-tv2"  style="color: blue"></i> '+feature.get("fax")+'</small></p>';
+    //                 }
+    //                 if(feature.get("email") !=""){
+    //                     c_popup_content+='<p class="mb-1"><small><i class="icon-mail5"  style="color: red"></i> '+feature.get("email")+'</small></p>';
+    //                 }
+    //                 if(feature.get("siteweb") !=""){
+    //                     c_popup_content+='<p class="mb-1"><small><i class="icon-at"  style="color: black"></i> '+feature.get("siteweb")+'</small></p>';
+    //                 }
+    //                 c_popup_content	+='</div>';
+    //                 c_popup_content +='<ul class="user-settings-list"><li style="width:25%;"><a href="javascript:void(0);" title="Agents à proximité" onclick="getNearbyAgentsPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+');"><div class="icon"><i class="icon-account_circle"></i></div></a></li><li style="width:25%;"><a href="javascript:void(0);" title="Pois à proximité" onclick="getNearbyPoisPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+');"><div class="icon red"><i class="icon-location3"></i></div></a></li><li style="width:25%;"><a href="javascript:void(0);" title="Itinéraire à partir d\'ici" onclick="roadPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+',\'start_location_suggestion_list\', \'start_location_input\', \'start\', \'pois\');"><div class="icon yellow"><i class="icon-call_missed_outgoing"></i></div></a></li><li style="width:25%;"><a href="javascript:void(0);" title="Itinéraire vers ici" onclick="roadPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+',\'destination_suggestion_list\', \'destination_input\', \'destination\', \'pois\');"><div class="icon yellow"><i class="icon-call_missed"></i></div></a></li></ul>';
+    //                 c_popup_content	+='</div>';
+    //             //content.innerHTML = '<div class="card text-white bg-grey"><div class="card-header">Header</div><div class="card-body"><h4 class="card-title">Dark card</h4><p class="card-text">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p><ul class="list-group list-group-flush"><li class="list-group-item">Cras justo odio</li></ul></div></div>';
+    //             //console.log(c_popup_content);
+    //             content1.innerHTML = c_popup_content  ;
+    //             overlay.setPosition(feature.getGeometry().getCoordinates());
+    //            }else if( layer.get('name') == 'PoliceAgnetsLayer'){
+    //                var c_popup_content = '<div class="card" style="margin-top: 10px;margin-bottom: -5px;">';		
+    //             c_popup_content	+= '<div class="card-body" style="border-bottom: 1px solid;">';
+    //                 c_popup_content	+='<h5><i class="icon-ribbon"></i> '+feature.get('nom')+'</h5>';
+    //                 c_popup_content	+='<p class="mb-1"><i class="icon-profile-male" style="color:yellow"></i> De type '+feature.get("type")+'</p>';
+    //                 c_popup_content	+='<p class="mb-1"><i class="icon-clock4" style="color: orange"></i> Crée le '+feature.get("date_creation")+' </p>';
+    //             c_popup_content	+='</div>';
+    //                 c_popup_content +='<ul class="user-settings-list"><li style="width:25%;"><a href="javascript:void(0);" title="Agents à proximité" onclick="getNearbyAgentsPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+');"><div class="icon"><i class="icon-account_circle"></i></div></a></li><li style="width:25%;"><a href="javascript:void(0);" title="Pois à proximité" onclick="getNearbyPoisPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+');"><div class="icon red"><i class="icon-location3"></i></div></a></li><li style="width:25%;"><a href="javascript:void(0);" title="Itinéraire à partir d\'ici" onclick="roadPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+',\'start_location_suggestion_list\', \'start_location_input\', \'start\', \'agent\');"><div class="icon yellow"><i class="icon-call_missed_outgoing"></i></div></a></li><li style="width:25%;"><a href="javascript:void(0);" title="Itinéraire vers ici" onclick="roadPopup(\''+feature.get('nom')+'\','+feature.getGeometry().getCoordinates()[0]+','+feature.getGeometry().getCoordinates()[1]+',\'destination_suggestion_list\', \'destination_input\', \'destination\', \'agent\');"><div class="icon yellow"><i class="icon-call_missed"></i></div></a></li></ul>';
+    //                 c_popup_content	+='</div>';
+    //             content1.innerHTML = c_popup_content  ;
+    //             overlay.setPosition(feature.getGeometry().getCoordinates());
+    //            }
+    //        }else{
+    //            overlay.setPosition(undefined);
+    //         closer.blur();
+    //         return false;
+    //        }
+    // }
+
+    // mapClickEventKeyInfoBull= map.on('click', mapListenerInfoBull);
+
 
 });
 
@@ -70,20 +199,23 @@ $(document).on("click", "#ajouter", function (e) {
         dateHeure: $("#date").val() + " " + $("#heure").val(),
         emplacement: coords,
     }
-
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
         afficherNotif("erreur_fatale", "Une erreur est survenu lors d'ajout de l'accident");
     }
-
     success = function (resultat) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
         }
     }
-
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
+
+});
+
+$(document).on("click", "#modifier", function (e){
+    e.preventDefault();
+    console.log("modf");
 
 });
 
@@ -194,7 +326,7 @@ function actualiserCoucheAccident() {
     // /DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
 
     // DÉFINITION DE LA COUCHE ACCIDENT
-    var coucheAccident = new ol.layer.Vector({
+    coucheAccident = new ol.layer.Vector({
         name: 'CoucheAccident',
         title: 'Couche Accident',
         visible: true,
