@@ -1,5 +1,8 @@
 <?php
-include('../../assets/php/connect.php');
+
+// INCLURE DES FONCTIONS UTILES PHP-POSTGRES
+require_once "../../assets/php/fonctions.php";
+// /INCLURE DES FONCTIONS UTILES PHP-POSTGRES
 
 function ConvertDistance ($longueur) {
 	//$longueur input en kilometre
@@ -17,32 +20,27 @@ function ConvertDistance ($longueur) {
 	return $msg;
 }
 
-if($_POST['insert']){
-	$insert_agent_query = pg_prepare($db, 'insert_agent_query', "INSERT INTO agent(nom,  type, the_geom, date_creation) VALUES($1, $2, st_geomfromtext('".$_POST['geom']."', 4326), now())");
-	$insert_agent_result = pg_execute($db, 'insert_agent_query', array($_POST['nom'], $_POST['type']));
-
-	if($insert_agent_result) {
-		
-		echo '{"success": true}';
+if($_POST['ajout']){
+	
+	$insert_agent = executerRequete("INSERT INTO agent VALUES (DEFAULT, '".$_POST['nom']."', '".$_POST['prenom']."', true, DEFAULT, st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
+	
+	if($insert_agent){
+		echo json_encode(array(
+			"type" => "succes",
+			"msg" => "L'agent a été ajouté avec succès"
+			));
+		}
 	}
-	else {
-		echo '{"success": false}';
-		exit;
+if($_POST['supression']){
+	$delete_agent = executerRequete("DELETE from agent where gid=".$_POST['gid']);
+	
+	if($delete_agent){
+		echo json_encode(array(
+			"type" => "succes",
+			"msg" => "L'agent a été supprimé avec succès"
+			));
+		}
 	}
-}
-if($_POST['delete']){
-	$delete_agent_query =  "DELETE from agent where gid=".$_POST['gid'];
-	$delete_agent_result = pg_query($db,$delete_agent_query);
-
-	if($delete_agent_result) {
-		
-		echo '{"success": true}';
-	}
-	else {
-		echo '{"success": false}';
-		exit;
-	}
-}
 if($_POST['list']){
 	$query = "SELECT gid, nom, date_creation, type, st_x(the_geom) as longitude, st_y(the_geom) as latitude FROM agent ";
 	if($query) {
@@ -74,11 +72,10 @@ if($_POST['list']){
 if($_GET['table']){
 	$lon = $_GET["lon"];
 	$lat = $_GET["lat"];
-	//, st_Distance(st_Distance(ST_Transform(the_geom),ST_Transform(ST_GeomFromText('POINT(".$lon." ".$lat.")',4326),3857)) as dis
-	$query = "SELECT gid, nom, date_creation, type, st_x(the_geom) as longitude, st_y(the_geom) as latitude, st_Distance(ST_Transform(the_geom,900913),ST_Transform(ST_GeomFromText('POINT(".$_GET["lon"]." ".$_GET["lat"].")',4326),900913)) as dis FROM agent order by dis asc";
-	//echo $query;
+	
+
 	if($query) {
-        $result = pg_query($db,$query);
+        $result =executerRequete("SELECT gid, nom, date_creation, type, st_x(the_geom) as longitude, st_y(the_geom) as latitude, st_Distance(ST_Transform(the_geom,900913),ST_Transform(ST_GeomFromText('POINT(".$_GET["lon"]." ".$_GET["lat"].")',4326),900913)) as dis FROM agent order by dis asc");
         if($result) {
 		    while($row = pg_fetch_assoc($result)) {
 		    	if($row['type']=='Fixe'){
@@ -109,11 +106,9 @@ if($_GET['table']){
     }
 }
 
-if($_POST['select']){
-	$query = "SELECT gid, nom,type, date_creation, st_asgeojson(the_geom) as geom FROM agent ";
-	if($query) {
-        $result = pg_query($db,$query);
-        if($result) {
+if($_POST['selection']){
+	$result = executerRequete("SELECT gid, nom, prenom, st_asgeojson(emplacement) as geom FROM agent");
+	if($result) {
 		    while($row = pg_fetch_assoc($result)) {
 		    	$row['removable']='true';
 			    $type = '"type": "Feature"';
@@ -131,7 +126,6 @@ if($_POST['select']){
 		    else {
 			    echo '{"type":"FeatureCollection", "features":"empty"}';
 		    }
-        }
     }
 }
 exit();
