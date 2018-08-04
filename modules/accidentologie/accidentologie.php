@@ -6,8 +6,7 @@ require_once "../../assets/php/fonctions.php";
 
 // LE CAS D'AJOUT
 if($_POST["ajout"]){
-    $desc = $_POST['desc']? "'".$_POST['desc']."'": "null";
-    $var = executerRequete("INSERT INTO accident VALUES (DEFAULT, ".$_POST['nbrBlesses'].", ".$_POST['nbrMorts'].", ".$_POST['gravite'].", $desc, to_timestamp('".$_POST['dateHeure']."', 'yyyy-mm-dd hh24:mi'), st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
+    $var = executerRequete("INSERT INTO accident VALUES (DEFAULT, ".$_POST['nbrBlesses'].", ".$_POST['nbrMorts'].", ".$_POST['gravite'].", ".$_POST['desc'].", to_timestamp('".$_POST['dateHeure']."', 'dd/mm/yyyy hh24:mi'), st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
     if($var){
     echo json_encode(array(
         "type" => "succes",

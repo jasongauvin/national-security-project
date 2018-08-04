@@ -35,11 +35,11 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
     // /AFFICHAGE DE BOUTON TOGGLE DU MENU DROIT
 
     // DIMENSIONNEMENT DE LA LARGEUR DU MENU DROIT
-    $("#style_selector").css("width", largeurMenu+"px");
+    $("#style_selector").css("width", largeurMenu+"%");
     // /DIMENSIONNEMENT DE LA LARGEUR DU MENU DROIT
 
     // DIMENSIONNEMENT DU MARGIN HAUT DU MENU DROIT
-    $("#style_selector").css("margin-top", marginTop+"px");
+    $("#style_selector").css("margin-top", marginTop+"%");
     // DIMENSIONNEMENT DU MARGIN HAUT DU MENU DROIT
     
     // AFFICHAGE DU CONTENEUR DU MENU DROIT
