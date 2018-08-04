@@ -1,5 +1,6 @@
 // DECLARATION DES VARIABLES
 var agent_police_geojson = new ol.format.GeoJSON(), source_couche_agent = new ol.source.Vector();
+var draw, json, coords, coucheAgent;
 // /DECLARATION DES VARIABLES
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
@@ -17,6 +18,8 @@ interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gesti
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 actualiserCoucheAgent();
+
+
 
 
 function actualiserCoucheAgent() {
@@ -135,5 +138,121 @@ $(document).on("click", "#ajouter", function (e) {
     }
 
     ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
+
+});
+
+$(document).on("change", "#fichierExcel", function () {
+
+    // $("#barreProgres").fadeIn(200);
+    // $("#barreProgres").css("display", "block");
+
+    function exporterExcelVersJSON() {
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+        /*Checks whether the file is a valid excel file*/
+        if (regex.test($("#fichierExcel").val().toLowerCase())) {
+            var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+            if ($("#fichierExcel").val().toLowerCase().indexOf(".xlsx") > 0) {
+                xlsxflag = true;
+            }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                /*Converts the excel data in to object*/
+                if (xlsxflag) {
+                    var workbook = XLSX.read(data, { type: 'binary' });
+                }
+                else {
+                    var workbook = XLS.read(data, { type: 'binary' });
+                }
+                /*Gets all the sheetnames of excel in to a variable*/
+                var sheet_name_list = workbook.SheetNames;
+
+                var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+                sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+                    /*Convert the cell value to Json*/
+                    if (xlsxflag) {
+                        exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                    }
+                    else {
+                        exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                    }
+                    if (exceljson.length > 0 && cnt == 0) {
+                        getJSON(exceljson);
+                    }
+                });
+            }
+            if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                reader.readAsArrayBuffer($("#fichierExcel")[0].files[0]);
+            }
+            else {
+                reader.readAsBinaryString($("#fichierExcel")[0].files[0]);
+            }
+
+        }
+        else {
+            afficherNotif("warning", "Veuillez ajouter un fichier Excel valide");
+        }
+    }
+
+    exporterExcelVersJSON();
+
+    function getJSON(exceljson) {
+        json = exceljson;
+
+        // L'APPEL AJAX AVEC LES PARAMÈTRES
+        data = {
+            importation: true,
+            noms_cols_excel: Object.keys(json[0]),
+            lignes_excel: json
+        }
+        error_fatale = function (jqXhr) {
+            rapportErreurs(jqXhr);
+            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des agents");
+        }
+        success = function (resultat) {
+            if (resultat.type == "erreur") {
+                afficherNotif("erreur", resultat.msg);
+            }
+            else if (resultat.type == "succes") {
+                afficherNotif("succes", resultat.msg);
+                actualiserCoucheAccident();
+            }
+        }
+
+        ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
+        // /L'APPEL AJAX AVEC LES PARAMÈTRES
+    }
+
+});
+
+
+$(document).on("change", "#fichierExcel", function () {
+
+function getJSON(exceljson) {
+	json = exceljson;
+
+	// L'APPEL AJAX AVEC LES PARAMÈTRES
+	data = {
+		importation: true,
+		noms_cols_excel: Object.keys(json[0]),
+		lignes_excel: json
+	}
+	error_fatale = function (jqXhr) {
+		rapportErreurs(jqXhr);
+		afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des agents");
+	}
+	success = function (resultat) {
+		if (resultat.type == "erreur") {
+			afficherNotif("erreur", resultat.msg);
+		}
+		else if (resultat.type == "succes") {
+			afficherNotif("succes", resultat.msg);
+			actualiserCoucheAccident();
+		}
+	}
+
+	ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
+	// /L'APPEL AJAX AVEC LES PARAMÈTRES
+}
 
 });
