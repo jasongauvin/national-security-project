@@ -28,3 +28,13 @@ var map = new ol.Map({
     view: view
 });
 // /CODE DE LA MAP
+
+// ACTIVATION DE POINTEUR SUR LES FEATURES
+function activerPointeurSurFeatures(e){
+        if (e.dragging) return;
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel);
+
+        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+}
+// /ACTIVATION DE POINTEUR SUR LES FEATURES

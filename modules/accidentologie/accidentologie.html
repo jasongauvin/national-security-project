@@ -120,14 +120,14 @@
                             <div id="wrapperelem">
                                 <div id="firstelem">
                                     <div class="md-form">
-                                        <input id="heure" type="text" class="form-control">
-                                        <label for="heure">Heure</label>
+                                        <input id="heurem" type="text" class="form-control">
+                                        <label for="heurem">Heure</label>
                                     </div>
                                 </div>
                                 <div id="secondelem">
                                     <div class="md-form mt-0 col-md-offset-1">
-                                        <input id="date" type="text" class="form-control">
-                                        <label for="date">Date</label>
+                                        <input id="datem" type="text" class="form-control">
+                                        <label for="datem">Date</label>
                                     </div>
                                 </div>
                             </div>
@@ -174,13 +174,15 @@
     </div>
 </div>	
 <script>
+    // DESACTIVATION DU CACHE DES FORMULAIRES
     $("form :input").attr("autocomplete", "off");
-
-    // $("#gravite").selectmenu();
-    $("#date").datepicker({
+    // /DESACTIVATION DU CACHE DES FORMULAIRES
+    
+    // PERSONNALISATION DES CHAMPS DATE ET HEURE
+    $("#ajoutAccident #date").datepicker({
         maxDate: 0
     });
-    $("#heure").timepicker({
+    $("#ajoutAccident #heure").timepicker({
         currentText: "Maintenant",
         closeText: "Ok",
         timeInput: true,
@@ -189,4 +191,18 @@
         minuteText: "Minute",
         timeOnlyTitle: "Choisissez l'heure"
     });
+
+     $("#modifierAccident #datem").datepicker({
+        maxDate: 0
+    });
+    $("#modifierAccident #heurem").timepicker({
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        timeOnlyTitle: "Choisissez l'heure"
+    });
+    // /PERSONNALISATION DES CHAMPS DATE ET HEURE
 </script>

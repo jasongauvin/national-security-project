@@ -1,6 +1,6 @@
 // DECLARATION DES VARIABLES
 var agent_police_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
-var draw, json, coords, coucheAccident;
+var draw, json, coords, coucheAccident, execFonc = false;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -22,6 +22,7 @@ actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
 
 $(document).on("click", "#reinitAccident", function() {
+    execFonc = false;
     $("#modifierAccident")[0].reset();
     $("#pointerAccidentModifier").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
 });
@@ -58,40 +59,44 @@ $(document).on("click", "#pointerAccidentAjouter", function () {
 
 });
 
-$(document).on("click", "#pointerAccidentModifier", function () {
+$(document).on("click", "#pointerAccidentModifier", function (evt) {
 
-    map.on('singleclick', function(evt) {
-        var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
-            layer = [coucheAccident];
-            //you can add a condition on layer to restrict the listener
-            return feature;
+    if (!execFonc) {
+        map.on("pointermove", activerPointeurSurFeatures);
+
+        map.on('singleclick', function (evt) {
+            var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                layer = [coucheAccident];
+                return feature;
             });
-        if (feature) {
-            map.on('pointermove', function(e){
-                var pixel = map.getEventPixel(e.originalEvent);
-                var hit = map.hasFeatureAtPixel(pixel);
-                map.getViewport().style.cursor = hit ? 'pointer' : '';
-              });
-            
-            $("#pointerAccidentModifier").html("<i class='clip-plus-circle'></i> Localiser le nouveau emplacement d'accident")
-            
-            $("#modifierAccident #nbrBlesses").next().addClass("active");
-            $("#modifierAccident #nbrMorts").next().addClass("active");
-            $("#modifierAccident #description").next().addClass("active");
-            $("#modifierAccident #heure").next().addClass("active");
-            $("#modifierAccident #date").next().addClass("active");
+            if (feature) {
 
-            $("#modifierAccident #nbrBlesses").val(feature.get("nbrblesses"));
-            $("#modifierAccident #nbrMorts").val(feature.get("nbrmorts"));
-            $("#modifierAccident #gravite").val(feature.get("gravite")=='f'? "false": (feature.get("gravite")=='t'? "true": "null"));
-            $("#modifierAccident #description").val(feature.get("description"));
-            $("#modifierAccident #heure").val(feature.get("dateheure").split(" ")[1]);
-            $("#modifierAccident #date").val(feature.get("dateheure").split(" ")[0]);
-            
-            //here you can add you code to display the coordinates or whatever you want to do
-        }
-    });
+                $("#pointerAccidentModifier").html("<i class='clip-plus-circle'></i> Localiser le nouveau emplacement d'accident")
 
+                $("#modifierAccident #nbrBlesses").next().addClass("active");
+                $("#modifierAccident #nbrMorts").next().addClass("active");
+                $("#modifierAccident #description").next().addClass("active");
+                $("#modifierAccident #heurem").next().addClass("active");
+                $("#modifierAccident #datem").next().addClass("active");
+
+                $("#modifierAccident #nbrBlesses").val(feature.get("nbrblesses"));
+                $("#modifierAccident #nbrMorts").val(feature.get("nbrmorts"));
+                $("#modifierAccident #gravite").val(feature.get("gravite") == 'f' ? "false" : (feature.get("gravite") == 't' ? "true" : "null"));
+                $("#modifierAccident #description").val(feature.get("description"));
+                $("#modifierAccident #heurem").val(feature.get("dateheure").split(" ")[1]);
+                $("#modifierAccident #datem").val(feature.get("dateheure").split(" ")[0]);
+                execFonc = true;
+            }
+        });
+    }else{
+        map.un("pointermove", activerPointeurSurFeatures);
+
+        map.on('click', function (evt) {
+            coords = ol.proj.toLonLat(evt.coordinate);
+            $("#pointerAccidentModifier").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+        });
+        // console.log("exec");
+    }
     // console.log("clkickmodif");
 
     // $("#map").mouseover(function () {
