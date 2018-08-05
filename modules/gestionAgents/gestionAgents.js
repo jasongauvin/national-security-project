@@ -215,7 +215,7 @@ $(document).on("change", "#fichierExcel", function () {
             }
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
-                actualiserCoucheAccident();
+                actualiserCoucheAgent();
             }
         }
 

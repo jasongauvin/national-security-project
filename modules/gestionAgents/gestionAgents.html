@@ -1,97 +1,194 @@
 <div class="panel panel-default">
-    <div class="panel-body">
-        <div class="panel-group accordion-custom accordion-teal" id="accordion" style="margin-bottom: 0px;">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Importation
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <div class="col-lg-11" style="padding-left: 57px;">
-                            <span class="btn btn-success fileinput-button">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                <span>Ajoutez un fichier Excel</span>
-                                <input id="fichierExcel" type="file" name="fichierExcel">
-                            </span>
+        <div class="panel-body">
+            <div class="panel-group accordion-custom accordion-teal" id="accordion" style="margin-bottom: 0px;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Importation
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="col-lg-11" style="padding-left: 57px;">
+                                <span class="btn btn-success fileinput-button">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>Ajouter un fichier Excel</span>
+                                    <input id="fichierExcel" type="file" name="fichierExcel">
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Ajout
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                    <form>
-                    <div class="panel-body">
-                        <a id="pointerAgents" class="btn btn-primary" href="#" style="margin-bottom: 13px;">
-                            <i class="clip-plus-circle"></i> Localiser l'emplacement d'ajout d'un agent
-                        </a>
-                        <div class="row">
-                            <div class="col-md-12 form-group">
-                                <label class="control-label" for="Nom" style="float: left;">
-                                    Nom 
-                                </label>
-                                <input type="text" id="Nom" class="form-control" style="margin-left: 2px;">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label class="control-label" for="Prenom" style="float: left;">
-                                    Prenom &nbsp;&nbsp;
-                                </label>
-                                <input type="text"  id="Prenom" class="form-control">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label class="control-label" for="gravite" style="float: left;">
-                                    Mobilité
-                                </label>
-                                <select class="form-control" id="gravite">
-                                    <option value="true">Mobile</option>
-                                    <option value="false">Fixe</option>
-                                </select>
-                            </div> 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <button type="reset" class="btn btn-red btn-sm btn-block">Réinitialiser</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-success btn-sm btn-block" id="ajouter">Ajouter</button>
-                            </div>
-                        </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Ajout
+                            </a>
+                        </h4>
                     </div>
-                    </form>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Déplacement d'un agent
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse">
-                    <div class="panel-body">
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <form id="ajoutAgent">
+                            <div class="panel-body">
+                                <a id="pointerAgentAjouter" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
+                                    <i class="clip-plus-circle"></i> Localiser l'emplacement d'un agent
+                                </a>
+                                <div id="wrapperelem">
+                                    <div id="firstelem">
+                                        <div class="md-form">
+                                            <input type="text" id="Nom" class="form-control">
+                                            <label for="Nom">Nom</label>
+                                        </div>
+                                    </div>
+                                    <div id="secondelem">
+                                        <div class="md-form mt-0 col-md-offset-1">
+                                            <input type="text" id="Prenom" class="form-control">
+                                            <label for="Prenom">Prenom</label>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div id="wrapperelem">
+                                    <div id="firstelem">
+                                        <div class="md-form">
+                                            <input id="heure" type="text" class="form-control">
+                                            <label for="heure">Heure</label>
+                                        </div>
+                                    </div>
+                                    <div id="secondelem">
+                                        <div class="md-form mt-0 col-md-offset-1">
+                                            <input id="date" type="text" class="form-control">
+                                            <label for="date">Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div class="md-form">
+                                    <label>Mobilité</label>
+                                </div>
+                                <div id="wrapperelem">
+                                    <div id="firstelem">
+                                        <br>
+                                        <select id="Mobilité">
+                                            <option value="false" selected>Fixe</option>
+                                            <option value="true">Mobile</option>
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                    
+                                <button type="reset" class="btn btn-blue-grey">Réinitialiser</button>
+                                <button type="button" id="ajouterAgent" class="btn btn-light-green">Ajouter</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Suppression
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseFour" class="panel-collapse collapse">
-                    <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Modification
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <form id="modifierAgent">
+                            <div class="panel-body">
+                                <a id="pointerAgentModifier" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
+                                    <i class="clip-plus-circle"></i> Pointer sur l'emplacement de l'agent                                </a>
+                                <div id="wrapperelem">
+                                    <div id="firstelem">
+                                        <div class="md-form">
+                                            <input type="text" id="Nom" min="0" class="form-control">
+                                            <label for="Nom">Nom</label>
+                                        </div>
+                                    </div>
+                                    <div id="secondelem">
+                                        <div class="md-form mt-0 col-md-offset-1">
+                                            <input type="text" id="Prenom" min="0" class="form-control">
+                                            <label for="Prenom">Prenom</label>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div id="wrapperelem">
+                                    <div id="firstelem">
+                                        <div class="md-form">
+                                            <input id="heurem" type="text" class="form-control">
+                                            <label for="heurem">Heure</label>
+                                        </div>
+                                    </div>
+                                    <div id="secondelem">
+                                        <div class="md-form mt-0 col-md-offset-1">
+                                            <input id="datem" type="text" class="form-control">
+                                            <label for="datem">Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div class="md-form">
+                                    <label>Mobilité</label>
+                                </div>
+                                <div id="wrapperelem">
+                                    <div id="firstelem">
+                                        <br>
+                                        <select id="Mobilité">
+                                            <option value="false" selected>Fixe</option>
+                                            <option value="true">Mobile</option>
+                                        </select>
+                                    </div>
+                                </div>
+                    
+                                <button type="reset" id="reinitAgent" class="btn btn-blue-grey">Réinitialiser</button>
+                                <button type="button" id="modifierAgent" class="btn btn-light-green">Ajouter</button>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Suppression
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse">
+                        <div class="panel-body">Anim
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div>	
+    <script>
+        // DESACTIVATION DU CACHE DES FORMULAIRES
+        $("form :input").attr("autocomplete", "off");
+        // /DESACTIVATION DU CACHE DES FORMULAIRES
+        
+        // PERSONNALISATION DES CHAMPS DATE ET HEURE
+        $("#ajoutAgent #date").datepicker({
+            maxDate: 0
+        });
+        $("#ajoutAgent #heure").timepicker({
+            currentText: "Maintenant",
+            closeText: "Ok",
+            timeInput: true,
+            timeText: "",
+            hourText: "Heure",
+            minuteText: "Minute",
+            timeOnlyTitle: "Choisissez l'heure"
+        });
+    
+         $("#modifierAgent #datem").datepicker({
+            maxDate: 0
+        });
+        $("#modifierAgent #heurem").timepicker({
+            currentText: "Maintenant",
+            closeText: "Ok",
+            timeInput: true,
+            timeText: "",
+            hourText: "Heure",
+            minuteText: "Minute",
+            timeOnlyTitle: "Choisissez l'heure"
+        });
+        // /PERSONNALISATION DES CHAMPS DATE ET HEURE
+    </script>
