@@ -19,15 +19,12 @@ interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gesti
 
 actualiserCoucheAgent();
 
-
-
-
 function actualiserCoucheAgent() {
 
     // DÉFINITION DU STYLE DE LA COUCHE AGENT
     var styleCoucheAgent = function (feature) {
 
-        var src = 'assets/img/agent1_32.png';
+        var src = 'assets/img/agent_24.png';
         var style_agent = {
             'Point':
                 new ol.style.Style({
@@ -86,34 +83,7 @@ $(document).on("click", "#reinitAgent", function() {
 });
 
 $(document).on("click", "#pointerAgentAjouter", function () {
-
-    // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
-
-    $("#map").mouseover(function () {
-        $("#map").css("cursor", "none");
-
-        var source = new ol.source.Vector();
-
-        draw = new ol.interaction.Draw({
-            type: 'Point',
-            source: source,
-            style: new ol.style.Style({
-                image: new ol.style.Icon({
-                    src: 'assets/img/agent1_32.png',
-                    size: [128, 128],
-                    opacity: 1,
-                    scale: 0.4
-                })
-            })
-        });
-
-        map.addInteraction(draw);
-
-    }).mouseout(function () {
-        map.removeInteraction(draw);
-        $("#map").css("cursor", "visible");
-    });
-
+    changerPointeurAjout("agent.png");
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
         $("#pointerAgentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
