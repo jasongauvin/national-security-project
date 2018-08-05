@@ -14,7 +14,7 @@ $.get("modules/gestionAgents/gestionAgents.html", function (data) {
 // /LE CONTENU HTML DU MENU DROIT
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
-interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 500, 0);
+interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 43, 5);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 actualiserCoucheAgent();

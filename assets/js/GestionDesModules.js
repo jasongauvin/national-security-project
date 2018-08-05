@@ -27,7 +27,7 @@ function ajax(url, data, error, success = function (resultat) {
         data: data,
         type: 'POST',
         dataType: 'JSON',
-        beforeSend, beforeSend,
+        beforeSend: beforeSend,
         success: success,
         error: error,
         complete: complete

@@ -4,7 +4,7 @@ var draw, json, coords, coucheAccident;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
-interactionGraphiqueMenuDeNavigation(3, "accidentologie", "Boîte à outils accidentologie", 500, 0);
+interactionGraphiqueMenuDeNavigation(3, "accidentologie", "Boîte à outils accidentologie", 43, 0);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
@@ -20,6 +20,11 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 // AFFICHAGE DE LA COUCHE ACCIDENT
 actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
+
+$(document).on("click", "#reinitAccident", function() {
+    $("#modifierAccident")[0].reset();
+    $("#pointerAccidentModifier").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
+});
 
 $(document).on("click", "#pointerAccidentAjouter", function () {
     // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
@@ -67,11 +72,19 @@ $(document).on("click", "#pointerAccidentModifier", function () {
                 var hit = map.hasFeatureAtPixel(pixel);
                 map.getViewport().style.cursor = hit ? 'pointer' : '';
               });
+            
+            $("#pointerAccidentModifier").html("<i class='clip-plus-circle'></i> Localiser le nouveau emplacement d'accident")
+            
+            $("#modifierAccident #nbrBlesses").next().addClass("active");
+            $("#modifierAccident #nbrMorts").next().addClass("active");
+            $("#modifierAccident #description").next().addClass("active");
+            $("#modifierAccident #heure").next().addClass("active");
+            $("#modifierAccident #date").next().addClass("active");
 
             $("#modifierAccident #nbrBlesses").val(feature.get("nbrblesses"));
             $("#modifierAccident #nbrMorts").val(feature.get("nbrmorts"));
-            $("#modifierAccident #gravite").val(feature.get("gravite"));
-            $("#modifierAccident #desc").val(feature.get("description"));
+            $("#modifierAccident #gravite").val(feature.get("gravite")=='f'? "false": (feature.get("gravite")=='t'? "true": "null"));
+            $("#modifierAccident #description").val(feature.get("description"));
             $("#modifierAccident #heure").val(feature.get("dateheure").split(" ")[1]);
             $("#modifierAccident #date").val(feature.get("dateheure").split(" ")[0]);
             
@@ -187,15 +200,15 @@ $(document).on("click", "#pointerAccidentModifier", function () {
 });
 
 
-$(document).on("click", "#ajouter", function (e) {
+$(document).on("click", "#ajouterAccident", function (e) {
     e.preventDefault();
 
     data = {
         ajout: true,
-        nbrBlesses: $("#nbrBlesses").val() == 0 ? "null" : $("#nbrBlesses").val(),
-        nbrMorts: $("#nbrMorts").val() == 0 ? "null" : $("#nbrMorts").val(),
-        gravite: $("#gravite").val() == "" ? "null" : $("#gravite").val(),
-        desc: $("#desc").val(),
+        nbrBlesses: $("#nbrBlesses").val()? $("#nbrBlesses").val(): "null",
+        nbrMorts: $("#nbrMorts").val()? $("#nbrMorts").val(): "null",
+        gravite: $("#gravite").val()? $("#gravite").val(): "null",
+        desc: $("#description").val()? "'"+$("#description").val()+"'": "null",
         dateHeure: $("#date").val() + " " + $("#heure").val(),
         emplacement: coords,
     }
@@ -213,9 +226,8 @@ $(document).on("click", "#ajouter", function (e) {
 
 });
 
-$(document).on("click", "#modifier", function (e){
+$(document).on("click", "#modifierAccident", function (e){
     e.preventDefault();
-    console.log("modf");
 
 });
 

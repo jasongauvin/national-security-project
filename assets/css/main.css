@@ -603,9 +603,6 @@ li.dropdown.current-user .dropdown-menu li a {
 /* ---------------------------------------------------------------------- */
 /*	Buttons
 /* ---------------------------------------------------------------------- */
-.btn {
-	font-family: 'Open Sans';
-}
 .btn-teal {
 	background-color: #569099;
 	border-color: #4d8189;
@@ -4099,7 +4096,7 @@ body.header-default .daterangepicker {
 	color: #000000;
 	font-size: 15px;
 	height: 35px;
-	line-height: 35px;
+	line-height: 28px;
 	text-align: center;
 }
 .box-title {

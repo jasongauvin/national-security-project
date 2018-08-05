@@ -1,5 +1,5 @@
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
-interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles", 350, 170);
+interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibles", 43, 5);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
