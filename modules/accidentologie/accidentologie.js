@@ -1,6 +1,6 @@
 // DECLARATION DES VARIABLES
 var agent_police_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
-var draw, json, coords, coucheAccident, execFonc = false;
+var json, coords, coucheAccident, execFonc = false;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -28,30 +28,7 @@ $(document).on("click", "#reinitAccident", function() {
 });
 
 $(document).on("click", "#pointerAccidentAjouter", function () {
-    // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
-
-    $("#map").mouseover(function () {
-        $("#map").css("cursor", "none");
-        map.removeInteraction(draw);
-        draw = new ol.interaction.Draw({
-            type: 'Point',
-            style: new ol.style.Style({
-                image: new ol.style.Icon({
-                    src: 'assets/img/pointeur.png',
-                    size: [128, 128],
-                    opacity: 1,
-                    scale: 0.4
-                })
-            })
-        });
-
-        map.addInteraction(draw);
-
-    }).mouseout(function () {
-        map.removeInteraction(draw);
-        $("#map").css("cursor", "visible");
-    });
-
+    changerPointeurAjout();
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
         $("#pointerAccidentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
@@ -61,7 +38,10 @@ $(document).on("click", "#pointerAccidentAjouter", function () {
 
 $(document).on("click", "#pointerAccidentModifier", function (evt) {
 
+    // $("#map").off('mouseover', changerPointeurAjout);
+
     if (!execFonc) {
+
         map.on("pointermove", activerPointeurSurFeatures);
 
         map.on('singleclick', function (evt) {
@@ -85,6 +65,7 @@ $(document).on("click", "#pointerAccidentModifier", function (evt) {
                 $("#modifierAccident #description").val(feature.get("description"));
                 $("#modifierAccident #heurem").val(feature.get("dateheure").split(" ")[1]);
                 $("#modifierAccident #datem").val(feature.get("dateheure").split(" ")[0]);
+                
                 execFonc = true;
             }
         });

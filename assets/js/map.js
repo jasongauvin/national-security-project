@@ -1,8 +1,8 @@
-// CODE DE LA MAP
+// DECLARATION DES VARIABLES
 var defaultCenter = ol.proj.transform([-6.835259, 34.016575], 'EPSG:4326', 'EPSG:3857');
 var defaultExtent = [-840080.4335449198, 3988950.4443487297, -674212.0821660873, 4072419.6792361424];
 var geojsonFormat_geom = new ol.format.GeoJSON();
-
+var draw;
 var navcitiesXYZSource = new ol.source.XYZ({
     attributions: [new ol.Attribution({
         html: 'Tiles © <a href="https://www.navcities.com">Navcities</a>'
@@ -27,7 +27,7 @@ var map = new ol.Map({
     target: 'map',
     view: view
 });
-// /CODE DE LA MAP
+// /DECLARATION DES VARIABLES
 
 // ACTIVATION DE POINTEUR SUR LES FEATURES
 function activerPointeurSurFeatures(e){
@@ -38,3 +38,30 @@ function activerPointeurSurFeatures(e){
         map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 }
 // /ACTIVATION DE POINTEUR SUR LES FEATURES
+
+
+// CHANGEMENT DE POINTEUR LORS DE L'AJOUT
+function changerPointeurAjout() {
+    $("#map").mouseover(function () {
+        $("#map").css("cursor", "none");
+        map.removeInteraction(draw);
+        draw = new ol.interaction.Draw({
+            type: 'Point',
+            style: new ol.style.Style({
+                image: new ol.style.Icon({
+                    src: 'assets/img/pointeur.png',
+                    size: [128, 128],
+                    opacity: 1,
+                    scale: 0.4
+                })
+            })
+        });
+
+        map.addInteraction(draw);
+
+    }).mouseout(function () {
+        map.removeInteraction(draw);
+        $("#map").css("cursor", "visible");
+    });
+}
+// /CHANGEMENT DE POINTEUR LORS DE L'AJOUT

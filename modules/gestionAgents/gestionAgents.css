@@ -1,0 +1,11 @@
+#wrapperelem {
+    overflow: hidden;
+}
+#firstelem {
+    width: 47%;
+    float:left;
+}
+#secondelem {
+    width: 53%;
+    overflow: hidden;
+}

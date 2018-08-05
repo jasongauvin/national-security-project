@@ -21,13 +21,13 @@
 }
 
 #wrapperelem {
-    overflow: hidden; /* will contain if #first is longer than #second */
+    overflow: hidden;
 }
 #firstelem {
     width: 47%;
-    float:left; /* add this */
+    float:left;
 }
 #secondelem {
     width: 53%;
-    overflow: hidden; /* if you don't want #second to wrap below #first */
+    overflow: hidden;
 }
