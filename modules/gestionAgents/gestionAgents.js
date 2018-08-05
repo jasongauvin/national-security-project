@@ -19,9 +19,6 @@ interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gesti
 
 actualiserCoucheAgent();
 
-
-
-
 function actualiserCoucheAgent() {
 
     // DÉFINITION DU STYLE DE LA COUCHE AGENT
