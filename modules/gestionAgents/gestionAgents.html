@@ -48,21 +48,7 @@
                                     </div>
                                 </div>
                     
-                                <div id="wrapperelem">
-                                    <div id="firstelem">
-                                        <div class="md-form">
-                                            <input id="heure" type="text" class="form-control">
-                                            <label for="heure">Heure</label>
-                                        </div>
-                                    </div>
-                                    <div id="secondelem">
-                                        <div class="md-form mt-0 col-md-offset-1">
-                                            <input id="date" type="text" class="form-control">
-                                            <label for="date">Date</label>
-                                        </div>
-                                    </div>
-                                </div>
-                    
+                                
                                 <div class="md-form">
                                     <label>Mobilité</label>
                                 </div>
@@ -109,21 +95,7 @@
                                         </div>
                                     </div>
                                 </div>
-                    
-                                <div id="wrapperelem">
-                                    <div id="firstelem">
-                                        <div class="md-form">
-                                            <input id="heurem" type="text" class="form-control">
-                                            <label for="heurem">Heure</label>
-                                        </div>
-                                    </div>
-                                    <div id="secondelem">
-                                        <div class="md-form mt-0 col-md-offset-1">
-                                            <input id="datem" type="text" class="form-control">
-                                            <label for="datem">Date</label>
-                                        </div>
-                                    </div>
-                                </div>
+                
                     
                                 <div class="md-form">
                                     <label>Mobilité</label>
@@ -164,31 +136,5 @@
         $("form :input").attr("autocomplete", "off");
         // /DESACTIVATION DU CACHE DES FORMULAIRES
         
-        // PERSONNALISATION DES CHAMPS DATE ET HEURE
-        $("#ajoutAgent #date").datepicker({
-            maxDate: 0
-        });
-        $("#ajoutAgent #heure").timepicker({
-            currentText: "Maintenant",
-            closeText: "Ok",
-            timeInput: true,
-            timeText: "",
-            hourText: "Heure",
-            minuteText: "Minute",
-            timeOnlyTitle: "Choisissez l'heure"
-        });
-    
-         $("#modifierAgent #datem").datepicker({
-            maxDate: 0
-        });
-        $("#modifierAgent #heurem").timepicker({
-            currentText: "Maintenant",
-            closeText: "Ok",
-            timeInput: true,
-            timeText: "",
-            hourText: "Heure",
-            minuteText: "Minute",
-            timeOnlyTitle: "Choisissez l'heure"
-        });
-        // /PERSONNALISATION DES CHAMPS DATE ET HEURE
+ 
     </script>

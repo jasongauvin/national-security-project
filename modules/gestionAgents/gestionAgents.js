@@ -79,6 +79,12 @@ function actualiserCoucheAgent() {
 
 }
 
+$(document).on("click", "#reinitAgent", function() {
+    execFonc = false;
+    $("#modifierAgent")[0].reset();
+    $("#pointerAgentModifier").html("<i class='clip-plus-circle'></i> Localisez l'emplacement d'un agent");
+});
+
 $(document).on("click", "#pointerAgentAjouter", function () {
 
     // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
@@ -138,6 +144,11 @@ $(document).on("click", "#ajouterAgent", function (e) {
     }
 
     ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
+
+});
+
+$(document).on("click", "#modifierAgent", function (e){
+    e.preventDefault();
 
 });
 
@@ -222,37 +233,5 @@ $(document).on("change", "#fichierExcel", function () {
         ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
         // /L'APPEL AJAX AVEC LES PARAMÈTRES
     }
-
-});
-
-
-$(document).on("change", "#fichierExcel", function () {
-
-function getJSON(exceljson) {
-	json = exceljson;
-
-	// L'APPEL AJAX AVEC LES PARAMÈTRES
-	data = {
-		importation: true,
-		noms_cols_excel: Object.keys(json[0]),
-		lignes_excel: json
-	}
-	error_fatale = function (jqXhr) {
-		rapportErreurs(jqXhr);
-		afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des agents");
-	}
-	success = function (resultat) {
-		if (resultat.type == "erreur") {
-			afficherNotif("erreur", resultat.msg);
-		}
-		else if (resultat.type == "succes") {
-			afficherNotif("succes", resultat.msg);
-			actualiserCoucheAccident();
-		}
-	}
-
-	ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
-	// /L'APPEL AJAX AVEC LES PARAMÈTRES
-}
 
 });
