@@ -19,7 +19,58 @@ function ConvertDistance ($longueur) {
 	}
 	return $msg;
 }
+// LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
+if($_POST["importation"]){
+    // RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
+    $noms_cols_accident = colsTabVersArray("agent");
+    // /RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
 
+    // SUPPRESSION DE LA COLONNE GID
+    array_shift($noms_cols_accident);
+    // /SUPPRESSION DE LA COLONNE GID
+    
+    // COMPARAISON ENTRE LES NOMS DE COLONNES DE LA TABEL ET LES NOMS DE COLONNES DE FICHIER EXCEL
+    $n = count(array_udiff($noms_cols_accident, $_POST['noms_cols_excel'], "strcasecmp"));
+    // /COMPARAISON ENTRE LES NOMS DE COLONNES DE LA TABEL ET LES NOMS DE COLONNES DE FICHIER EXCEL
+    if (!$n){
+
+        $transaction = "BEGIN;";
+        // INSERTION DANS LA TABLE
+        for($i=0; $i<count($_POST["lignes_excel"]); $i++){
+            
+            $transaction .= "INSERT INTO agent ('".$_POST['noms_cols_excel'][0]."', '".$_POST['noms_cols_excel'][1]."', ".$_POST['noms_cols_excel'][2].", ".$_POST['noms_cols_excel'][3].", ".$_POST['noms_cols_excel'][4]." ) VALUES (".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]].", to_timestamp('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]."', 'dd/mm/yyyy hh24:mi'),   st_geomfromtext('POINT(".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[0]." ".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[1].")', 4326)    , ".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][5]]." );";
+            
+        }
+
+        executerRequete($transaction .= "COMMIT;");
+        
+        echo json_encode(array(
+            "type" => "succes",
+            "msg" => $in." ".count($_POST["lignes_excel"])." Les agents ont été importés avec succès"
+        ));
+        
+    }
+    // CAS D'ERREUR DE SYNTAXE DES NOMS COLONNES
+    else{
+
+        if($n==1){
+            echo json_encode(array(
+                "type" => "erreur",
+                "msg" => "Le nom de la colonne suivante dans le fichier Excel [ ".implode(array_udiff($_POST['noms_cols_excel'], $noms_cols_accident, "strcasecmp"))." ] ne respecte pas la même syntaxe dans la base de données [ ".implode(array_udiff($noms_cols_accident, $_POST['noms_cols_excel'], "strcasecmp"))." ]"
+            ));
+        }
+        else{
+            echo json_encode(array(
+                "type" => "erreur",
+                "msg" => "Les noms des colonnes suivantes dans le fichier Excel [ ".implode(', ', array_udiff($_POST['noms_cols_excel'], $noms_cols_accident, "strcasecmp"))." ] ne respectent pas la même syntaxe dans la base de données [ ".implode(', ', array_udiff($noms_cols_accident, $_POST['noms_cols_excel'], "strcasecmp"))." ]"
+            ));
+        }
+        
+    }
+    // /CAS D'ERREUR DE SYNTAXE DES NOMS COLONNES
+
+}
+// /LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
 if($_POST['ajout']){
 	
 	$insert_agent = executerRequete("INSERT INTO agent VALUES (DEFAULT, '".$_POST['nom']."', '".$_POST['prenom']."', true, DEFAULT, st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
@@ -31,6 +82,8 @@ if($_POST['ajout']){
 			));
 		}
 	}
+
+
 if($_POST['supression']){
 	$delete_agent = executerRequete("DELETE from agent where gid=".$_POST['gid']);
 	
