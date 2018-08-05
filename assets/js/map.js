@@ -31,37 +31,46 @@ var map = new ol.Map({
 
 // ACTIVATION DE POINTEUR SUR LES FEATURES
 function activerPointeurSurFeatures(e){
+    if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
         if (e.dragging) return;
         var pixel = map.getEventPixel(e.originalEvent);
         var hit = map.hasFeatureAtPixel(pixel);
 
         map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    }
 }
 // /ACTIVATION DE POINTEUR SUR LES FEATURES
 
 
 // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
-function changerPointeurAjout() {
-    $("#map").mouseover(function () {
-        $("#map").css("cursor", "none");
-        map.removeInteraction(draw);
-        draw = new ol.interaction.Draw({
-            type: 'Point',
-            style: new ol.style.Style({
-                image: new ol.style.Icon({
-                    src: 'assets/img/pointeur.png',
-                    size: [128, 128],
-                    opacity: 1,
-                    scale: 0.4
-                })
+function changerPointeurAjout(icone = "pointeur.png") {
+
+    draw = new ol.interaction.Draw({
+        type: 'Point',
+        style: new ol.style.Style({
+            image: new ol.style.Icon({
+                src: "assets/img/"+icone,
+                size: [128, 128],
+                opacity: 1,
+                scale: 0.4
             })
-        });
+        })
+    });
 
-        map.addInteraction(draw);
+    $("#map").mouseover(function () {
+        if ($("#collapseTwo").attr("class") == "panel-collapse collapse in") {
+            $("#map").css("cursor", "none");
+            map.addInteraction(draw);
+        } else {
+            map.removeInteraction(draw);
+            $("#map").css("cursor", "default");
+        }
+    });
 
-    }).mouseout(function () {
+    $("#map").mouseout(function () {
         map.removeInteraction(draw);
         $("#map").css("cursor", "visible");
     });
+
 }
 // /CHANGEMENT DE POINTEUR LORS DE L'AJOUT
