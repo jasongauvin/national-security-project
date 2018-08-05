@@ -79,7 +79,7 @@ function actualiserCoucheAgent() {
 
 }
 
-$(document).on("click", "#pointerAgents", function () {
+$(document).on("click", "#pointerAgentAjouter", function () {
 
     // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
 
@@ -110,12 +110,12 @@ $(document).on("click", "#pointerAgents", function () {
 
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
-        $("#pointerAgents").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+        $("#pointerAgentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
     });
 
 });
 
-$(document).on("click", "#ajouter", function (e) {
+$(document).on("click", "#ajouterAgent", function (e) {
     e.preventDefault();
 
     data = {
