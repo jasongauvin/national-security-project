@@ -117,6 +117,46 @@ $(document).on("click", "#ajouterAgent", function (e) {
 
 });
 
+$(document).on("click", "#pointerAgentModifier", function (evt) {
+
+    
+
+    if (!execFonc) {
+
+        map.on("pointermove", activerPointeurSurFeatures);
+
+        map.on('singleclick', function (evt) {
+            var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                layer = [coucheAgent];
+                return feature;
+            });
+            if (feature) {
+
+                $("#pointerAccidentModifier").html("<i class='clip-plus-circle'></i> Localisez le nouveau emplacement de l'agent")
+
+                $("#modifierAgent #Nom").next().addClass("active");
+                $("#modifierAgent #Prenom").next().addClass("active");
+                $("#modifierAgent #Mobilité").next().addClass("active");
+
+                $("#modifierAgent #Nom").val(feature.get("nom"));
+                $("#modifierAgent #Prenom").val(feature.get("prenom"));
+                $("#modifierAgent #Mobilité").val(feature.get("mobilite") == 'Mobile' ? "true" : "false");
+                
+                execFonc = true;
+            }
+        });
+    }else{
+        map.un("pointermove", activerPointeurSurFeatures);
+
+        map.on('click', function (evt) {
+            coords = ol.proj.toLonLat(evt.coordinate);
+            $("#pointerAgentModifier").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+        });
+      
+    }
+});
+
+
 $(document).on("click", "#modifierAgent", function (e){
     e.preventDefault();
 
