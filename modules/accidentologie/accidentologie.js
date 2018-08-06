@@ -23,6 +23,7 @@ actualiserCoucheAccident();
 
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
+    features = [];
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
         layer = [coucheAccident];
         return feature;
@@ -48,6 +49,7 @@ function singleclick (evt) {
         $("#modifierAccident #datem").val(feature.get("dateheure").split(" ")[0]);
         gid = feature.get("gid");
     }
+
 };
 
 function onClique(evt){
