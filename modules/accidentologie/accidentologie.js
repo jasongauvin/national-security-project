@@ -21,36 +21,7 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
 
-$(document).on("click", "#reinitModifAccident", function() {
-    $("#modifierAccident")[0].reset();
-    $("#modifierAccidentBouton").prop("disabled", true);
-    coords = null;
-
-    if ($("#pointerAccidentModifierNouvEmplace").is(":visible") && $("#pointerAccidentModifierNouvEmplace").text().indexOf("l") >= 0 ) {
-        map.un("pointermove", activerPointeurSurFeatures);
-        map.un("singleclick", singleclick);
-        $("#pointerAccidentModifierNouvEmplace").hide();
-        $("#pointerAccidentModifier").show();
-
-    }else{
-        map.un("pointermove", activerPointeurSurFeatures);
-        map.un("singleclick", singleclick);
-        map.un("click", onClique);
-        $("#pointerAccidentModifierNouvEmplace").html("<i class='clip-plus-circle'></i> Localiser le nouveau emplacement d'accident");
-        $("#pointerAccidentModifierNouvEmplace").hide();
-        $("#pointerAccidentModifier").show();
-    }
-});
-
-$(document).on("click", "#pointerAccidentAjouter", function () {
-    changerPointeurAjout();
-    map.on('click', function (evt) {
-        coords = ol.proj.toLonLat(evt.coordinate);
-        $("#pointerAccidentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
-    });
-
-});
-
+// PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
         layer = [coucheAccident];
@@ -79,24 +50,45 @@ function singleclick (evt) {
     }
 };
 
-
-$(document).on("click", "#pointerAccidentModifier", function (evt) {
-    map.on("pointermove", activerPointeurSurFeatures);
-    map.on("singleclick", singleclick);
-
-});
-
 function onClique(evt){
     coords = ol.proj.toLonLat(evt.coordinate);
     $("#pointerAccidentModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
 }
+
+$(document).on("click", "#reinitModifAccident", function() {
+    $("#modifierAccident")[0].reset();
+    $("#modifierAccidentBouton").prop("disabled", true);
+    coords = null;
+
+    if ($("#pointerAccidentModifierNouvEmplace").is(":visible") && $("#pointerAccidentModifierNouvEmplace").text().indexOf("l") >= 0 ) {
+        map.un("pointermove", activerPointeurSurFeatures);
+        map.un("singleclick", singleclick);
+        $("#pointerAccidentModifierNouvEmplace").hide();
+        $("#pointerAccidentModifier").show();
+
+    }else{
+        map.un("pointermove", activerPointeurSurFeatures);
+        map.un("singleclick", singleclick);
+        map.un("click", onClique);
+        $("#pointerAccidentModifierNouvEmplace").html("<i class='clip-plus-circle'></i> Localiser le nouveau emplacement d'accident");
+        $("#pointerAccidentModifierNouvEmplace").hide();
+        $("#pointerAccidentModifier").show();
+    }
+});
+
+$(document).on("click", "#pointerAccidentModifier", function (evt) {
+    if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
+        map.on("pointermove", activerPointeurSurFeatures);
+    }
+    map.on("singleclick", singleclick);
+
+});
 
 $(document).on("click", "#pointerAccidentModifierNouvEmplace", function (evt) {
     map.un("singleclick", singleclick);
     map.un("pointermove", activerPointeurSurFeatures);
     map.on("click", onClique);
 });
-
 
 $(document).on("click", "#modifierAccidentBouton", function (e){
     e.preventDefault();
@@ -130,6 +122,17 @@ $(document).on("click", "#modifierAccidentBouton", function (e){
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success, undefined, beforeSend);
+});
+// /PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
+
+// PARTIE AJOUT
+$(document).on("click", "#pointerAccidentAjouter", function () {
+    changerPointeurAjout();
+    map.on('click', function (evt) {
+        coords = ol.proj.toLonLat(evt.coordinate);
+        $("#pointerAccidentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+    });
+
 });
 
 $(document).on("click", "#ajouterAccidentBouton", function (e) {
@@ -173,7 +176,10 @@ $(document).on("click", "#reinitAjoutAccident", function(e) {
     $("#pointerAccidentAjouter").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
     coords = null;
 });
+// /PARTIE AJOUT
 
+
+// PARTIE IMPORTAION
 $(document).on("change", "#fichierExcel", function () {
 
     // $("#barreProgres").fadeIn(200);
@@ -257,8 +263,58 @@ $(document).on("change", "#fichierExcel", function () {
     }
 
 });
+// /PARTIE IMPORTAION
 
+// PARTIE SUPPRESSION
+function singleclick2 (evt) {
+    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+        layer = [coucheAccident];
+        return feature;
+    });
+    if (feature) {
+        $("#SupprimerAccidentBouton").prop("disabled", false);
+        $("#pointerAccidentSupprimer").html('<i class="clip-plus-circle"></i> Accident N° ' + feature.get("gid"));
+        gid = feature.get("gid");
+    }
+};
 
+$(document).on("click", "#reinitSuppAccident", function(e) {
+    $("#pointerAccidentSupprimer").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
+    $("#SupprimerAccidentBouton").prop("disabled", true);
+    map.un("pointermove", activerPointeurSurFeatures);
+    map.un("singleclick", singleclick2);
+});
+
+$(document).on("click", "#pointerAccidentSupprimer", function (e) {
+    if ($("#collapseFour").attr("class") == "panel-collapse collapse in") {
+        map.on("pointermove", activerPointeurSurFeatures);
+    }
+    map.on("singleclick", singleclick2);
+
+});
+
+$(document).on("click", "#SupprimerAccidentBouton", function (e) {
+    e.preventDefault();
+    data = {
+        suppression: true,
+        gid: gid,
+    }
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors de la suppression de l'accident");
+    }
+    success = function (resultat) {
+        if (resultat.type == "succes") {
+            afficherNotif("succes", resultat.msg);
+            actualiserCoucheAccident();
+        }
+    }
+    ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
+
+});
+// /PARTIE SUPPRESSION
+
+// FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT
 function actualiserCoucheAccident() {
 
     // DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
@@ -315,3 +371,4 @@ function actualiserCoucheAccident() {
     // /L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
 
 }
+// /FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT

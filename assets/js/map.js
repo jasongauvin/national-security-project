@@ -31,13 +31,11 @@ var map = new ol.Map({
 
 // ACTIVATION DE POINTEUR SUR LES FEATURES
 function activerPointeurSurFeatures(e){
-    if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
-        if (e.dragging) return;
-        var pixel = map.getEventPixel(e.originalEvent);
-        var hit = map.hasFeatureAtPixel(pixel);
+    if (e.dragging) return;
+    var pixel = map.getEventPixel(e.originalEvent);
+    var hit = map.hasFeatureAtPixel(pixel);
 
-        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
-    }
+    map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 }
 // /ACTIVATION DE POINTEUR SUR LES FEATURES
 
