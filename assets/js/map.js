@@ -41,7 +41,6 @@ function activerPointeurSurFeatures(e){
 }
 // /ACTIVATION DE POINTEUR SUR LES FEATURES
 
-
 // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
 function changerPointeurAjout(icone = "pointeur.png") {
 

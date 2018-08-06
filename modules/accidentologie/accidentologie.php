@@ -16,6 +16,23 @@ if($_POST["ajout"]){
 }
 // /LE CAS D'AJOUT
 
+// /LE CAS DE LA MODIFICATION OU BIEN DÉPLACEMENT
+if($_POST['modification']){
+    if($_POST['emplacement']){
+        $var = executerRequete("UPDATE accident SET nbrblesses = ".$_POST['nbrBlesses'].", nbrmorts = ".$_POST['nbrMorts'].", gravite = ".$_POST['gravite'].", description = ".$_POST['desc'].", dateheure = to_timestamp('".$_POST['dateHeure']."', 'dd/mm/yyyy hh24:mi'), emplacement = st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) WHERE gid = ".$_POST['gid']."");
+    }else{
+        $var = executerRequete("UPDATE accident SET nbrblesses = ".$_POST['nbrBlesses'].", nbrmorts = ".$_POST['nbrMorts'].", gravite = ".$_POST['gravite'].", description = ".$_POST['desc'].", dateheure = to_timestamp('".$_POST['dateHeure']."', 'dd/mm/yyyy hh24:mi') WHERE gid = ".$_POST['gid']."");
+    }
+
+    if($var){
+    echo json_encode(array(
+        "type" => "succes",
+        "msg" => "L'accident a été bien modifié / déplacé avec succès"
+        ));
+    }
+}
+// /LE CAS DE LA MODIFICATION OU BIEN DÉPLACEMENT
+
 // LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
 if($_POST["importation"]){
     // RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
