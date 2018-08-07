@@ -1,10 +1,10 @@
 // DECLARATION DES VARIABLES
-var crime_geojson = new ol.format.GeoJSON(), source_couche_crime = new ol.source.Vector();
+var criminologie_geojson = new ol.format.GeoJSON(), source_couche_crime = new ol.source.Vector();
 var json, coords, coucheCrime, execFonc = false, gid;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
-interactionGraphiqueMenuDeNavigation(4, "criminologie", "Boîte à outils criminologie", 43, 0);
+interactionGraphiqueMenuDeNavigation(4, "CRIMINOLOGIE", "Boîte à outils criminologie", 43, 0);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
@@ -18,306 +18,302 @@ $.get("modules/criminologie/criminologie.html", function (data) {
 // /LE CONTENU HTML DU MENU DROIT
 
 // AFFICHAGE DE LA COUCHE CRIME
-actualiserCoucheCrime();
+actualiserCoucheCriminologie();
 // /AFFICHAGE DE LA COUCHE CRIME
 
-// // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
-// function singleclick (evt) {
-//     features = [];
-//     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-//         layer = [coucheCrime];
-//         return feature;
-//     });
-//     if (feature) {
+// PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
+function singleclick (evt) {
+    features = [];
+    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+        layer = [coucheCrime];
+        return feature;
+    });
+    if (feature) {
 
-//         $("#modifierAccidentBouton").prop("disabled", false);
+        $("#modifierCrimeBouton").prop("disabled", false);
         
-//         $("#pointerAccidentModifier").hide();
-//         $("#pointerAccidentModifierNouvEmplace").show();
+        $("#pointerCrimeModifier").hide();
+        $("#pointerCrimeModifierNouvEmplace").show();
         
-//         $("#modifierAccident #nbrBlesses").next().addClass("active");
-//         $("#modifierAccident #nbrMorts").next().addClass("active");
-//         $("#modifierAccident #description").next().addClass("active");
-//         $("#modifierAccident #heurem").next().addClass("active");
-//         $("#modifierAccident #datem").next().addClass("active");
+        $("#modifierCrime #type").next().addClass("active");
+        $("#modifierCrime #description").next().addClass("active");
+        $("#modifierCrime #heurem").next().addClass("active");
+        $("#modifierCrime #datem").next().addClass("active");
 
-//         $("#modifierAccident #nbrBlesses").val(feature.get("nbrblesses"));
-//         $("#modifierAccident #nbrMorts").val(feature.get("nbrmorts"));
-//         $("#modifierAccident #gravite").val(feature.get("gravite") == 'f' ? "false" : (feature.get("gravite") == 't' ? "true" : "null"));
-//         $("#modifierAccident #description").val(feature.get("description"));
-//         $("#modifierAccident #heurem").val(feature.get("dateheure").split(" ")[1]);
-//         $("#modifierAccident #datem").val(feature.get("dateheure").split(" ")[0]);
-//         gid = feature.get("gid");
-//     }
+       
+        $("#modifierCrime #type").val(feature.get("type"));
+        $("#modifierCrime #gravite").val(feature.get("gravite") == 'f' ? "false" : (feature.get("gravite") == 't' ? "true" : "null"));
+        $("#modifierCrime #description").val(feature.get("description"));
+        $("#modifierCrime #heurem").val(feature.get("dateheure").split(" ")[1]);
+        $("#modifierCrime #datem").val(feature.get("dateheure").split(" ")[0]);
+        gid = feature.get("gid");
+    }
 
-// };
+};
 
-// function onClique(evt){
-//     coords = ol.proj.toLonLat(evt.coordinate);
-//     $("#pointerAccidentModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
-// }
+function onClique(evt){
+    coords = ol.proj.toLonLat(evt.coordinate);
+    $("#pointerCrimeModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+}
 
-// $(document).on("click", "#reinitModifAccident", function() {
-//     $("#modifierAccident")[0].reset();
-//     $("#modifierAccidentBouton").prop("disabled", true);
-//     coords = null;
+$(document).on("click", "#reinitModifCrime", function() {
+    $("#modifierCrime")[0].reset();
+    $("#modifierCrimeBouton").prop("disabled", true);
+    coords = null;
 
-//     if ($("#pointerAccidentModifierNouvEmplace").is(":visible") && $("#pointerAccidentModifierNouvEmplace").text().indexOf("l") >= 0 ) {
-//         map.un("pointermove", activerPointeurSurFeatures);
-//         map.un("singleclick", singleclick);
-//         $("#pointerAccidentModifierNouvEmplace").hide();
-//         $("#pointerAccidentModifier").show();
+    if ($("#pointerCrimeModifierNouvEmplace").is(":visible") && $("#pointerCrimeModifierNouvEmplace").text().indexOf("l") >= 0 ) {
+        map.un("pointermove", activerPointeurSurFeatures);
+        map.un("singleclick", singleclick);
+        $("#pointerCrimeModifierNouvEmplace").hide();
+        $("#pointerCrimeModifier").show();
 
-//     }else{
-//         map.un("pointermove", activerPointeurSurFeatures);
-//         map.un("singleclick", singleclick);
-//         map.un("click", onClique);
-//         $("#pointerAccidentModifierNouvEmplace").html("<i class='clip-plus-circle'></i> Localiser le nouveau emplacement d'accident");
-//         $("#pointerAccidentModifierNouvEmplace").hide();
-//         $("#pointerAccidentModifier").show();
-//     }
-// });
+    }else{
+        map.un("pointermove", activerPointeurSurFeatures);
+        map.un("singleclick", singleclick);
+        map.un("click", onClique);
+        $("#pointerCrimeModifierNouvEmplace").html("<i class='clip-plus-circle'></i> Localisez le nouveau emplacement du crime");
+        $("#pointerCrimeModifierNouvEmplace").hide();
+        $("#pointerCrimeModifier").show();
+    }
+});
 
-// $(document).on("click", "#pointerAccidentModifier", function (evt) {
-//     if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
-//         map.on("pointermove", activerPointeurSurFeatures);
-//     }
-//     map.on("singleclick", singleclick);
+$(document).on("click", "#pointerCrimeModifier", function (evt) {
+    if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
+        map.on("pointermove", activerPointeurSurFeatures);
+    }
+    map.on("singleclick", singleclick);
 
-// });
+});
 
-// $(document).on("click", "#pointerAccidentModifierNouvEmplace", function (evt) {
-//     map.un("singleclick", singleclick);
-//     map.un("pointermove", activerPointeurSurFeatures);
-//     map.on("click", onClique);
-// });
+$(document).on("click", "#pointerCrimeModifierNouvEmplace", function (evt) {
+    map.un("singleclick", singleclick);
+    map.un("pointermove", activerPointeurSurFeatures);
+    map.on("click", onClique);
+});
 
-// $(document).on("click", "#modifierAccidentBouton", function (e){
-//     e.preventDefault();
-//     data = {
-//         modification: true,
-//         nbrBlesses: $("#modifierAccident #nbrBlesses").val()? $("#modifierAccident #nbrBlesses").val(): "null",
-//         nbrMorts: $("#modifierAccident #nbrMorts").val()? $("#modifierAccident #nbrMorts").val(): "null",
-//         gravite: $("#modifierAccident #gravite").val(),
-//         desc: $("#modifierAccident #description").val()? "'"+$("#modifierAccident #description").val()+"'": "null",
-//         dateHeure: $("#datem").val() + " " + $("#heurem").val(),
-//         emplacement: coords,
-//         gid: gid
-//     }
-//     beforeSend = function(xhr){
-//         if(!$("#datem").val()){
-//             xhr.abort();
-//             afficherNotif("warning", "Veuillez saisir la date d'accident");
-//         }if(!$("#heurem").val()){
-//             xhr.abort();
-//             afficherNotif("warning", "Veuillez saisir l'heure d'accident");
-//         }
-//     }
-//     error_fatale = function (jqXhr) {
-//         rapportErreurs(jqXhr);
-//         afficherNotif("erreur_fatale", "Une erreur est survenu lors de la modification ou bien le déplacement de l'accident");
-//     }
-//     success = function (resultat) {
-//         if (resultat.type == "succes") {
-//             afficherNotif("succes", resultat.msg);
-//             actualiserCoucheAccident();
-//         }
-//     }
-//     ajax("modules/criminologie/criminologie.php", data, error_fatale, success, undefined, beforeSend);
-// });
-// // /PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
+$(document).on("click", "#modifierCrimeBouton", function (e){
+    e.preventDefault();
+    data = {
+        modification: true,
+        
+        type: $("#modifierCrime #type").val()? $("#modifierCrime #type").val(): "null",
+        gravite: $("#modifierCrime #gravite").val(),
+        desc: $("#modifierCrime #description").val()? "'"+$("#modifierCrime #description").val()+"'": "null",
+        dateHeure: $("#datem").val() + " " + $("#heurem").val(),
+        emplacement: coords,
+        gid: gid
+    }
+    beforeSend = function(xhr){
+        if(!$("#datem").val()){
+            xhr.abort();
+            afficherNotif("warning", "Veuillez saisir la date du crime");
+        }if(!$("#heurem").val()){
+            xhr.abort();
+            afficherNotif("warning", "Veuillez saisir l'heure du crime");
+        }
+    }
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors de la modification ou bien le déplacement du crime");
+    }
+    success = function (resultat) {
+        if (resultat.type == "succes") {
+            afficherNotif("succes", resultat.msg);
+            actualiserCoucheCriminologie();
+        }
+    }
+    ajax("modules/criminologie/criminologie.php", data, error_fatale, success, undefined, beforeSend);
+});
+// /PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 
-// // PARTIE AJOUT
-// $(document).on("click", "#pointerAccidentAjouter", function () {
-//     changerPointeurAjout();
-//     map.on('click', function (evt) {
-//         coords = ol.proj.toLonLat(evt.coordinate);
-//         $("#pointerAccidentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
-//     });
+// PARTIE AJOUT
+$(document).on("click", "#pointerCrimeAjouter", function () {
+    changerPointeurAjout();
+    map.on('click', function (evt) {
+        coords = ol.proj.toLonLat(evt.coordinate);
+        $("#pointerCrimeAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+    });
 
-// });
+});
 
-// $(document).on("click", "#ajouterAccidentBouton", function (e) {
-//     e.preventDefault();
-//     data = {
-//         ajout: true,
-//         nbrBlesses: $("#nbrBlesses").val()? $("#nbrBlesses").val(): "null",
-//         nbrMorts: $("#nbrMorts").val()? $("#nbrMorts").val(): "null",
-//         gravite: $("#gravite").val(),
-//         desc: $("#description").val()? "'"+$("#description").val()+"'": "null",
-//         dateHeure: $("#date").val() + " " + $("#heure").val(),
-//         emplacement: coords,
-//     }
-//     beforeSend = function(xhr){
-//         if(!coords){
-//             xhr.abort();
-//             afficherNotif("warning", "Veuillez localiser l'emplacement d'accident");
-//         }if(!$("#date").val()){
-//             xhr.abort();
-//             afficherNotif("warning", "Veuillez saisir la date d'accident");
-//         }if(!$("#heure").val()){
-//             xhr.abort();
-//             afficherNotif("warning", "Veuillez saisir l'heure d'accident");
-//         }
-//     }
-//     error_fatale = function (jqXhr) {
-//         rapportErreurs(jqXhr);
-//         afficherNotif("erreur_fatale", "Une erreur est survenu lors d'ajout de l'accident");
-//     }
-//     success = function (resultat) {
-//         if (resultat.type == "succes") {
-//             afficherNotif("succes", resultat.msg);
-//             actualiserCoucheAccident();
-//         }
-//     }
-//     ajax("modules/criminologie/criminologie.php", data, error_fatale, success, undefined, beforeSend);
+$(document).on("click", "#ajouterCrimeBouton", function (e) {
+    e.preventDefault();
+    data = {
+        ajout: true,
+        
+        type: $("#type").val()? $("#type").val(): "null",
+        gravite: $("#gravite").val(),
+        desc: $("#description").val()? "'"+$("#description").val()+"'": "null",
+        dateHeure: $("#date").val() + " " + $("#heure").val(),
+        emplacement: coords,
+    }
+    beforeSend = function(xhr){
+        if(!coords){
+            xhr.abort();
+            afficherNotif("warning", "Veuillez localiser l'emplacement du crime");
+        }if(!$("#date").val()){
+            xhr.abort();
+            afficherNotif("warning", "Veuillez saisir la date du crime");
+        }if(!$("#heure").val()){
+            xhr.abort();
+            afficherNotif("warning", "Veuillez saisir l'heure du crime");
+        }
+    }
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'ajout du crime");
+    }
+    success = function (resultat) {
+        if (resultat.type == "succes") {
+            afficherNotif("succes", resultat.msg);
+            actualiserCoucheCriminologie();
+        }
+    }
+    ajax("modules/criminologie/criminologie.php", data, error_fatale, success, undefined, beforeSend);
 
-// });
+});
 
-// $(document).on("click", "#reinitAjoutAccident", function(e) {
-//     $("#pointerAccidentAjouter").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
-//     coords = null;
-// });
-// // /PARTIE AJOUT
+$(document).on("click", "#reinitAjoutCrime", function(e) {
+    $("#pointerCrimeAjouter").html("<i class='clip-plus-circle'></i> Localisez l'emplacement du crime");
+    coords = null;
+});
+// /PARTIE AJOUT
 
 
-// // PARTIE IMPORTAION
-// $(document).on("change", "#fichierExcel", function () {
+// PARTIE IMPORTAION
+$(document).on("change", "#fichierExcel", function () {
 
-//     // $("#barreProgres").fadeIn(200);
-//     // $("#barreProgres").css("display", "block");
+    function exporterExcelVersJSON() {
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+        /*Checks whether the file is a valid excel file*/
+        if (regex.test($("#fichierExcel").val().toLowerCase())) {
+            var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+            if ($("#fichierExcel").val().toLowerCase().indexOf(".xlsx") > 0) {
+                xlsxflag = true;
+            }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                /*Converts the excel data in to object*/
+                if (xlsxflag) {
+                    var workbook = XLSX.read(data, { type: 'binary' });
+                }
+                else {
+                    var workbook = XLS.read(data, { type: 'binary' });
+                }
+                /*Gets all the sheetnames of excel in to a variable*/
+                var sheet_name_list = workbook.SheetNames;
 
-//     function exporterExcelVersJSON() {
-//         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
-//         /*Checks whether the file is a valid excel file*/
-//         if (regex.test($("#fichierExcel").val().toLowerCase())) {
-//             var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
-//             if ($("#fichierExcel").val().toLowerCase().indexOf(".xlsx") > 0) {
-//                 xlsxflag = true;
-//             }
-//             var reader = new FileReader();
-//             reader.onload = function (e) {
-//                 var data = e.target.result;
-//                 /*Converts the excel data in to object*/
-//                 if (xlsxflag) {
-//                     var workbook = XLSX.read(data, { type: 'binary' });
-//                 }
-//                 else {
-//                     var workbook = XLS.read(data, { type: 'binary' });
-//                 }
-//                 /*Gets all the sheetnames of excel in to a variable*/
-//                 var sheet_name_list = workbook.SheetNames;
+                var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+                sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+                    /*Convert the cell value to Json*/
+                    if (xlsxflag) {
+                        exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                    }
+                    else {
+                        exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                    }
+                    if (exceljson.length > 0 && cnt == 0) {
+                        getJSON(exceljson);
+                    }
+                });
+            }
+            if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                reader.readAsArrayBuffer($("#fichierExcel")[0].files[0]);
+            }
+            else {
+                reader.readAsBinaryString($("#fichierExcel")[0].files[0]);
+            }
 
-//                 var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
-//                 sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
-//                     /*Convert the cell value to Json*/
-//                     if (xlsxflag) {
-//                         exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
-//                     }
-//                     else {
-//                         exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
-//                     }
-//                     if (exceljson.length > 0 && cnt == 0) {
-//                         getJSON(exceljson);
-//                     }
-//                 });
-//             }
-//             if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
-//                 reader.readAsArrayBuffer($("#fichierExcel")[0].files[0]);
-//             }
-//             else {
-//                 reader.readAsBinaryString($("#fichierExcel")[0].files[0]);
-//             }
+        }
+        else {
+            afficherNotif("warning", "Veuillez ajouter un fichier Excel valide");
+        }
+    }
 
-//         }
-//         else {
-//             afficherNotif("warning", "Veuillez ajouter un fichier Excel valide");
-//         }
-//     }
+    exporterExcelVersJSON();
 
-//     exporterExcelVersJSON();
+    function getJSON(exceljson) {
+        json = exceljson;
 
-//     function getJSON(exceljson) {
-//         json = exceljson;
+        // L'APPEL AJAX AVEC LES PARAMÈTRES
+        data = {
+            importation: true,
+            noms_cols_excel: Object.keys(json[0]),
+            lignes_excel: json
+        }
+        error_fatale = function (jqXhr) {
+            rapportErreurs(jqXhr);
+            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des crimes");
+        }
+        success = function (resultat) {
+            if (resultat.type == "erreur") {
+                afficherNotif("erreur", resultat.msg);
+            }
+            else if (resultat.type == "succes") {
+                afficherNotif("succes", resultat.msg);
+                actualiserCoucheCriminologie();
+            }
+        }
 
-//         // L'APPEL AJAX AVEC LES PARAMÈTRES
-//         data = {
-//             importation: true,
-//             noms_cols_excel: Object.keys(json[0]),
-//             lignes_excel: json
-//         }
-//         error_fatale = function (jqXhr) {
-//             rapportErreurs(jqXhr);
-//             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des crimes");
-//         }
-//         success = function (resultat) {
-//             if (resultat.type == "erreur") {
-//                 afficherNotif("erreur", resultat.msg);
-//             }
-//             else if (resultat.type == "succes") {
-//                 afficherNotif("succes", resultat.msg);
-//                 actualiserCoucheAccident();
-//             }
-//         }
+        ajax("modules/criminologie/criminologie.php", data, error_fatale, success);
+        // /L'APPEL AJAX AVEC LES PARAMÈTRES
+    }
 
-//         ajax("modules/criminologie/criminologie.php", data, error_fatale, success);
-//         // /L'APPEL AJAX AVEC LES PARAMÈTRES
-//     }
+});
+// /PARTIE IMPORTAION
 
-// });
-// // /PARTIE IMPORTAION
+// PARTIE SUPPRESSION
+function singleclick2 (evt) {
+    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+        layer = [coucheCrime];
+        return feature;
+    });
+    if (feature) {
+        $("#supprimerCrimeBouton").prop("disabled", false);
+        $("#pointerCrimeSupprimer").html('<i class="clip-plus-circle"></i> Crime N° ' + feature.get("gid"));
+        gid = feature.get("gid");
+    }
+};
 
-// // PARTIE SUPPRESSION
-// function singleclick2 (evt) {
-//     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-//         layer = [coucheCrime];
-//         return feature;
-//     });
-//     if (feature) {
-//         $("#SupprimerAccidentBouton").prop("disabled", false);
-//         $("#pointerAccidentSupprimer").html('<i class="clip-plus-circle"></i> Accident N° ' + feature.get("gid"));
-//         gid = feature.get("gid");
-//     }
-// };
+$(document).on("click", "#reinitSuppCrime", function(e) {
+    $("#pointerCrimeSupprimer").html("<i class='clip-plus-circle'></i> Localiser l'emplacement du crime");
+    $("#supprimerCrimeBouton").prop("disabled", true);
+    map.un("pointermove", activerPointeurSurFeatures);
+    map.un("singleclick", singleclick2);
+});
 
-// $(document).on("click", "#reinitSuppAccident", function(e) {
-//     $("#pointerAccidentSupprimer").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
-//     $("#SupprimerAccidentBouton").prop("disabled", true);
-//     map.un("pointermove", activerPointeurSurFeatures);
-//     map.un("singleclick", singleclick2);
-// });
+$(document).on("click", "#pointerCrimeSupprimer", function (e) {
+    if ($("#collapseFour").attr("class") == "panel-collapse collapse in") {
+        map.on("pointermove", activerPointeurSurFeatures);
+    }
+    map.on("singleclick", singleclick2);
 
-// $(document).on("click", "#pointerAccidentSupprimer", function (e) {
-//     if ($("#collapseFour").attr("class") == "panel-collapse collapse in") {
-//         map.on("pointermove", activerPointeurSurFeatures);
-//     }
-//     map.on("singleclick", singleclick2);
+});
 
-// });
+$(document).on("click", "#supprimerCrimeBouton", function (e) {
+    e.preventDefault();
+    data = {
+        suppression: true,
+        gid: gid,
+    }
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors de la suppression du crime");
+    }
+    success = function (resultat) {
+        if (resultat.type == "succes") {
+            afficherNotif("succes", resultat.msg);
+            actualiserCoucheCriminologie();
+        }
+    }
+    ajax("modules/criminologie/criminologie.php", data, error_fatale, success);
 
-// $(document).on("click", "#SupprimerAccidentBouton", function (e) {
-//     e.preventDefault();
-//     data = {
-//         suppression: true,
-//         gid: gid,
-//     }
-//     error_fatale = function (jqXhr) {
-//         rapportErreurs(jqXhr);
-//         afficherNotif("erreur_fatale", "Une erreur est survenu lors de la suppression de l'accident");
-//     }
-//     success = function (resultat) {
-//         if (resultat.type == "succes") {
-//             afficherNotif("succes", resultat.msg);
-//             actualiserCoucheAccident();
-//         }
-//     }
-//     ajax("modules/criminologie/criminologie.php", data, error_fatale, success);
-
-// });
-// // /PARTIE SUPPRESSION
+});
+// /PARTIE SUPPRESSION
 
 // FONCTION D'ACTUALISATION DE LA COUCHE CRIME
-function actualiserCoucheCrime() {
+function actualiserCoucheCriminologie() {
 
     // DÉFINITION DU STYLE DE LA COUCHE CRIME
     var styleCoucheCrime = function (feature) {
@@ -357,9 +353,9 @@ function actualiserCoucheCrime() {
         selection: true
     }
     success = function (result) {
-        var features = crime_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+        var features = criminologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_crime.addFeatures(features);
-        afficherNotif("info", "La couche des crimes a été bien actualisée");
+        afficherNotif("info", "La couche des crimes  a été bien actualisée");
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);

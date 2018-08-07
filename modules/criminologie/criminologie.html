@@ -10,7 +10,7 @@
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <div class="col-lg-11">
+                            <div class="col-lg-11" >
                                 <span class="btn btn-success fileinput-button">
                                     <i class="glyphicon glyphicon-plus"></i>
                                     <span>Ajouter un fichier Excel</span>
@@ -28,25 +28,28 @@
                         </h4>
                     </div>
                     <div id="collapseTwo" class="panel-collapse collapse">
-                        <form id="ajoutAccident">
+                        <form id="ajoutCrime">
                             <div class="panel-body">
-                                <a id="pointerAccidentAjouter" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
-                                    <i class="clip-plus-circle"></i> Localiser l'emplacement d'accident
+                                <a id="pointerCrimeAjouter" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
+                                    <i class="clip-plus-circle"></i> Localisez l'emplacement d'Crime
                                 </a>
                                 <div id="wrapperelem">
-                                    <div id="firstelem">
                                         <div class="md-form">
-                                            <input type="number" id="nbrBlesses" min="0" class="form-control">
-                                            <label for="nbrBlesses">Nombre de blessés</label>
+                                        <label>Type</label>
                                         </div>
-                                    </div>
-                                    <div id="secondelem">
-                                        <div class="md-form mt-0 col-md-offset-1">
-                                            <input type="number" id="nbrMorts" min="0" class="form-control">
-                                            <label for="nbrMorts">Nombre de morts</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                        <br>
+                                        <select id="type">
+                                            <option value=0 selected>Violence familiale</option>
+                                            <option value=1>Agression sexuelle</option>
+                                            <option value=2>Harcèlement criminel</option>
+                                            <option value=3>Violence et menaces physiques</option>
+                                            <option value=4>Conduite avec facultés affaiblies</option>
+                                            <option value=5>Vol et autres crimes contre les biens</option>
+                                            <option value=6>Autres</option>
+
+                                        </select>
+                                </div> 
+                             
                     
                                 <div id="wrapperelem">
                                     <div id="firstelem">
@@ -83,8 +86,8 @@
                                     </div>
                                 </div>
                     
-                                <button type="reset" id="reinitAjoutAccident" class="btn btn-blue-grey">Réinitialiser</button>
-                                <button type="button" id="ajouterAccidentBouton" class="btn btn-light-green">Ajouter</button>
+                                <button type="reset" id="reinitAjoutCrime" class="btn btn-blue-grey">Réinitialiser</button>
+                                <button type="button" id="ajouterCrimeBouton" class="btn btn-light-green">Ajouter</button>
                             </div>
                         </form>
                     </div>
@@ -97,28 +100,32 @@
                         </h4>
                     </div>
                     <div id="collapseThree" class="panel-collapse collapse">
-                        <form id="modifierAccident">
+                        <form id="modifierCrime">
                             <div class="panel-body">
-                                <a id="pointerAccidentModifier" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
-                                    <i class="clip-plus-circle"></i> Pointer sur l'emplacement d'accident
+                                <a id="pointerCrimeModifier" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
+                                    <i class="clip-plus-circle"></i> Pointer sur l'emplacement du crime
                                 </a>
-                                <a id="pointerAccidentModifierNouvEmplace" class="btn btn-outline-primary waves-effect" href="#" style="margin-bottom: 3%;display: none;">
-                                    <i class="clip-plus-circle"></i> Localiser le nouveau emplacement d'accident
+                                <a id="pointerCrimeModifierNouvEmplace" class="btn btn-outline-primary waves-effect" href="#" style="margin-bottom: 3%;display: none;">
+                                    <i class="clip-plus-circle"></i> Localiser le nouveau emplacement du crime
                                 </a>
                                 <div id="wrapperelem">
-                                    <div id="firstelem">
-                                        <div class="md-form">
-                                            <input type="number" id="nbrBlesses" min="0" class="form-control">
-                                            <label for="nbrBlesses">Nombre de blessés</label>
+                                    <div class="md-form">
+                                        <label>Type</label>
                                         </div>
+                                        <br>
+                                        <select id="type">
+                                            <option value=0 selected>Violence familiale</option>
+                                            <option value=1>Agression sexuelle</option>
+                                            <option value=2>Harcèlement criminel</option>
+                                            <option value=3>Violence et menaces physiques</option>
+                                            <option value=4>Conduite avec facultés affaiblies</option>
+                                            <option value=5>Vol et autres crimes contre les biens</option>
+                                            <option value=6>Autres</option>
+
+                                        </select>
+
                                     </div>
-                                    <div id="secondelem">
-                                        <div class="md-form mt-0 col-md-offset-1">
-                                            <input type="number" id="nbrMorts" min="0" class="form-control">
-                                            <label for="nbrMorts">Nombre de morts</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                     
                                 <div id="wrapperelem">
                                     <div id="firstelem">
@@ -155,8 +162,8 @@
                                     </div>
                                 </div>
                     
-                                <button type="reset" id="reinitModifAccident" class="btn btn-blue-grey">Réinitialiser</button>
-                                <button type="button" id="modifierAccidentBouton" class="btn btn-light-green" disabled>Modifier</button>
+                                <button type="reset" id="reinitModifCrime" class="btn btn-blue-grey">Réinitialiser</button>
+                                <button type="button" id="modifierCrimeBouton" class="btn btn-light-green" disabled>Modifier</button>
                             </div>
                         </form>
                     </div>
@@ -169,14 +176,14 @@
                         </h4>
                     </div>
                     <div id="collapseFour" class="panel-collapse collapse">
-                        <form id="supprimerAccident">
+                        <form id="supprimerCrime">
                             <div class="panel-body">
-                                <a id="pointerAccidentSupprimer" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
-                                    <i class="clip-plus-circle"></i> Pointer sur l'emplacement d'accident
+                                <a id="pointerCrimeSupprimer" class="btn btn-outline-danger waves-effect" href="#" style="margin-bottom: 3%;">
+                                    <i class="clip-plus-circle"></i> Pointer sur l'emplacement du crime
                                 </a>
                                 <br>
-                                <button type="reset" id="reinitSuppAccident" class="btn btn-blue-grey">Réinitialiser</button>
-                                <button type="button" id="SupprimerAccidentBouton" class="btn btn-light-green" disabled>Supprimer</button>
+                                <button type="reset" id="reinitSuppCrime" class="btn btn-blue-grey">Réinitialiser</button>
+                                <button type="button" id="supprimerCrimeBouton" class="btn btn-light-green" disabled>Supprimer</button>
                             </div>
                         </form>
                     </div>
@@ -203,10 +210,10 @@
         // /DESACTIVATION DU CACHE DES FORMULAIRES
         
         // PERSONNALISATION DES CHAMPS DATE ET HEURE
-        $("#ajoutAccident #date").datepicker({
+        $("#ajoutCrime #date").datepicker({
             maxDate: 0
         });
-        $("#ajoutAccident #heure").timepicker({
+        $("#ajoutCrime #heure").timepicker({
             currentText: "Maintenant",
             closeText: "Ok",
             timeInput: true,
@@ -216,10 +223,10 @@
             timeOnlyTitle: "Choisissez l'heure"
         });
     
-         $("#modifierAccident #datem").datepicker({
+         $("#modifierCrime #datem").datepicker({
             maxDate: 0
         });
-        $("#modifierAccident #heurem").timepicker({
+        $("#modifierCrime #heurem").timepicker({
             currentText: "Maintenant",
             closeText: "Ok",
             timeInput: true,
