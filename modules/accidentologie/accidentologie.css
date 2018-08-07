@@ -9,17 +9,6 @@
     cursor: pointer;
 }
 
-.fileupload-loading {
-    float: right;
-    left: 230px;
-    top: 66px;
-    width: 128px;
-    height: 128px;
-    position:absolute; 
-    background: url("../../assets/img/loading.gif") center no-repeat;
-    display: none;
-}
-
 #wrapperelem {
     overflow: hidden;
 }

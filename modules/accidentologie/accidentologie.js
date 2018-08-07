@@ -1,5 +1,5 @@
 // DECLARATION DES VARIABLES
-var agent_police_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
+var accidentologie_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
 var json, coords, coucheAccident, execFonc = false, gid;
 // /DECLARATION DES VARIABLES
 
@@ -357,7 +357,7 @@ function actualiserCoucheAccident() {
         selection: true
     }
     success = function (result) {
-        var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+        var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
         afficherNotif("info", "La couche des accidents a été bien actualisée");
     }

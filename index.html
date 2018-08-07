@@ -12,9 +12,7 @@
 		<!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<!-- /META -->
-		<!-- CSS MATERIALIZE -->
-		<!-- <link rel="stylesheet" href="assets/plugins/materialize/css/materialize.min.css"> -->
-		<!-- /CSS MATERIALIZE -->
+		
 		<!-- CSS DE LA TEMPLATE -->
 		<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/fonts/style.css">
@@ -40,13 +38,10 @@
 		<link rel="shortcut icon" href="favicon.ico" />
 		<!-- /FAVICON -->
 
-		<!-- JS ET CSS D'OPEN LAYERS -->
-		<link rel="stylesheet" href="assets/plugins/open-layers/css/ol.css" type="text/css">
-		<script src="assets/plugins/open-layers/js/ol.js"></script>
-
+		<!-- CSS D'OPEN LAYERS -->
+		<link rel="stylesheet" href="assets/plugins/open-layers/css/ol.css">
 		<link rel="stylesheet" href="assets/css/ol-ext.css" />
-		<script type="text/javascript" src="assets/js/ol-ext.js"></script>
-		<!-- /JS ET CSS D'OPEN LAYERS -->
+		<!-- CSS D'OPEN LAYERS -->
 
 		<!-- MAP CSS -->
 		<link rel="stylesheet" href="assets/css/map-style.css">
@@ -333,6 +328,12 @@
 							</a>
 						</li>
 
+						<li class="">
+							<a href="#"><i class="glyphicon glyphicon-warning-sign"></i>
+								<span id="criminologie" class="title">CRIMINOLOGIE</span><span class="selected"></span>
+							</a>
+						</li>
+
 					</ul>
 					<!-- /MENU PRINCIPAL DE NAVIGATION -->
 
@@ -394,15 +395,6 @@
 					<a href="#" id="popup-closer" class="ol-popup-info-bull-closer"></a>
 					<div id="agent_popup_content"></div>
 			  	</div>
-				<!-- <div id="notification" style="position:absolute; top:107px; margin-left: 26px;width: 440px;display: block;">
-					<button data-dismiss="alert" class="close" type="button">
-						&times;
-					</button>
-					<h4 class="alert-heading"></h4>
-					<p></p>
-				</div> -->
-
-				<!-- <span id="barreProgres" class="fileupload-loading"></span> -->
 				
 			</div>
 
@@ -440,11 +432,9 @@
 		<script src="assets/plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js"></script>
 		<script src="assets/js/main.js"></script>
 		<script src="assets/js/scrolling.js"></script>
-		<!-- <script src="assets/plugins/notify/jquery.easing.1.3.js"></script>
-		<script src="assets/plugins/notify/notify.js"></script>
-		<script src="assets/plugins/notify/notify-custom.js"></script> -->
 		<script src="assets/plugins/notify/notify.min.js"></script>
 		<!-- /SCRIPTS DE LA TEMPLATE -->
+		
 		<!-- SCRIPT MDB CORE -->
 		<script src="assets/plugins/mdb/js/mdb.min.js"></script>
 		<!-- /SCRIPT MDB CORE -->
@@ -455,6 +445,11 @@
 		<!-- SCRIPT DE LA DATE ET L'HEURE ACTUELLE -->
 		<script src="assets/js/dateHeureActuelle.js"></script>
 		<!-- /SCRIPT DE LA DATE ET L'HEURE ACTUELLE -->
+		
+		<!-- JS D'OPEN LAYERS -->
+		<script src="assets/plugins/open-layers/js/ol.js"></script>
+		<script src="assets/js/ol-ext.js"></script>
+		<!-- JS D'OPEN LAYERS -->
 
 		<!-- SCRIPT DU CONTEXT MENU -->
 		<link href="assets/plugins/context-menu/ol-contextmenu.min.css" rel="stylesheet">
