@@ -19,71 +19,112 @@ interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gesti
 
 actualiserCoucheAgent();
 
-function actualiserCoucheAgent() {
-
-    // DÉFINITION DU STYLE DE LA COUCHE AGENT
-    var styleCoucheAgent = function (feature) {
-
-        var src = 'assets/img/agent_24.png';
-        var style_agent = {
-            'Point':
-                new ol.style.Style({
-                    image: new ol.style.Icon({
-                        anchor: [0.5, 0.5],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'fraction',
-                        src: src
-                    })
-                })
-        };
-        return style_agent[feature.getGeometry().getType()];
-    }
-    // /DÉFINITION DU STYLE DE LA COUCHE AGENT
-
-    // DÉFINITION DE LA COUCHE AGENT
-    var coucheAgent = new ol.layer.Vector({
-        name: 'CoucheAgent',
-		title: 'Couche Agent',
-        visible: true,
-        source: source_couche_agent,
-        style: styleCoucheAgent
+// CAS DE MODIFICATION 
+function singleclick (evt) {
+    features = [];
+    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+        layer = [coucheAgent];
+        return feature;
     });
-    // /DÉFINITION DE LA COUCHE AGENT
+    if (feature) {
+        $("#modifierAgentBouton").prop("disabled", false);
+        
+        $("#pointerAgentModifier").hide();
+        $("#pointerAgentModifierNouvEmplace").show();
 
-    // SUPPRESSION DU CONTENU DE LA COUCHE AGENT 
-    source_couche_agent.clear();
-    // /SUPPRESSION DU CONTENU DE LA COUCHE AGENT
+        $("#pointerAgentModifier").html("<i class='clip-plus-circle'></i> Localisez le nouveau emplacement de l'agent")
 
-    // L'APPEL AJAX AVEC LES PARAMÈTRES
-    data = {
-        selection: true
+        $("#modifierAgent #Nom").next().addClass("active");
+        $("#modifierAgent #Prenom").next().addClass("active");
+        $("#modifierAgent #Mobilite").next().addClass("active");
+
+        $("#modifierAgent #Nom").val(feature.get("nom"));
+        $("#modifierAgent #Prenom").val(feature.get("prenom"));
+        $("#modifierAgent #Mobilite").val(feature.get("mobilite")=='t'? "true" : "false");
+        gid = feature.get("gid");
     }
-    success = function (result) {
-        var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
-        source_couche_agent.addFeatures(features);
-        afficherNotif("info", "La couche des agents a été bien actualisée");
+
+};
+
+function onClique(evt){
+    coords = ol.proj.toLonLat(evt.coordinate);
+    $("#pointerAgentModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
+}
+
+$(document).on("click", "#reinitModifAgent", function() {
+    $("#modifierAgent")[0].reset();
+    $("#modifierAgentBouton").prop("disabled", true);
+    coords = null;
+
+    if ($("#pointerAgentModifierNouvEmplace").is(":visible") && $("#pointerAgentModifierNouvEmplace").text().indexOf("l") >= 0 ) {
+        map.un("pointermove", activerPointeurSurFeatures);
+        map.un("singleclick", singleclick);
+        $("#pointerAgentModifierNouvEmplace").hide();
+        $("#pointerAgentModifier").show();
+
+    }else{
+        map.un("pointermove", activerPointeurSurFeatures);
+        map.un("singleclick", singleclick);
+        map.un("click", onClique);
+        $("#pointerAgentModifierNouvEmplace").html("<i class='clip-plus-circle'></i> Localisez le nouveau emplacement de l'agent");
+        $("#pointerAgentModifierNouvEmplace").hide();
+        $("#pointerAgentModifier").show();
+    }
+});
+
+$(document).on("click", "#pointerAgentModifier", function (evt) {
+    if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
+        map.on("pointermove", activerPointeurSurFeatures);
+    }
+    map.on("singleclick", singleclick);
+
+});
+
+$(document).on("click", "#pointerAgentModifierNouvEmplace", function (evt) {
+    map.un("singleclick", singleclick);
+    map.un("pointermove", activerPointeurSurFeatures);
+    map.on("click", onClique);
+});
+
+$(document).on("click", "#modifierAgentBouton", function (e){
+    e.preventDefault();
+    data = {
+        modification: true,
+        nom: $("#modifierAgent #Nom").val()? "'"+$("#modifierAgent #Nom").val()+"'": "null",
+        prenom: $("#modifierAgent #Prenom").val()? "'"+$("#modifierAgent #Prenom").val()+"'": "null",
+        mobilite: $("#modifierAgent #Mobilite").val(),
+        emplacement: coords,
+        gid: gid
+    }
+    
+    beforeSend = function(xhr){
+        if(!$("#modifierAgent #Nom").val()){
+            xhr.abort();
+            afficherNotif("warning", "Veuillez saisir le nom de l'agent");
+        }if(!$("#modifierAgent #Prenom").val()){
+            xhr.abort();
+            afficherNotif("warning", "Veuillez saisir le prénom de l'agent");
+        }
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
-        afficherNotif("erreur_fatale", "Une erreur est survenu lors du chargement de la couche des agents");
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors de la modification ou bien de déplacement de l'agent");
     }
-    ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
-    // /L'APPEL AJAX AVEC LES PARAMÈTRES
-
-    // L'AJOUT DE LA COUCHE AGENT À LA CARTE
-    map.addLayer(coucheAgent);
-    // /L'AJOUT DE LA COUCHE AGENT À LA CARTE
-
-}
-
-$(document).on("click", "#reinitAgent", function() {
-    execFonc = false;
-    $("#modifierAgent")[0].reset();
-    $("#pointerAgentModifier").html("<i class='clip-plus-circle'></i> Localisez l'emplacement d'un agent");
+    success = function (resultat) {
+        if (resultat.type == "succes") {
+            afficherNotif("succes", resultat.msg);
+            actualiserCoucheAgent();
+        }
+    }
+    ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success, undefined, beforeSend);
 });
 
+// /CAS DE MODIFICATION 
+
+
+// CAS D'AJOUT D'UN AGENT
 $(document).on("click", "#pointerAgentAjouter", function () {
-    changerPointeurAjout("agent.png");
+    changerPointeurAjout("agent_24.png");
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
         $("#pointerAgentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
@@ -97,7 +138,8 @@ $(document).on("click", "#ajouterAgent", function (e) {
     data = {
 		ajout: true,
 		nom: $("#Prenom").val(),
-		prenom: $("#Nom").val(),
+        prenom: $("#Nom").val(),
+        mobilite: $("#Mobilite").val(),
         emplacement: coords,
     }
 
@@ -117,49 +159,9 @@ $(document).on("click", "#ajouterAgent", function (e) {
 
 });
 
-$(document).on("click", "#pointerAgentModifier", function (evt) {
-
-    
-
-    if (!execFonc) {
-
-        map.on("pointermove", activerPointeurSurFeatures);
-
-        map.on('singleclick', function (evt) {
-            var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-                layer = [coucheAgent];
-                return feature;
-            });
-            if (feature) {
-
-                $("#pointerAccidentModifier").html("<i class='clip-plus-circle'></i> Localisez le nouveau emplacement de l'agent")
-
-                $("#modifierAgent #Nom").next().addClass("active");
-                $("#modifierAgent #Prenom").next().addClass("active");
-                $("#modifierAgent #Mobilité").next().addClass("active");
-
-                $("#modifierAgent #Nom").val(feature.get("nom"));
-                $("#modifierAgent #Prenom").val(feature.get("prenom"));
-                $("#modifierAgent #Mobilité").val(feature.get("mobilite") == 'Mobile' ? "true" : "false");
-                
-                execFonc = true;
-            }
-        });
-    }else{
-        map.un("pointermove", activerPointeurSurFeatures);
-
-        map.on('click', function (evt) {
-            coords = ol.proj.toLonLat(evt.coordinate);
-            $("#pointerAgentModifier").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
-        });
-      
-    }
-});
-
-
-$(document).on("click", "#modifierAgent", function (e){
-    e.preventDefault();
-
+$(document).on("click", "#reinitAjoutAgent", function(e) {
+    $("#pointerAgentAjouter").html("<i class='clip-plus-circle'></i> Localiser l'emplacement de l'agent");
+    coords = null;
 });
 
 $(document).on("change", "#fichierExcel", function () {
@@ -245,3 +247,113 @@ $(document).on("change", "#fichierExcel", function () {
     }
 
 });
+// /CAS D'AJOUT D'UN AGENT
+
+// PARTIE SUPPRESSION
+function singleclick2 (evt) {
+    var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+        layer = [coucheAgent];
+        return feature;
+    });
+    if (feature) {
+        $("#SupprimerAgentBouton").prop("disabled", false);
+        $("#pointerAgentSupprimer").html('<i class="clip-plus-circle"></i> Agent N° ' + feature.get("gid"));
+        gid = feature.get("gid");
+    }
+};
+
+$(document).on("click", "#reinitSuppAgent", function(e) {
+    $("#pointerAgentSupprimer").html("<i class='clip-plus-circle'></i> Localiser l'emplacement de l'agent");
+    $("#SupprimerAgentBouton").prop("disabled", true);
+    map.un("pointermove", activerPointeurSurFeatures);
+    map.un("singleclick", singleclick2);
+});
+
+$(document).on("click", "#pointerAgentSupprimer", function (e) {
+    if ($("#collapseFour").attr("class") == "panel-collapse collapse in") {
+        map.on("pointermove", activerPointeurSurFeatures);
+    }
+    map.on("singleclick", singleclick2);
+
+});
+
+$(document).on("click", "#SupprimerAgentBouton", function (e) {
+    e.preventDefault();
+    data = {
+        suppression: true,
+        gid: gid,
+    }
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors de la suppression de l'agent");
+    }
+    success = function (resultat) {
+        if (resultat.type == "succes") {
+            afficherNotif("succes", resultat.msg);
+            actualiserCoucheAgent();
+        }
+    }
+    ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
+
+});
+// /PARTIE SUPPRESSION
+
+// FONCTION D'ACTUALISATION DE LA COUCHE AGENT
+function actualiserCoucheAgent() {
+
+    // DÉFINITION DU STYLE DE LA COUCHE AGENT
+    var styleCoucheAgent = function (feature) {
+
+        var src = 'assets/img/agent_24.png';
+        var style_agent = {
+            'Point':
+                new ol.style.Style({
+                    image: new ol.style.Icon({
+                        anchor: [0.5, 0.5],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'fraction',
+                        src: src
+                    })
+                })
+        };
+        return style_agent[feature.getGeometry().getType()];
+    }
+    // /DÉFINITION DU STYLE DE LA COUCHE AGENT
+
+    // DÉFINITION DE LA COUCHE AGENT
+    coucheAgent = new ol.layer.Vector({
+        name: 'CoucheAgent',
+        title: 'Couche Agent',
+        visible: true,
+        source: source_couche_agent,
+        style: styleCoucheAgent
+    });
+    // /DÉFINITION DE LA COUCHE AGENT
+
+    // SUPPRESSION DU CONTENU DE LA COUCHE AGENT 
+    source_couche_agent.clear();
+    // /SUPPRESSION DU CONTENU DE LA COUCHE AGENT
+
+    // L'APPEL AJAX AVEC LES PARAMÈTRES
+    data = {
+        selection: true
+    }
+    success = function (result) {
+        var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+        source_couche_agent.addFeatures(features);
+        afficherNotif("info", "La couche des agents a été bien actualisée");
+    }
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors du chargement de la couche des agents");
+    }
+    ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
+    // /L'APPEL AJAX AVEC LES PARAMÈTRES
+
+    // L'AJOUT DE LA COUCHE AGENT À LA CARTE
+    map.addLayer(coucheAgent);
+    // /L'AJOUT DE LA COUCHE AGENT À LA CARTE
+
+}
+// /FONCTION D'ACTUALISATION DE LA COUCHE AGENT
+

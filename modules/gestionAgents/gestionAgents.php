@@ -19,6 +19,8 @@ function ConvertDistance ($longueur) {
 	}
 	return $msg;
 }
+
+
 // LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE AGENT
 if($_POST["importation"]){
     // RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
@@ -73,9 +75,30 @@ if($_POST["importation"]){
 
 }
 // /LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE AGENT
+
+
+// LE CAS DE LA MODIFICATION OU BIEN LE DÉPLACEMENT
+if($_POST['modification']){
+    if($_POST['emplacement']){
+        $var = executerRequete("UPDATE agent SET nom = ".$_POST['nom'].", prenom = ".$_POST['prenom'].", mobilite = ".$_POST['mobilite'].", emplacement = st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) WHERE gid = ".$_POST['gid']."");
+    }else{
+        $var = executerRequete("UPDATE agent SET nom = ".$_POST['nom'].", prenom = ".$_POST['prenom'].", mobilite = ".$_POST['mobilite']." WHERE gid = ".$_POST['gid']."");
+    }
+
+    if($var){
+    echo json_encode(array(
+        "type" => "succes",
+        "msg" => "L'agent a été bien modifié / déplacé avec succès"
+        ));
+    }
+}
+// LE CAS DE LA MODIFICATION OU BIEN LE DÉPLACEMENT
+
+
+// LE CAS D'AJOUT
 if($_POST['ajout']){
 	
-	$insert_agent = executerRequete("INSERT INTO agent VALUES (DEFAULT, '".$_POST['nom']."', '".$_POST['prenom']."', true, DEFAULT, st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
+	$insert_agent = executerRequete("INSERT INTO agent VALUES (DEFAULT, '".$_POST['nom']."', '".$_POST['prenom']."', ".$_POST['mobilite']." , DEFAULT, st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
 	
 	if($insert_agent){
 		echo json_encode(array(
@@ -85,17 +108,21 @@ if($_POST['ajout']){
 		}
 	}
 
+// /LE CAS D'AJOUT
 
-if($_POST['supression']){
-	$delete_agent = executerRequete("DELETE from agent where gid=".$_POST['gid']);
-	
-	if($delete_agent){
-		echo json_encode(array(
-			"type" => "succes",
-			"msg" => "L'agent a été supprimé avec succès"
-			));
-		}
-	}
+// LE CAS SUPPRESSION
+if($_POST["suppression"]){
+    $var = executerRequete("DELETE FROM agent WHERE gid = ".$_POST['gid']."");
+    if($var){
+    echo json_encode(array(
+        "type" => "succes",
+        "msg" => "L'agent a été bien supprimé avec succès"
+        ));
+    }
+}
+// LE CAS SUPPRESSION
+
+// TABLEAU DES INFORMATION SUR LES AGENTS
 if($_POST['list']){
 	$query = "SELECT gid, nom, date_creation, type, st_x(the_geom) as longitude, st_y(the_geom) as latitude FROM agent ";
 	if($query) {
@@ -160,9 +187,11 @@ if($_GET['table']){
 		exit;
     }
 }
+// /TABLEAU DES INFORMATION SUR LES AGENTS 
 
+// SELECTION DES DONNEES 
 if($_POST['selection']){
-	$result = executerRequete("SELECT gid, nom, prenom, st_asgeojson(emplacement) as geom FROM agent");
+	$result = executerRequete("SELECT gid, nom, prenom, mobilite, st_asgeojson(emplacement) as geom FROM agent");
 	if($result) {
 		    while($row = pg_fetch_assoc($result)) {
 		    	$row['removable']='true';
@@ -183,7 +212,6 @@ if($_POST['selection']){
 		    }
     }
 }
-exit();
-pg_close($db);
+// /SELECTION DES  DONNEES
 
 ?>
