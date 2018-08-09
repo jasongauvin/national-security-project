@@ -412,3 +412,36 @@ function actualiserCoucheAccident() {
 //         }));
 // }
 
+
+// $.ajax({
+//     url: "modules/accidentologie/accidentologie.php",
+//     data: {
+//         selection: true
+//     },
+//     type: "POST",
+//     dataType: "json", // "xml", "json"
+//     success: function() {
+//         // console.log(logs.features[0].properties);
+//         // console.log(data.features);
+//         json = {
+//             columns : {"sqdqsd": "qsqdsd"},
+//             data : {"sd": "df"}
+//         };
+
+//         $('#tableAttributaire').DataTable( {
+//             columns: json.columns,
+//             data: json.data
+//           } );
+          
+//         // tableAttributaire.clear();
+
+//         // $.each(data.features, function(index, value) {
+//         //     console.log(Object.keys(value.properties));
+//         //     // tableAttributaire.row.add(value);
+//         // });
+//         // tableAttributaire.draw();
+//     },
+//     error: function(jqXHR, textStatus, ex) {
+//         alert(textStatus + "," + ex + "," + jqXHR.responseText);
+//     }
+// });

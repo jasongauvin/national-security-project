@@ -7,6 +7,10 @@ function changerClasseCss(id, classe) {
 // INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
 function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, largeurMenu, marginTop) {
 
+    // CHANGEMENT DE TEXTE DANS LA BALISE <title>
+    $("title").text($('#' + idModule).text());
+    // /CHANGEMENT DE TEXTE DANS LA BALISE <title>
+
     // CHANGEMENT DE TEXTE DANS LE TITRE DU BORD [ TABLEAU DE BORD / ... ]
     $("#tabBord").text($('#' + idModule).text());
     // /CHANGEMENT DE TEXTE DANS LE TITRE DU BORD [ TABLEAU DE BORD / ... ]

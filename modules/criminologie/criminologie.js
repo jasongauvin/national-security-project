@@ -4,7 +4,7 @@ var json, coords, coucheCrime, execFonc = false, gid;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
-interactionGraphiqueMenuDeNavigation(4, "CRIMINOLOGIE", "Boîte à outils criminologie", 43, 0);
+interactionGraphiqueMenuDeNavigation(4, "criminologie", "Boîte à outils criminologie", 43, 0);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
