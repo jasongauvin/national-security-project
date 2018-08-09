@@ -62,7 +62,6 @@
 		#main_agent_list_content {
 			border-bottom-left-radius: 2px;
 			border-top-left-radius: 2px;
-			box-shadow: 0 2px 9px 2px rgba(0, 0, 0, 0.14);
 			display: none;
 			height: 100%;
 			padding-left: 8px;
@@ -88,7 +87,7 @@
 		}*/
 		#main_agent_list_content_toggle > .open {
 			background-position: left top;
-			bottom: 250px;
+			bottom: 200px;
 			position: absolute;
 			left: 50%;
 			width: 60px;
@@ -456,9 +455,9 @@
 					
 					<div id="main_agent_list_content_toggle">
 							<div id="main_agent_list_content">
-								<div style="max-height: 250px;min-height: 250px;;overflow-y: scroll;overflow-x: hidden;">
+								<div style="max-height: 200px;min-height: 200px;;overflow-y: scroll;overflow-x: hidden;">
 										<div class="card" style="padding-right: 7px;">
-											<div class="card-header"><i class="icon-calendar3"></i> Liste des agents de police (complète)</div>
+											<div class="h4-responsive" style="text-align: center;padding-top: 4px;"><i class="icon-calendar3"></i> Liste des agents de police (complète)</div>
 											<div class="card-body">
 												<table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" style="width: 100%;">
 													
@@ -761,28 +760,34 @@
 		<script>
 				$(document).ready(function () {
 					$('#dtBasicExample').DataTable({
-						dom: "<'row'<'col-sm-5'l><'col-sm-4'B><'col-sm-3'f>>" +
+						dom: "<'row'<'col-sm-4'l><'col-sm-5'B><'col-sm-3'f>>" +
     						"<'row'<'col-sm-12'tr>>" +
     						"<'row'<'col-sm-5'i><'col-sm-7'p>>",
 						buttons: [
 							{
 								extend: 'copy',
-								text: 'Copier'
+								text: 'Copier',
+								className: 'btn btn-default btn-xs'
 							}
-							,
-							'csv'
+							,{
+								extend: 'csv',
+								className: 'btn btn-default btn-xs'
+							}
 							,
 							{
                 				extend: 'excel',
-                				messageTop: 'La liste des'
+								messageTop: 'La liste des',
+								className: 'btn btn-default btn-xs' 
 							},
 							{
                 				extend: 'pdf',
-                				messageTop: 'La liste des'
+								messageTop: 'La liste des',
+								className: 'btn btn-default btn-xs'
 							},
 							{
 								extend: 'print',
 								text: 'Imprimer',
+								className: 'btn btn-default btn-xs',
                 				messageTop: 'La liste des'
 							}
 						],
