@@ -1243,6 +1243,7 @@ color: #AAAAAA !important;
 /* ---------------------------------------------------------------------- */
 .main-container {
 	margin-top: 48px;
+	margin-bottom: 38px;
 }
 .page-full-width .main-container{
 	margin-top: 98px;
@@ -1474,7 +1475,7 @@ ul.main-navigation-menu > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu
 /* ---------------------------------------------------------------------- */
 .footer {
 	font-size: 12px;
-	padding: 8px 20px 5px;
+	padding: 10px 20px 0px;
 	position: relative;
 }
 .footer-inner {

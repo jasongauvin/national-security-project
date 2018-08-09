@@ -21,6 +21,10 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
 
+// SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+supprimerCouches(coucheAccident);
+// /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
     features = [];
@@ -375,36 +379,69 @@ function actualiserCoucheAccident() {
 }
 // /FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT
 
-pulse([-6.83435440063476, 34.0317497029135]);
+// pulse([-6.83435440063476, 34.0317497029135]);
 
-// Pulse at lonlat
-function pulse(lonlat) {
-    var nb = 6;
-    for (var i = 0; i < nb; i++) {
-        setTimeout(function () {
-            pulseFeature(ol.proj.transform(lonlat, 'EPSG:4326', map.getView().getProjection()));
-        }, i * 500);
-    };
-}
+// // Pulse at lonlat
+// function pulse(lonlat) {
+//     var nb = 6;
+//     for (var i = 0; i < nb; i++) {
+//         setTimeout(function () {
+//             pulseFeature(ol.proj.transform(lonlat, 'EPSG:4326', map.getView().getProjection()));
+//         }, i * 500);
+//     };
+// }
 
-// Pulse feature at coord
-function pulseFeature(coord) {
+// // Pulse feature at coord
+// function pulseFeature(coord) {
 
-    var f = new ol.Feature(new ol.geom.Point(coord));
-    f.setStyle(new ol.style.Style(
-        {
-            image: new ol.style["Circle"](
-                {
-                    radius: 30,
-                    points: 4,
-                    stroke: new ol.style.Stroke({ color: "red", width: 2 })
-                })
-        }));
-    map.animateFeature(f, new ol.featureAnimation.Zoom(
-        {
-            fade: ol.easing.easeOut,
-            duration: 3000,
-            easing: ol.easing["upAndDown"]
-        }));
-}
+//     var f = new ol.Feature(new ol.geom.Point(coord));
+//     f.setStyle(new ol.style.Style(
+//         {
+//             image: new ol.style["Circle"](
+//                 {
+//                     radius: 30,
+//                     points: 4,
+//                     stroke: new ol.style.Stroke({ color: "red", width: 2 })
+//                 })
+//         }));
+//     map.animateFeature(f, new ol.featureAnimation.Zoom(
+//         {
+//             fade: ol.easing.easeOut,
+//             duration: 3000,
+//             easing: ol.easing["upAndDown"]
+//         }));
+// }
 
+
+// $.ajax({
+//     url: "modules/accidentologie/accidentologie.php",
+//     data: {
+//         selection: true
+//     },
+//     type: "POST",
+//     dataType: "json", // "xml", "json"
+//     success: function() {
+//         // console.log(logs.features[0].properties);
+//         // console.log(data.features);
+//         json = {
+//             columns : {"sqdqsd": "qsqdsd"},
+//             data : {"sd": "df"}
+//         };
+
+//         $('#tableAttributaire').DataTable( {
+//             columns: json.columns,
+//             data: json.data
+//           } );
+          
+//         // tableAttributaire.clear();
+
+//         // $.each(data.features, function(index, value) {
+//         //     console.log(Object.keys(value.properties));
+//         //     // tableAttributaire.row.add(value);
+//         // });
+//         // tableAttributaire.draw();
+//     },
+//     error: function(jqXHR, textStatus, ex) {
+//         alert(textStatus + "," + ex + "," + jqXHR.responseText);
+//     }
+// });

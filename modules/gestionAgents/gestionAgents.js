@@ -17,9 +17,16 @@ $.get("modules/gestionAgents/gestionAgents.html", function (data) {
 interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 43, 5);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
+// AFFICHAGE DE LA COUCHE AGENT
 actualiserCoucheAgent();
+// /AFFICHAGE DE LA COUCHE AGENT
 
-// CAS DE MODIFICATION 
+// SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+supprimerCouches(coucheAgent);
+// /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+
+
+// CAS DE MODIFICATION
 function singleclick (evt) {
     features = [];
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {

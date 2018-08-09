@@ -71,3 +71,26 @@ function changerPointeurAjout(icone = "pointeur.png") {
 
 }
 // /CHANGEMENT DE POINTEUR LORS DE L'AJOUT
+
+// SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+function supprimerCouches(couche) {
+
+    couches = [];
+    if (typeof coucheAccident !== "undefined") {
+        couches.push(coucheAccident);
+    }
+    if (typeof coucheCrime !== "undefined") {
+        couches.push(coucheCrime);
+    }
+    if (typeof coucheAgent !== "undefined") {
+        couches.push(coucheAgent);
+    }
+    
+    for (i = 0; i < couches.length; i++) {
+        if (couches[i] != couche) {
+            map.removeLayer(couches[i]);
+        }
+    }
+    
+}
+// /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE

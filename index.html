@@ -5,14 +5,18 @@
 <html lang="fr" class="no-js">
 <!--<![endif]-->
 <head>
-		<title>PROJET-SURETE-NATIONALE</title>
+		<title>TABLEAU DE BORD</title>
 
 		<!-- META -->
 		<meta charset="utf-8" />
 		<!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<!-- /META -->
-		
+
+		<!-- FAVICON -->
+		<link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+		<!-- /FAVICON -->
+
 		<!-- CSS DE LA TEMPLATE -->
 		<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/fonts/style.css">
@@ -27,29 +31,42 @@
 		<![endif]-->
 		<!-- /CSS DE LA TEMPLATE -->
 
+		<!-- CSS DU CONTEXT MENU -->
+		<link rel="stylesheet" href="assets/plugins/context-menu/ol-contextmenu.min.css">
+		<!-- /CSS DU CONTEXT MENU -->
+		
 		<!-- CSS MATERIAL DESIGN BOOTSTRAP -->
 		<link rel="stylesheet" href="assets/plugins/mdb/css/mdb.min.css">
 		<!-- /CSS MATERIAL DESIGN BOOTSTRAP -->
-
+		
+		<!-- CSS TIME-PICKER -->
 		<link rel="stylesheet" href="assets/plugins/jquery-ui-1.12.1/time-picker-fr/time-picker-fr.css">
-
+		<!-- /CSS TIME-PICKER -->
+		
+		<!-- CSS JQUERY-UI -->
 		<link rel="stylesheet" href="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.css">
-		<!-- FAVICON -->
-		<link rel="shortcut icon" href="favicon.ico" />
-		<!-- /FAVICON -->
+		<!-- /CSS JQUERY-UI -->
 
 		<!-- CSS D'OPEN LAYERS -->
 		<link rel="stylesheet" href="assets/plugins/open-layers/css/ol.css">
 		<link rel="stylesheet" href="assets/css/ol-ext.css" />
-		<!-- CSS D'OPEN LAYERS -->
+		<!-- /CSS D'OPEN LAYERS -->
 
 		<!-- MAP CSS -->
 		<link rel="stylesheet" href="assets/css/map-style.css">
 		<!-- /MAP CSS -->
 		
+		<!-- CSS DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
+		<link rel="stylesheet" href="assets/css/table-style.css">
+		<!-- /CSS DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
+		
+		<!-- CSS BOOTSTRAP-DATATABLE -->
+		<link rel="stylesheet" href="assets/plugins/data-tables/dataTables.bootstrap.min.css">
+		<!-- /CSS BOOTSTRAP-DATATABLE -->
+		
 	</head>
 
-	<body>
+	<body class="footer-fixed">
 
 		<!-- HEADER -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
@@ -387,28 +404,77 @@
 					</div>
 					
 					<!-- SECTION MAP -->
-					<div id="map">
+					<div id="map"></div>
 					<!-- /SECTION MAP -->
-
+					
+					<!-- TABLE DES DONNÉES ATTRIBUTAIRES -->
+					<div id="main_agent_list_content_toggle">
+						<div id="main_agent_list_content">
+							<div style="max-height: 200px;min-height: 200px;overflow-y: scroll;overflow-x: hidden;">
+								<div class="card" style="padding-right: 7px;">
+									<div class="h4-responsive" style="text-align: center;padding-top: 4px;">
+										<i class="icon-calendar3"></i> Liste des</div>
+									<div class="card-body">
+										<table id="tableAttributaire" class="table table-striped table-bordered table-sm" cellspacing="0" style="width: 100%;">
+											<thead>
+												<tr>
+													<th class="th-sm">log_time
+														<i class="fa fa-sort float-right" aria-hidden="true"></i>
+													</th>
+													<th class="th-sm">user_name
+														<i class="fa fa-sort float-right" aria-hidden="true"></i>
+													</th>
+													<th class="th-sm">class_name
+														<i class="fa fa-sort float-right" aria-hidden="true"></i>
+													</th>
+													<th class="th-sm">class_function
+														<i class="fa fa-sort float-right" aria-hidden="true"></i>
+													</th>
+													<th class="th-sm">action_title
+														<i class="fa fa-sort float-right" aria-hidden="true"></i>
+													</th>
+													<th class="th-sm">action_description
+														<i class="fa fa-sort float-right" aria-hidden="true"></i>
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Sonya Frost</td>
+													<td>Software Engineer</td>
+													<td>Edinburgh</td>
+													<td>23</td>
+													<td>2008/12/13</td>
+													<td>$103,600</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="agent-toggle close">
+							<i class="clip-chevron-up"></i>
+						</div>
+					</div>
+					<!-- /TABLE DES DONNÉES ATTRIBUTAIRES -->
 				</div>
-				<div id="agent_popup" class="ol-popup-info-bull">
-					<a href="#" id="popup-closer" class="ol-popup-info-bull-closer"></a>
-					<div id="agent_popup_content"></div>
-			  	</div>
 				
 			</div>
-
+	
 		</div>
 		<!-- /CONTENEUR PRINCIPAL -->
-		<div id="exceltable"></div>
+		
 		<!-- FOOTER -->
 		<div class="footer clearfix">
 			<div class="footer-inner">
 				2018 &copy; Navcities
 			</div>
+
 			<div class="footer-items">
 				<span class="go-top"><i class="clip-chevron-up"></i></span>
 			</div>
+
 		</div>
 		<!-- /FOOTER -->
 
@@ -439,20 +505,49 @@
 		<script src="assets/plugins/mdb/js/mdb.min.js"></script>
 		<!-- /SCRIPT MDB CORE -->
 		
+		<!-- SCRIPT JQUERY-UI -->
 		<script src="assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+		<!-- /SCRIPT JQUERY-UI -->
+
+		<!-- SCRIPT DATE-PICKER -->
 		<script src="assets/plugins/jquery-ui-1.12.1/date-picker-fr/date-picker-fr.js"></script>
+		<!-- /SCRIPT DATE-PICKER -->
+
+		<!-- SCRIPT TIME-PICKER -->
 		<script src="assets/plugins/jquery-ui-1.12.1/time-picker-fr/time-picker-fr.js"></script>
+		<!-- /SCRIPT TIME-PICKER -->
+		
 		<!-- SCRIPT DE LA DATE ET L'HEURE ACTUELLE -->
 		<script src="assets/js/dateHeureActuelle.js"></script>
 		<!-- /SCRIPT DE LA DATE ET L'HEURE ACTUELLE -->
 		
-		<!-- JS D'OPEN LAYERS -->
+		<!-- SCRIPT DATATABLE-JQUERY -->
+		<script src="assets/plugins/data-tables/jquery.dataTables.min.js"></script>
+		<!-- /SCRIPT DATATABLE-JQUERY -->
+
+		<!-- SCRIPT DATATABLE-BOOTSTRAP -->
+		<script src="assets/plugins/data-tables/dataTables.bootstrap.min.js"></script>
+		<!-- /SCRIPT DATATABLE-BOOTSTRAP -->
+		
+		<!-- SCRIPT DATATABLE-EXPORTATION -->
+		<script src="assets/plugins/data-tables/dataTables.buttons.min.js"></script>
+		<script src="assets/plugins/data-tables/jszip.min.js"></script>
+		<script src="assets/plugins/data-tables/pdfmake.min.js"></script>
+		<script src="assets/plugins/data-tables/vfs_fonts.js"></script>
+		<script src="assets/plugins/data-tables/buttons.html5.min.js"></script>
+		<script src="assets/plugins/data-tables/buttons.print.min.js"></script>
+		<!-- /SCRIPT DATATABLE-EXPORTATION -->
+
+		<!-- SCRIPT DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
+		<script src="assets/js/table.js"></script>
+		<!-- SCRIPT DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
+
+		<!-- SCRIPT D'OPEN LAYERS -->
 		<script src="assets/plugins/open-layers/js/ol.js"></script>
 		<script src="assets/js/ol-ext.js"></script>
-		<!-- JS D'OPEN LAYERS -->
+		<!-- SCRIPT D'OPEN LAYERS -->
 
 		<!-- SCRIPT DU CONTEXT MENU -->
-		<link href="assets/plugins/context-menu/ol-contextmenu.min.css" rel="stylesheet">
 		<script src="assets/plugins/context-menu/ol-contextmenu.js"></script>
 		<!-- /SCRIPT DU CONTEXT MENU -->
 		
