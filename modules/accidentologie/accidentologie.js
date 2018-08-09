@@ -21,6 +21,10 @@ $.get("modules/accidentologie/accidentologie.html", function (data) {
 actualiserCoucheAccident();
 // /AFFICHAGE DE LA COUCHE ACCIDENT
 
+// SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+supprimerCouches(coucheAccident);
+// /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
     features = [];

@@ -21,6 +21,10 @@ $.get("modules/criminologie/criminologie.html", function (data) {
 actualiserCoucheCriminologie();
 // /AFFICHAGE DE LA COUCHE CRIME
 
+// SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+supprimerCouches(coucheCrime);
+// /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
     features = [];
