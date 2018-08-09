@@ -1,15 +1,41 @@
 
-
-
 //ICON DE LA RUBRIQUE RAFRAICHIR
 
 var refresh_icon = 'assets/img/refresh-64.png';
 var pois_icon = 'assets/img/poi-64.png';
-
+var center_icon = 'assets/img/pointeur.png';
+var toHere_icon = 'assets/img/to-64.png';
+var fromHere_icon = 'assets/img/from-64.png';
+var directions_icon ='assets/img/directions-64.png';
+var direction_mode='pieton';
+var direction_geojsonFormat = new ol.format.GeoJSON();
 
  //MENU 
 
  var contextmenu_items = [
+    {
+        text: 'Direction',
+        icon: directions_icon,
+        items: [
+          {
+            text: 'A partir d\'ici',
+            icon: fromHere_icon,
+            callback: roadFromHere
+          },
+          {
+            text: 'Vers ici',
+            icon: toHere_icon,
+            callback: roadToHere
+          }
+        ]
+    },
+    {
+        text: 'Centrer la carte ici',
+        classname: 'bold',
+        icon: center_icon,
+        callback: center
+      },
+     
     {
         text: 'Couche d\'intérêt à proximité',
         classname: 'bold',
@@ -21,8 +47,7 @@ var pois_icon = 'assets/img/poi-64.png';
         icon: refresh_icon,
         callback: reloadMap
     },
-    '-' // this is a separator
-    
+    '-'   
     ];
 
     var contextmenu = new ContextMenu({
@@ -34,36 +59,259 @@ var pois_icon = 'assets/img/poi-64.png';
 
     //FONCTION DU CALLBACK DE LA RUBRIQUE RAFRAICHIR 
 
-    function reloadMap(obj){
-        location.reload();
+    function roadFromHere(obj){
+        $("#find_location_map_content").hide();
+        $("#nearby_pois_map_content").hide();
+        $("#direction_road_map_content").show();
+        var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
+        getSelectedAddressRoad('Wher you clicked: Start', c[0], c[1], 'start_location_suggestion_list','start_location_input', 'start');
     }
+    
+    function roadToHere(obj){
+				$("#find_location_map_content").hide();
+				$("#nearby_pois_map_content").hide();
+				$("#direction_road_map_content").show();
+				var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
+				getSelectedAddressRoad('Wher you clicked: Destination', c[0], c[1], 'destination_suggestion_list','destination_input', 'destination');
 
-    function removePoisFeatures(categorie){
-        nearbyPoisGeometryVector.getSource().forEachFeature(function(feature) {
-            if(feature.get('souscategorie') == categorie){
-                nearbyPoisGeometryVector.getSource().removeFeature(feature); 
             }
-        });
-        $("#nearby_pois_count").empty();
-        $("#nearby_pois_count").append(nearbyPoisGeometryVector.getSource().getFeatures().length +' POIS');
-    }
+    
+            var direction_start_popup = new ol.Overlay.Popup (
+                {	popupClass: "black", //"tooltips", "warning" "black" "default", "tips", "shadow",
+                    closeBox: false,
+                    onclose: function(){ console.log("You close the box"); },
+                    positioning: 'bottom-center',
+                    autoPan: true,
+                    autoPanAnimation: { duration: 100 }
+                });
+                var direction_destination_popup = new ol.Overlay.Popup (
+                    {	
+                        popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
+                        closeBox: false,
+                        onclose: function(){ console.log("You close the box"); },
+                        positioning: 'bottom-center',
+                        autoPan: true,
+                        autoPanAnimation: { duration: 100 }
+                    });
+    
+    var direction_styleFunction = function(feature, resolution) {
+				var direction_Style = {
+				   
+				    'LineString': [new ol.style.Style({
+				        stroke: new ol.style.Stroke({
+				        color: [255, 255, 255, 0.5],
+				        width: 5
+				        }),zIndex:2
+				   	}), new ol.style.Style({
+						stroke: new ol.style.Stroke({
+					  	color: [255, 0, 0, 0.8],
+					  	width: 8
+						}),
+						zIndex: 1
+					})],
+				    'MultiLineString': [new ol.style.Style({
+				        stroke: new ol.style.Stroke({
+				        color: [255, 255, 255, 0.5],
+				        width: 5
+				        }),zIndex:2
+				   	}), new ol.style.Style({
+						stroke: new ol.style.Stroke({
+					  	color: [255, 0, 0, 0.8],
+					  	width: 8
+						}),
+						zIndex: 1
+					})]
+				};
+				return direction_Style[feature.getGeometry().getType()];
+			};
 
-    function zoomToPoi(nom, coord0, coord1, el) {
-        nearbyPoisGeometryVector.getSource().forEachFeature(function (feature) {
-            var name = feature.get('nom').replace(/[']/g, "|");
-            var cx = feature.get('x');
-            var cy = feature.get('y');
-            if (name == nom && cx == coord0 && cy == coord1) {
-                var ext = feature.getGeometry().getExtent();
-                map.getView().fit(ext, map.getSize());
-                var coordinates = ol.proj.transform([Number(feature.get('x')), Number(feature.get('y'))], 'EPSG:4326', 'EPSG:3857');
-                poi_popup.show(feature.getGeometry().getCoordinates(), name);
-                map.getView().setZoom(18);
+        
+    var directionGeometryVector = new ol.layer.Vector(
+				{	
+					name: 'RoadDirection',
+					source: new ol.source.Vector(),
+					style: direction_styleFunction
+                }); 
+                
+    function getSelectedAddressRoad(name, longitude, latitude, id_ul,id_input, type){
+				name=name.replace(/[|]/g, "'");
+				directionGeometryVector.getSource().forEachFeature(function(feature) {
+		          	var typ = feature.get('type');
+		          	if (typ==type) {
+		          		directionGeometryVector.getSource().removeFeature(feature);
+		          	}
+		        });
+				if(type=='start'){
+					direction_start_popup.hide(undefined, ''); 
+					var point_pos_search_inp = new ol.geom.Point(
+						ol.proj.transform([longitude,latitude], 'EPSG:4326', 'EPSG:3857')
+					);
+					var point_position_map_road_direction = new ol.Feature(point_pos_search_inp);
+					point_position_map_road_direction.set('type','start');
+					point_position_map_road_direction.set('image','assets/images/pois.png');
+					directionGeometryVector.getSource().addFeature(point_position_map_road_direction);
+					direction_start_popup.show(point_position_map_road_direction.getGeometry().getCoordinates(), '<i class="icon-text_format"></i>| '+name); 
+				}else{
+					direction_destination_popup.hide(undefined, ''); 
+					var point_pos_search_inp = new ol.geom.Point(
+						ol.proj.transform([longitude,latitude], 'EPSG:4326', 'EPSG:3857')
+					);
+					var point_position_map_road_direction = new ol.Feature(point_pos_search_inp);
+					point_position_map_road_direction.set('type','destination');
+					point_position_map_road_direction.set('image','assets/images/pois.png');
+					directionGeometryVector.getSource().addFeature(point_position_map_road_direction);
+					direction_destination_popup.show(point_position_map_road_direction.getGeometry().getCoordinates(), '<i class="icon-format_bold"></i>| '+name); 
+				}
+				
+				$("#"+id_input).val(name);
+				$("#"+id_ul).hide();
+				
+				var extent = directionGeometryVector.getSource().getExtent();
+		        map.getView().fit(extent, map.getSize());
+
+		        executeRoadMap();
             }
+
+            function executeRoadMap(){
+				if(directionGeometryVector.getSource().getFeatures().length > 1){
+					var coordStart, coordDestination;
+					directionGeometryVector.getSource().forEachFeature(function(feature) {
+			          	var typ = feature.get('type');
+			          	if (typ=='start') {
+			          		coordStart = ol.proj.transform(feature.getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
+			          		
+			          	}else if(typ=='destination'){
+			          		
+			          		coordDestination = ol.proj.transform(feature.getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
+			          	}
+			        });
+
+			        directionGetRoadDirection(coordStart, coordDestination,direction_mode, 'service', true, 'road_map_tab');
+				}
+			}
+
+            // map.addLayer(directionGeometryVector);
+			// map.addOverlay(direction_start_popup);
+			// map.addOverlay(direction_destination_popup);
+       
+
+			function directionGetRoadDirection(start, destination,mode, service, roadmap, id_roadmap_content){
+		
+				$.ajax({
+					url: 'http://www.navcities.com/api/routing/?&user=demo&txtstartpoint=your_start_adresse&txtendpoint=your_end_adresse&hwy=0&tr=0&piste=0',
+					data:{
+						startpoint 	: start[0]+','+start[1],
+						finalpoint 	: destination[0]+','+destination[1],
+						mode 		: mode
+					},
+					type: 'GET',
+					dataType: 'JSON',
+					async: false,
+					cache: false,
+					timeout: 10000,
+					success: function(result) {
+						directionGeometryVector.getSource().forEachFeature(function(feature) {
+							if(feature.getGeometry().getType()!='Point'){
+								directionGeometryVector.getSource().removeFeature(feature);
+							}
+						});
+						//directionGeometryVector.getSource().clear();
+						var features = direction_geojsonFormat.readFeatures(result,{featureProjection: 'EPSG:3857'});
+		                directionGeometryVector.getSource().addFeatures(features);
+		                    
+					},
+					error: function(){
+						displayNotificationsAlerts('Road Map Direction','<p style="text-align: left !important">Erreur de calcul, données incomplètes.. !</p>','alert.png','3000');
+					},
+					complete: function(){
+						var extent = directionGeometryVector.getSource().getExtent();
+		                map.getView().fit(extent, map.getSize());
+		                if(roadmap){
+		                	mapRoadDirectionGetRoadMap(start, destination, mode, service,id_roadmap_content);
+		                }  
+					}
+				});	
+            }
+            
+            function activatePoisTab(a){
+				$(a).click();
+			}
+            
+      function elastic(t) {
+        return Math.pow(2, -10 * t) * Math.sin((t - 0.075) * (2 * Math.PI) / 0.3) + 1;
+      }
+      
+      function center(obj) {
+        view.animate({
+          duration: 700,
+          easing: elastic,
+          center: obj.coordinate
         });
-        // removeActiveClass();
-        $(el).addClass("active");
+      }
+      
+      function mapRoadDirectionGetRoadMap(start, destination,mode, service, id_roadmap_content){
+        $("#"+id_roadmap_content).empty();
+        $("#"+id_roadmap_content).append('<p><h3> Loading ... </h3></p>');
+        activatePoisTab('a_road_map_tab');
+        $.ajax({
+            url: 'http://www.navcities.com/api/routing/roadmap.php?tr=0&piste=0&hwy=0&txtstartpoint=&txtendpoint=&user=userkey',
+            data:{
+                startpoint 	: start[0]+','+start[1],
+                finalpoint 	: destination[0]+','+destination[1],
+                mode 		: mode
+            },
+            type: 'GET',
+            dataType: 'html',
+            /*async: false,
+            cache: false,
+            timeout: 3000,*/
+            success: function(result) {
+                $("#"+id_roadmap_content).empty();
+                $("#"+id_roadmap_content).append(result);
+            },
+            error: function(){
+                displayNotificationsAlerts('Road Map','<p style="text-align: left !important">Erreur de calcul de feuille de route, données incomplètes.. !</p>','alert.png','3000');
+            },
+            complete: function(){
+                $("#main_pois_list_content").show();
+                $('.pois-toggle').removeClass('close').addClass('open');
+                $('.pois-toggle').empty();
+                $('.pois-toggle').append('<i class="icon-chevron-thin-right"></i>');
+            }
+        });	
     }
+        
+        function reloadMap(obj){
+            location.reload();
+        }
+        
+       
+        function removePoisFeatures(categorie){
+            nearbyPoisGeometryVector.getSource().forEachFeature(function(feature) {
+                if(feature.get('souscategorie') == categorie){
+                    nearbyPoisGeometryVector.getSource().removeFeature(feature); 
+                }
+            });
+            $("#nearby_pois_count").empty();
+            $("#nearby_pois_count").append(nearbyPoisGeometryVector.getSource().getFeatures().length +' POIS');
+        }
+        
+        function zoomToPoi(nom, coord0, coord1, el){
+            nearbyPoisGeometryVector.getSource().forEachFeature(function(feature) {
+                  var name = feature.get('nom').replace(/[']/g, "|");
+                  var cx = feature.get('x');
+                  var cy = feature.get('y');
+                  if (name==nom && cx== coord0 && cy==coord1) {
+                      var ext=feature.getGeometry().getExtent();
+                    map.getView().fit(ext, map.getSize());
+                    var coordinates = ol.proj.transform([Number(feature.get('x')),Number(feature.get('y'))], 'EPSG:4326', 'EPSG:3857');
+                    poi_popup.show(feature.getGeometry().getCoordinates(), name);
+                    map.getView().setZoom(17);
+                  }
+            });
+            removeActiveClass();
+            $(el).addClass("active");
+        }
 
 
     function nearbyPoisContexteMenu(obj){
@@ -187,6 +435,7 @@ var pois_icon = 'assets/img/poi-64.png';
                     
                     if (critere == 301) {
                         $("#nbrMosquees").empty();
+
                         $("#nbrMosquees").append((result.features.length));
                         $("#nbrMosqueesTitre").text($('#nbrMosquees').text() + " Mosquées disponibles");
                     }
