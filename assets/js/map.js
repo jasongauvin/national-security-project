@@ -74,22 +74,23 @@ function changerPointeurAjout(icone = "pointeur.png") {
 
 // SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
 function supprimerCouches(couche) {
+
     couches = [];
-    if (coucheAccident) {
+    if (typeof coucheAccident !== "undefined") {
         couches.push(coucheAccident);
     }
-    if (coucheCrime) {
+    if (typeof coucheCrime !== "undefined") {
         couches.push(coucheCrime);
     }
-    if (coucheAgent) {
+    if (typeof coucheAgent !== "undefined") {
         couches.push(coucheAgent);
     }
-    console.log(couches);
-
+    
     for (i = 0; i < couches.length; i++) {
         if (couches[i] != couche) {
             map.removeLayer(couches[i]);
         }
     }
+    
 }
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE

@@ -61,7 +61,7 @@ $("#accidentologie").parent().click(function () {
 
 // CHARGEMENT DU SCRIPT DU MODULE CRIMINOLGIE LORS DU CLIQUE
 $("#criminologie").parent().click(function () {
-    if(!$(".main-navigation-menu li:eq(3)").hasClass('active open')){
+    if(!$(".main-navigation-menu li:eq(4)").hasClass('active open')){
         $.getScript("modules/criminologie/criminologie.js");
     }
 });
