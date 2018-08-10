@@ -234,7 +234,8 @@ var direction_geojsonFormat = new ol.format.GeoJSON();
             }
             
             function activatePoisTab(a){
-				$(a).click();
+                document.getElementById(a).click();
+                console.log(a);
 			}
             
       function elastic(t) {

@@ -125,4 +125,39 @@ if($_POST["suppression"]){
     }
 }
 // LE CAS SUPPRESSION
+
+// LE CAS DE LA TABLE ATTRIBUTAIRE
+if($_POST['tableAttributaire']){
+
+    $colonnes = array();
+    $noms_cols = array("Id", "Nombre de blessés", "Nombre de morts", "Gravité", "Description", "Date et heure");
+    $donnees = array();
+
+    for($i = 0; $i < count(colsTabVersArray("accident"))-1; $i++){
+        array_push($colonnes, array(
+            "data" => colsTabVersArray("accident")[$i],
+            "name" => mb_strtoupper($noms_cols[$i])
+            )
+        );
+    }
+
+    $req = executerRequete("SELECT gid , COALESCE(nbrblesses, 0) AS nbrblesses, COALESCE(nbrmorts, 0) as nbrmorts, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM accident");
+        if($req) {
+		    while($ligne = pg_fetch_assoc($req)) {
+                array_push($donnees, array(
+                    colsTabVersArray("accident")[0] => $ligne[colsTabVersArray("accident")[0]],
+                    colsTabVersArray("accident")[1] => $ligne[colsTabVersArray("accident")[1]],
+                    colsTabVersArray("accident")[2] => $ligne[colsTabVersArray("accident")[2]],
+                    colsTabVersArray("accident")[3] => $ligne[colsTabVersArray("accident")[3]],
+                    colsTabVersArray("accident")[4] => $ligne[colsTabVersArray("accident")[4]],
+                    colsTabVersArray("accident")[5] => $ligne[colsTabVersArray("accident")[5]],
+                    )
+                );
+            }
+        }
+    
+    echo json_encode(array("data" => $donnees) + array("columns" => $colonnes));
+}
+// /LE CAS DE LA TABLE ATTRIBUTAIRE
+
 ?>
