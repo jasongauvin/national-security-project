@@ -64,7 +64,7 @@ var direction_geojsonFormat = new ol.format.GeoJSON();
         $("#nearby_pois_map_content").hide();
         $("#direction_road_map_content").show();
         var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-        getSelectedAddressRoad('Wher you clicked: Start', c[0], c[1], 'start_location_suggestion_list','start_location_input', 'start');
+        getSelectedAddressRoad('Where you clicked: Start', c[0], c[1], 'start_location_suggestion_list','start_location_input', 'start');
     }
     
     function roadToHere(obj){
@@ -72,7 +72,7 @@ var direction_geojsonFormat = new ol.format.GeoJSON();
 				$("#nearby_pois_map_content").hide();
 				$("#direction_road_map_content").show();
 				var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-				getSelectedAddressRoad('Wher you clicked: Destination', c[0], c[1], 'destination_suggestion_list','destination_input', 'destination');
+				getSelectedAddressRoad('Where you clicked: Destination', c[0], c[1], 'destination_suggestion_list','destination_input', 'destination');
 
             }
     

@@ -545,5 +545,140 @@
 		<script src="assets/plugins/maps.js"></script>
 		
 	</body>
+	<div style="position: absolute; top:62px; left: 3px; z-index: 99; max-width: 300px; display:block; max-height: 380px;overflow-y: hidden; overflow-x: hidden;" id="main_address_road_content">
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-10 col-md-12 col-sm-12" id="find_location_map_content">
+				<div class="card" style="margin-bottom: 0.1rem;">
+					<div class="card-body" style="padding: 0.5rem">
+						<div class="col-12" style="padding: 0.5px;">
+							<div class="input-group form-group">
+								<input type="text" class="form-control" placeholder="Rechercher sur ..." aria-label="Rechercher sur ..." id="address_find_input">
+								<span class="input-group-btn">
+									<button class="btn btn-secondary btn-sm" type="button"  id="find_location_map_content_btn" style="height: 33px;"><i class="icon icon-compass"></i></button>
+								</span>
+							</div>
+						</div>
+						<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="address_pois_suggestion_list">
+							<div class="list-group" style="max-height: 200px; overflow-y: auto;">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-10 col-md-12 col-sm-12" id="nearby_pois_map_content">
+				<div class="card">
+					<div class="card-header stats-widget"> <i class="icon-rss"></i> A proximité de :</div>
+					<div class="card-body p-0">
+						<div class="events">
+							<div class="all-events clearfix">
+								<div id="nearby_address" style="float: left;">...
+								</div>
+								<a href="javascript:void(0);" id="nearby_pois_count" class="btn btn-sm" style="float: right;">0 POI</a>
+							</div>
+							
+							<ul class="event-list">
+						
+								<div class="was-validated">
+									<label class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" id="mosque_btn" required>
+										<span class="custom-control-indicator"></span>
+										<span class="custom-control-description"><i class="icon icon-home6"></i> Mosquée </span>
+									</label>
+								</div>
+								<div class="was-validated">
+									<label class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" id="banque_btn" required>
+										<span class="custom-control-indicator"></span>
+										<span class="custom-control-description"><i class="icon icon-credit"></i> Banque </span>
+									</label>
+								</div>
+				
+								<div class="was-validated">
+									<label class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" id="ecoles_btn" required>
+										<span class="custom-control-indicator"></span>
+										<span class="custom-control-description"><i class="icon icon-library"></i> Ecoles</span>
+									</label>
+								</div>
+								<div class="was-validated">
+									<label class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" id="hotel_btn" required>
+										<span class="custom-control-indicator"></span>
+										<span class="custom-control-description"><i class="icon icon-local_hotel"></i> Hotel</span>
+									</label>
+								</div>
 
+							</ul> 
+							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="direction_road_map_content" style="display: none;">
+				<div class="card">
+					<div class="card-header"><i class="icon-refresh3"></i> Calcul d'Itinéraire<button class="btn btn-secondary btn-sm" type="button" style="float: right;" id="direction_road_map_content_btn"><i class="icon icon-search"></i></button></div>
+					<div class="card-body">
+							<div class="col-12">
+								<div class="input-group form-group">
+									<input type="text" class="form-control" placeholder="Start location" aria-label="Start location..." id="start_location_input">
+							
+								</div>
+							</div>
+							<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="start_location_suggestion_list">
+								<div class="list-group" style="max-height: 200px; overflow-y: auto;">
+								</div>
+							</div>
+						<div class="col-12">
+							<div class="input-group form-group">
+								<input type="text" class="form-control" placeholder="Destination" aria-label="Destination..." id="destination_input">
+						
+							</div>
+						</div>
+						<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="destination_suggestion_list">
+							<div class="list-group" style="max-height: 200px; overflow-y: auto;">
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="btn-group btn-group-sm" role="group">
+							
+								<button type="button" class="btn btn-success" id="direction_mode_driving">Court</button>
+								<button type="button" class="btn btn-warning" id="direction_mode_fast">Rapide</button>
+								<button type="button" class="btn btn-secondary" id="direction_mode_walking">Pieton</button>
+								<button type="button" class="btn btn-info" id="direction_startover" title="Réinitialiser"><i class="icon-restore"></i></button>
+							</div>
+						</div>
+						<hr>
+						<div class="col-12">
+							<div class="was-validated">
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" checked="" required="">
+									<span class="custom-control-indicator"></span>
+									<span class="custom-control-description">Eviter les routes à péage</span>
+								</label>
+							</div>
+							<div class="was-validated">
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" checked=""  required="">
+									<span class="custom-control-indicator"></span>
+									<span class="custom-control-description">Eviter les autoroutes</span>
+								</label>
+							</div>
+							<div class="was-validated">
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" checked=""  required="">
+									<span class="custom-control-indicator"></span>
+									<span class="custom-control-description">Eviter les pistes</span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </html>
