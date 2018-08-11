@@ -214,4 +214,37 @@ if($_POST['selection']){
 }
 // /SELECTION DES  DONNEES
 
+// LE CAS DE LA TABLE ATTRIBUTAIRE
+if($_POST['tableAttributaire']){
+
+    $colonnes = array();
+    $noms_cols = array("Id", "Nom", "Prenom", "Mobilité", "Date et heure");
+    $donnees = array();
+
+    for($i = 0; $i < count(colsTabVersArray("agent"))-1; $i++){
+        array_push($colonnes, array(
+            "data" => colsTabVersArray("agent")[$i],
+            "name" => mb_strtoupper($noms_cols[$i])
+            )
+        );
+    }
+
+    $req = executerRequete("SELECT gid , COALESCE(nom, '') AS nom, COALESCE(prenom, '') as prenom, CASE WHEN mobilite THEN 'mobile' WHEN mobilite = false THEN 'fixe' END AS mobilite, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM agent");
+        if($req) {
+		    while($ligne = pg_fetch_assoc($req)) {
+                array_push($donnees, array(
+                    colsTabVersArray("agent")[0] => $ligne[colsTabVersArray("agent")[0]],
+                    colsTabVersArray("agent")[1] => $ligne[colsTabVersArray("agent")[1]],
+                    colsTabVersArray("agent")[2] => $ligne[colsTabVersArray("agent")[2]],
+                    colsTabVersArray("agent")[3] => $ligne[colsTabVersArray("agent")[3]],
+                    colsTabVersArray("agent")[4] => $ligne[colsTabVersArray("agent")[4]],
+                    )
+                );
+            }
+        }
+    
+    echo json_encode(array("data" => $donnees) + array("columns" => $colonnes));
+}
+// /LE CAS DE LA TABLE ATTRIBUTAIRE
+
 ?>

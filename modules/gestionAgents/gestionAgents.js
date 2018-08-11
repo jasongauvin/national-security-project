@@ -364,3 +364,7 @@ function actualiserCoucheAgent() {
 }
 // /FONCTION D'ACTUALISATION DE LA COUCHE AGENT
 
+// REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
+// /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+

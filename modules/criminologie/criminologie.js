@@ -374,3 +374,7 @@ function actualiserCoucheCriminologie() {
 
 }
 // /FONCTION D'ACTUALISATION DE LA COUCHE CRIME
+
+// REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
+// /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT

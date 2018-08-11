@@ -148,4 +148,37 @@ if($_POST["suppression"]){
     }
 }
 // LE CAS SUPPRESSION
+
+// LE CAS DE LA TABLE ATTRIBUTAIRE
+if($_POST['tableAttributaire']){
+
+    $colonnes = array();
+    $noms_cols = array("Id", "Type", "Gravité", "Description", "Date et heure");
+    $donnees = array();
+
+    for($i = 0; $i < count(colsTabVersArray("crime"))-1; $i++){
+        array_push($colonnes, array(
+            "data" => colsTabVersArray("crime")[$i],
+            "name" => mb_strtoupper($noms_cols[$i])
+            )
+        );
+    }
+
+    $req = executerRequete("SELECT gid , CASE WHEN type THEN 'Violence familiale' WHEN type = 1 THEN 'Agression sexuelle' WHEN type = 2 THEN 'Harcèlement criminel' WHEN type =3 then 'Violence et menaces physiques' WHEN type=4 then 'Conduite avec facultés affaiblies' WHEN type=5 THEN 'Vol et autres crimes contre les biens' WHEN type =6 THEN 'Autres'  END AS type, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM crime");
+        if($req) {
+		    while($ligne = pg_fetch_assoc($req)) {
+                array_push($donnees, array(
+                    colsTabVersArray("crime")[0] => $ligne[colsTabVersArray("crime")[0]],
+                    colsTabVersArray("crime")[1] => $ligne[colsTabVersArray("crime")[1]],
+                    colsTabVersArray("crime")[2] => $ligne[colsTabVersArray("crime")[2]],
+                    colsTabVersArray("crimie")[3] => $ligne[colsTabVersArray("crime")[3]],
+                    colsTabVersArray("crime")[4] => $ligne[colsTabVersArray("crime")[4]],
+                    )
+                );
+            }
+        }
+    
+    echo json_encode(array("data" => $donnees) + array("columns" => $colonnes));
+}
+// /LE CAS DE LA TABLE ATTRIBUTAIRE
 ?>
