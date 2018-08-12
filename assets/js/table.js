@@ -4,8 +4,10 @@ function remplirTableAttributaire(nom_couche, lien_php) {
     $("#titreTableAttributaire").text("La liste des "+nom_couche+"s");
     tableName = "#tableAttributaire";
     if ( $.fn.DataTable.isDataTable(tableName) ) {
+        console.log("fn");
         $(tableName).DataTable().destroy();
         $(tableName + '>thead>tr').empty();
+        $(tableName + '>tbody>tr').empty();
     }
 
     data = {
@@ -18,8 +20,9 @@ function remplirTableAttributaire(nom_couche, lien_php) {
     }
 
     success = function (data) {
+        console.log(data);
         $.each(data.columns, function (k, colObj) {
-            str = '<th class="th-sm">' + colObj.name + '<i class="fa fa-sort float-right" aria-hidden="true"></i></th>';
+            str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
             $(str).appendTo(tableName + '>thead>tr');
         });
         data.columns[0].render = function (data, type, row) {
