@@ -678,11 +678,11 @@ function getAddressRoadList(string, id, url, id_input,type){
                     name = name.replace(/[']/g, "|");
                     //console.log(name);
                     if(features[i].properties.typedata=='POI'){
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="glyphicon glyphicon-map-marker"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
                     }else if(features[i].properties.typedata=='Localite'){
-                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="icon icon-address"></i> '+features[i].properties.adresse+'</a>';
+                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
                     }else{
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="icon icon-timeline"></i>'+features[i].properties.nom+'</a>';
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
                     }
                     
                 }
