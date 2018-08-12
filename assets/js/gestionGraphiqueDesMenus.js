@@ -58,22 +58,22 @@ function afficherNotif(type, msg, temps = 10000) {
     var classe, titre;
     if (type == "erreur") {
         classe = "alert alert-block alert-danger fade in";
-        titre = "<i class='clip-cancel-circle-2' ></i> Erreur !";
+        titre = "<i class='fas fa-times-circle' ></i> Erreur !";
     }
     else if (type == "succes") {
         classe = "alert alert-block alert-success fade in";
-        titre = "<i class='clip-checkmark-circle-2'></i> Succès !";
+        titre = "<i class='fas fa-check-circle'></i> Succès !";
     }
     else if (type == "erreur_fatale") {
         classe = "alert alert-block alert-danger fade in";
-        titre = "<i class='clip-cancel-circle-2' ></i> Erreur !";
+        titre = "<i class='fas fa-times' ></i> Erreur fatale !";
     }
     else if (type == "warning") {
         classe = "alert alert-block alert-warning fade in";
-        titre = "<i class='clip-warning' ></i> Attention !";
+        titre = "<i class='fas fa-exclamation-triangle' ></i> Attention !";
     } else if (type == "info") {
         classe = "alert alert-block alert-info fade in";
-        titre = "<i class='clip-info-2' ></i> Info !"
+        titre = "<i class='fas fa-info-circle' ></i> Info !"
     }
 
     // DÉFINITION DU STYLE ET CONTENU DE NOTIFICATION
