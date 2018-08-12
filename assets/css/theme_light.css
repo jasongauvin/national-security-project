@@ -78,7 +78,6 @@ ul.main-navigation-menu > li a {
 }
 ul.main-navigation-menu > li a > i {
 	color: #007AFF;
-	font-weight: normal;
 }
 ul.main-navigation-menu > li.active > a {
 	background: #007AFF !important;

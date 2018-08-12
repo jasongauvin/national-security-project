@@ -278,6 +278,9 @@ var Main = function () {
     };
     //function to avoid closing the dropdown on click
     var runDropdownEnduring = function () {
+        $('.dropdown-menu').click(function (event) {
+            event.stopPropagation();
+        });
         if ($('.dropdown-menu.dropdown-enduring').length) {
             $('.dropdown-menu.dropdown-enduring').click(function (event) {
                 event.stopPropagation();

@@ -30,7 +30,7 @@
 		<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome-ie7.min.css">
 		<![endif]-->
 		<!-- /CSS DE LA TEMPLATE -->
-
+		
 		<!-- CSS DU CONTEXT MENU -->
 		<link rel="stylesheet" href="assets/plugins/context-menu/ol-contextmenu.min.css">
 		<!-- /CSS DU CONTEXT MENU -->
@@ -64,6 +64,10 @@
 		<link rel="stylesheet" href="assets/plugins/data-tables/dataTables.bootstrap.min.css">
 		<!-- /CSS BOOTSTRAP-DATATABLE -->
 		
+		<!-- CSS FONT-AWESOME -->
+		<link href="assets/plugins/font-awesome/css/all.min.css" rel="stylesheet"> 
+		<!-- /CSS FONT-AWESOME -->
+
 	</head>
 
 	<body class="footer-fixed">
@@ -92,6 +96,67 @@
 				<div class="navbar-tools">
 					<!-- TOP NAVIGATION MENU -->
 					<ul class="nav navbar-right">
+						<!-- CALCUL D'ITINÉRAIRE -->
+						<li id="itineraire" class="dropdown">
+							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
+								<img src="assets/img/itineraire.png">
+								<span id="" class="badge"></span>
+							</a>
+							<ul class="dropdown-menu todo">
+								<li>
+									<span id="" class="dropdown-menu-title">CALCUL D'ITINÉRAIRE</span>
+								</li>
+								<li>
+									<div id="direction_road_map_content">
+											<div class="card" style="padding: 10px;">
+												<div class="card-body">
+														<div class="md-form">
+																<input type="text" id="start_location_input" class="form-control">
+																<label for="start_location_input">lieu de départ</label>
+															</div>
+
+														<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="start_location_suggestion_list">
+															<div class="list-group" style="max-height: 200px; overflow-y: auto;">
+															</div>
+														</div>
+
+													<div class="col-12">
+														<div class="input-group form-group">
+															<input type="text" class="form-control" placeholder="Destination" aria-label="Destination..." id="destination_input">
+													
+														</div>
+													</div>
+													<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="destination_suggestion_list">
+														<div class="list-group" style="max-height: 200px; overflow-y: auto;">
+														</div>
+													</div>
+													<div class="col-12">
+														<div class="btn-group btn-group-sm" role="group">
+														
+															<button type="button" class="btn btn-success" id="direction_mode_driving">Court</button>
+															<button type="button" class="btn btn-warning" id="direction_mode_fast">Rapide</button>
+															<button type="button" class="btn btn-secondary" id="direction_mode_walking">Pieton</button>
+															<button type="button" class="btn btn-info" id="direction_startover" title="Réinitialiser"><i class="glyphicon glyphicon-repeat"></i></button>
+														</div>
+													</div>
+													<hr>
+													<div class="col-12">
+														<div class="was-validated">
+															<label class="custom-control custom-checkbox">
+																<input type="checkbox" class="custom-control-input" checked=""  required="">
+																<span class="custom-control-indicator"></span>
+																<span class="custom-control-description">Eviter les pistes</span>
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+								</li>
+								
+							</ul>
+						</li>
+						<!-- /CALCUL D'ITINÉRAIRE -->
 
 						<li id="listeCoucheMosquees" class="dropdown hidden">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
@@ -112,7 +177,6 @@
 								
 							</ul>
 						</li>
-
 
 						<li id="listeCoucheEcoles" class="dropdown hidden">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
@@ -175,119 +239,6 @@
 							</ul>
 						</li>
 
-						<li class="dropdown">
-							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-								<i class="clip-notification-2"></i>
-								<span class="badge"> 11</span>
-							</a>
-							<ul class="dropdown-menu notifications">
-								<li>
-									<span class="dropdown-menu-title"> You have 11 notifications</span>
-								</li>
-								<li >
-									<div class="drop-down-wrapper" >
-										<ul>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-primary"><i class="fa fa-user"></i></span>
-													<span class="message"> New user registration</span>
-													<span class="time"> 1 min</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-success"><i class="fa fa-comment"></i></span>
-													<span class="message"> New comment</span>
-													<span class="time"> 7 min</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-success"><i class="fa fa-comment"></i></span>
-													<span class="message"> New comment</span>
-													<span class="time"> 8 min</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-success"><i class="fa fa-comment"></i></span>
-													<span class="message"> New comment</span>
-													<span class="time"> 16 min</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-primary"><i class="fa fa-user"></i></span>
-													<span class="message"> New user registration</span>
-													<span class="time"> 36 min</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-warning"><i class="fa fa-shopping-cart"></i></span>
-													<span class="message"> 2 items sold</span>
-													<span class="time"> 1 hour</span>
-												</a>
-											</li>
-											<li class="warning">
-												<a href="javascript:void(0)">
-													<span class="label label-danger"><i class="fa fa-user"></i></span>
-													<span class="message"> User deleted account</span>
-													<span class="time"> 2 hour</span>
-												</a>
-											</li>
-											<li class="warning">
-												<a href="javascript:void(0)">
-													<span class="label label-danger"><i class="fa fa-shopping-cart"></i></span>
-													<span class="message"> Transaction was canceled</span>
-													<span class="time"> 6 hour</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-success"><i class="fa fa-comment"></i></span>
-													<span class="message"> New comment</span>
-													<span class="time"> yesterday</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-primary"><i class="fa fa-user"></i></span>
-													<span class="message"> New user registration</span>
-													<span class="time"> yesterday</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-primary"><i class="fa fa-user"></i></span>
-													<span class="message"> New user registration</span>
-													<span class="time"> yesterday</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-success"><i class="fa fa-comment"></i></span>
-													<span class="message"> New comment</span>
-													<span class="time"> yesterday</span>
-												</a>
-											</li>
-											<li>
-												<a href="javascript:void(0)">
-													<span class="label label-success"><i class="fa fa-comment"></i></span>
-													<span class="message"> New comment</span>
-													<span class="time"> yesterday</span>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</li>
-								<li class="view-all">
-									<a href="javascript:void(0)">
-										See all notifications <i class="fa fa-arrow-circle-o-right"></i>
-									</a>
-								</li>
-							</ul>
-						</li>
 						<li class="dropdown current-user">
 							<h5 data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#" style="margin-top: 6px;">
 								<!-- <img src="assets/img/avatar-1-small.jpg" class="circle-img" alt=""> -->
@@ -323,30 +274,30 @@
 					<!-- MENU PRINCIPAL DE NAVIGATION -->
 					<ul class="main-navigation-menu">
 						<li class="active open">
-							<a href=""><i class="clip-home-3"></i>
+							<a href=""><i class="fas fa-tachometer-alt"></i>
 								<span class="title">TABLEAU DE BORD</span><span class="selected"></span>
 							</a>
 						</li>
 						<li class="">
-							<a href="#"><i class="clip-stack-2 "></i>
+							<a href="#"><i class="fas fa-layer-group"></i>
 								<span id="couchesInteret" class="title">COUCHES D'INTÉRÊT</span><span class="selected"></span>
 							</a>
 						</li>
 
 						<li class="">
-							<a href="#"><i class="clip-users"></i>
+							<a href="#"><i class="fas fa-user-shield"></i>
 								<span id="gestionAgents" class="title">GESTION DES AGENTS</span><span class="selected"></span>
 							</a>
 						</li>
 
 						<li class="">
-							<a href="#"><i class="glyphicon glyphicon-resize-small"></i>
+							<a href="#"><i class="fas fa-car-crash"></i>
 								<span id="accidentologie" class="title">ACCIDENTOLOGIE</span><span class="selected"></span>
 							</a>
 						</li>
 
 						<li class="">
-							<a href="#"><i class="glyphicon glyphicon-warning-sign"></i>
+							<a href="#"><i class="fas fa-user-ninja"></i>
 								<span id="criminologie" class="title">CRIMINOLOGIE</span><span class="selected"></span>
 							</a>
 						</li>
@@ -429,145 +380,6 @@
 						</div>
 					</div>
 					<!-- /TABLE DES DONNÉES ATTRIBUTAIRES -->
-
-					<!-- CALCUL D'ITINÉRAIRE -->
-					<div style="position: absolute; top:62px; right: 0; z-index: 99; max-width: 300px; display:block; max-height: 380px;overflow-y: hidden; overflow-x: hidden;" id="main_address_road_content">
-						<div class="row gutters">
-							<div class="col-xl-12 col-lg-10 col-md-12 col-sm-12" id="find_location_map_content">
-								<div class="card" style="margin-bottom: 0.1rem;">
-									<div class="card-body" style="padding: 0.5rem">
-										<div class="col-12" style="padding: 0.5px;">
-											<div class="input-group form-group">
-												<input type="text" class="form-control" placeholder="Rechercher sur ..." aria-label="Rechercher sur ..." id="address_find_input">
-												<span class="input-group-btn">
-													<button class="btn btn-secondary btn-sm" type="button"  id="find_location_map_content_btn" style="height: 33px;"><i class="icon icon-compass"></i></button>
-												</span>
-											</div>
-										</div>
-										<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="address_pois_suggestion_list">
-											<div class="list-group" style="max-height: 200px; overflow-y: auto;">
-												
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row gutters">
-							<div class="col-xl-12 col-lg-10 col-md-12 col-sm-12" id="nearby_pois_map_content">
-								<div class="card">
-									<div class="card-header stats-widget"> <i class="icon-rss"></i> A proximité de :</div>
-									<div class="card-body p-0">
-										<div class="events">
-											<div class="all-events clearfix">
-												<div id="nearby_address" style="float: left;">...
-												</div>
-												<a href="javascript:void(0);" id="nearby_pois_count" class="btn btn-sm" style="float: right;">0 POI</a>
-											</div>
-											
-											<ul class="event-list">
-										
-												<div class="was-validated">
-													<label class="custom-control custom-checkbox">
-														<input type="checkbox" class="custom-control-input" id="mosque_btn" required>
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description"><i class="icon icon-home6"></i> Mosquée </span>
-													</label>
-												</div>
-												<div class="was-validated">
-													<label class="custom-control custom-checkbox">
-														<input type="checkbox" class="custom-control-input" id="banque_btn" required>
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description"><i class="icon icon-credit"></i> Banque </span>
-													</label>
-												</div>
-								
-												<div class="was-validated">
-													<label class="custom-control custom-checkbox">
-														<input type="checkbox" class="custom-control-input" id="ecoles_btn" required>
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description"><i class="icon icon-library"></i> Ecoles</span>
-													</label>
-												</div>
-												<div class="was-validated">
-													<label class="custom-control custom-checkbox">
-														<input type="checkbox" class="custom-control-input" id="hotel_btn" required>
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description"><i class="icon icon-local_hotel"></i> Hotel</span>
-													</label>
-												</div>
-				
-											</ul> 
-											<br>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row gutters">
-							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" id="direction_road_map_content" style="display: none;">
-								<div class="card">
-									<div class="card-header"><i class="icon-refresh3"></i> Calcul d'Itinéraire<button class="btn btn-secondary btn-sm" type="button" style="float: right;" id="direction_road_map_content_btn"><i class="icon icon-search"></i></button></div>
-									<div class="card-body">
-											<div class="col-12">
-												<div class="input-group form-group">
-													<input type="text" class="form-control" placeholder="Start location" aria-label="Start location..." id="start_location_input">
-											
-												</div>
-											</div>
-											<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="start_location_suggestion_list">
-												<div class="list-group" style="max-height: 200px; overflow-y: auto;">
-												</div>
-											</div>
-										<div class="col-12">
-											<div class="input-group form-group">
-												<input type="text" class="form-control" placeholder="Destination" aria-label="Destination..." id="destination_input">
-										
-											</div>
-										</div>
-										<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="destination_suggestion_list">
-											<div class="list-group" style="max-height: 200px; overflow-y: auto;">
-											</div>
-										</div>
-										<div class="col-12">
-											<div class="btn-group btn-group-sm" role="group">
-											
-												<button type="button" class="btn btn-success" id="direction_mode_driving">Court</button>
-												<button type="button" class="btn btn-warning" id="direction_mode_fast">Rapide</button>
-												<button type="button" class="btn btn-secondary" id="direction_mode_walking">Pieton</button>
-												<button type="button" class="btn btn-info" id="direction_startover" title="Réinitialiser"><i class="icon-restore"></i></button>
-											</div>
-										</div>
-										<hr>
-										<div class="col-12">
-											<div class="was-validated">
-												<label class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" checked="" required="">
-													<span class="custom-control-indicator"></span>
-													<span class="custom-control-description">Eviter les routes à péage</span>
-												</label>
-											</div>
-											<div class="was-validated">
-												<label class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" checked=""  required="">
-													<span class="custom-control-indicator"></span>
-													<span class="custom-control-description">Eviter les autoroutes</span>
-												</label>
-											</div>
-											<div class="was-validated">
-												<label class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input" checked=""  required="">
-													<span class="custom-control-indicator"></span>
-													<span class="custom-control-description">Eviter les pistes</span>
-												</label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- CALCUL D'ITINÉRAIRE -->
 
 				</div>
 				
