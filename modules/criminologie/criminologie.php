@@ -164,14 +164,14 @@ if($_POST['tableAttributaire']){
         );
     }
 
-    $req = executerRequete("SELECT gid , CASE WHEN type THEN 'Violence familiale' WHEN type = 1 THEN 'Agression sexuelle' WHEN type = 2 THEN 'Harcèlement criminel' WHEN type =3 then 'Violence et menaces physiques' WHEN type=4 then 'Conduite avec facultés affaiblies' WHEN type=5 THEN 'Vol et autres crimes contre les biens' WHEN type =6 THEN 'Autres'  END AS type, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM crime");
+    $req = executerRequete("SELECT gid , CASE WHEN type=0 THEN 'Violence familiale' WHEN type = 1 THEN 'Agression sexuelle' WHEN type = 2 THEN 'Harcèlement criminel' WHEN type =3 then 'Violence et menaces physiques' WHEN type=4 then 'Conduite avec facultés affaiblies' WHEN type=5 THEN 'Vol et autres crimes contre les biens' WHEN type =6 THEN 'Autres'  END AS type, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM crime");
         if($req) {
 		    while($ligne = pg_fetch_assoc($req)) {
                 array_push($donnees, array(
                     colsTabVersArray("crime")[0] => $ligne[colsTabVersArray("crime")[0]],
                     colsTabVersArray("crime")[1] => $ligne[colsTabVersArray("crime")[1]],
                     colsTabVersArray("crime")[2] => $ligne[colsTabVersArray("crime")[2]],
-                    colsTabVersArray("crimie")[3] => $ligne[colsTabVersArray("crime")[3]],
+                    colsTabVersArray("crime")[3] => $ligne[colsTabVersArray("crime")[3]],
                     colsTabVersArray("crime")[4] => $ligne[colsTabVersArray("crime")[4]],
                     )
                 );
