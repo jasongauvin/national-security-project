@@ -108,52 +108,48 @@
 								</li>
 								<li>
 									<div id="direction_road_map_content">
-											<div class="card" style="padding: 10px;">
-												<div class="card-body">
-														<div class="md-form">
-																<input type="text" id="start_location_input" class="form-control">
-																<label for="start_location_input">lieu de départ</label>
-															</div>
+										<div class="card" style="padding: 10px;">
+											<div class="card-body">
+												<div class="md-form">
+													<input type="text" id="start_location_input" class="form-control" autocomplete="off">
+													<label for="start_location_input">Lieu de départ</label>
+												</div>
+							
+												<div class="col-10" style="z-index: 999999999; display: none;" id="start_location_suggestion_list">
+													<div class="list-group" style="max-height: 115px; overflow-y: auto;">
+													</div>
+												</div>
 
-														<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="start_location_suggestion_list">
-															<div class="list-group" style="max-height: 200px; overflow-y: auto;">
-															</div>
-														</div>
+												<div class="md-form">
+													<input type="text" id="destination_input" class="form-control" autocomplete="off">
+													<label for="destination_input">Destination</label>
+												</div>
 
-													<div class="col-12">
-														<div class="input-group form-group">
-															<input type="text" class="form-control" placeholder="Destination" aria-label="Destination..." id="destination_input">
-													
-														</div>
+												<div class="col-10" style="z-index: 999999999; display: none;" id="destination_suggestion_list">
+													<div class="list-group" style="max-height: 115px; overflow-y: auto;">
 													</div>
-													<div class="col-10" style="position: absolute;z-index: 999999999; display: none;" id="destination_suggestion_list">
-														<div class="list-group" style="max-height: 200px; overflow-y: auto;">
-														</div>
+												</div>
+												<div class="col-12">
+													<div class="btn-group" role="group" aria-label="Third group">
+														<button type="button" class="btn btn-success btn-lg" id="direction_mode_driving">Court</button>	
+														<button type="button" class="btn btn-warning btn-lg" id="direction_mode_fast">Rapide</button>
+														<button type="button" class="btn btn-secondary btn-lg" id="direction_mode_walking">Pieton</button>
 													</div>
-													<div class="col-12">
-														<div class="btn-group btn-group-sm" role="group">
-														
-															<button type="button" class="btn btn-success" id="direction_mode_driving">Court</button>
-															<button type="button" class="btn btn-warning" id="direction_mode_fast">Rapide</button>
-															<button type="button" class="btn btn-secondary" id="direction_mode_walking">Pieton</button>
-															<button type="button" class="btn btn-info" id="direction_startover" title="Réinitialiser"><i class="glyphicon glyphicon-repeat"></i></button>
-														</div>
-													</div>
-													<hr>
-													<div class="col-12">
-														<div class="was-validated">
-															<label class="custom-control custom-checkbox">
-																<input type="checkbox" class="custom-control-input" checked=""  required="">
-																<span class="custom-control-indicator"></span>
-																<span class="custom-control-description">Eviter les pistes</span>
-															</label>
-														</div>
-													</div>
+												</div>
+												
+												<div class="tab-pane" id="road_map_tab" role="tabpanel" aria-labelledby="contact-tab1" style="overflow-y: scroll;margin-top: 14px;max-height: 200px;">
+												</div>
+
+												<div class="btn-group" style="margin-top: 20px;margin-left: 87px;">
+														<button type="button" class="btn btn-info btn-lg" id="direction_startover" title="Réinitialiser">
+														<i class="fas fa-redo-alt"></i>
+													</button>
 												</div>
 											</div>
 										</div>
+									</div>
 								</li>
-								
+							
 							</ul>
 						</li>
 						<!-- /CALCUL D'ITINÉRAIRE -->

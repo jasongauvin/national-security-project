@@ -77,7 +77,6 @@ var direction_start_popup = new ol.Overlay.Popup(
     {
         popupClass: "black", //"tooltips", "warning" "black" "default", "tips", "shadow",
         closeBox: false,
-        onclose: function () { console.log("You close the box"); },
         positioning: 'bottom-center',
         autoPan: true,
         autoPanAnimation: { duration: 100 }
@@ -86,7 +85,6 @@ var direction_destination_popup = new ol.Overlay.Popup(
     {
         popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
         closeBox: false,
-        onclose: function () { console.log("You close the box"); },
         positioning: 'bottom-center',
         autoPan: true,
         autoPanAnimation: { duration: 100 }
@@ -140,7 +138,6 @@ function getSelectedAddressRoad(name, longitude, latitude, id_ul, id_input, type
         }
     });
     if (type == 'start') {
-        console.log("start");
         direction_start_popup.hide(undefined, '');
         var point_pos_search_inp = new ol.geom.Point(
             ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')
@@ -205,16 +202,12 @@ function directionGetRoadDirection(start, destination, mode, service, roadmap, i
         },
         type: 'GET',
         dataType: 'JSON',
-        async: false,
-        cache: false,
-        timeout: 10000,
         success: function (result) {
             directionGeometryVector.getSource().forEachFeature(function (feature) {
                 if (feature.getGeometry().getType() != 'Point') {
                     directionGeometryVector.getSource().removeFeature(feature);
                 }
             });
-            //directionGeometryVector.getSource().clear();
             var features = direction_geojsonFormat.readFeatures(result, { featureProjection: 'EPSG:3857' });
             directionGeometryVector.getSource().addFeatures(features);
 
@@ -251,8 +244,7 @@ function center(obj) {
 
 function mapRoadDirectionGetRoadMap(start, destination, mode, service, id_roadmap_content) {
     $("#" + id_roadmap_content).empty();
-    $("#" + id_roadmap_content).append('<p><h3> Loading ... </h3></p>');
-    activatePoisTab('a_road_map_tab');
+    $("#" + id_roadmap_content).append('<p><h3> Chargement ... </h3></p>');
     $.ajax({
         url: 'http://www.navcities.com/api/routing/roadmap.php?tr=0&piste=0&hwy=0&txtstartpoint=&txtendpoint=&user=userkey',
         data: {
@@ -262,9 +254,6 @@ function mapRoadDirectionGetRoadMap(start, destination, mode, service, id_roadma
         },
         type: 'GET',
         dataType: 'html',
-        /*async: false,
-        cache: false,
-        timeout: 3000,*/
         success: function (result) {
             $("#" + id_roadmap_content).empty();
             $("#" + id_roadmap_content).append(result);
@@ -428,9 +417,6 @@ function getNearbyPois(critere) {
             },
             type: 'GET',
             dataType: 'JSON',
-            async: true,
-            cache: false,
-            timeout: 1000,
             success: function (result) {
 
                 if (critere == 301) {
@@ -671,18 +657,18 @@ function getAddressRoadList(string, id, url, id_input,type){
         success: function(result) {
             var features = result.features;
             if(features.length > 0){
-                res+='<div class="list-group" style="max-height: 200px; overflow-y: auto;">';
+                res+='<div class="list-group" style="max-height: 115px; overflow-y: auto;">';
                 for (var i = 0; i < features.length; i++) {
                     
                     var name = features[i].properties.nom;
                     name = name.replace(/[']/g, "|");
                     //console.log(name);
                     if(features[i].properties.typedata=='POI'){
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-marker-alt"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
                     }else if(features[i].properties.typedata=='Localite'){
-                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
+                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
                     }else{
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
                     }
                     
                 }
@@ -700,3 +686,29 @@ function getAddressRoadList(string, id, url, id_input,type){
         }
     });
 }
+
+
+$("#direction_mode_driving").on('click', function(){
+    direction_mode='court';
+    executeRoadMap();
+});
+
+$("#direction_mode_walking").on('click', function(){
+    direction_mode='pieton';
+    executeRoadMap();
+});
+
+$("#direction_mode_fast").on('click', function(){
+    direction_mode='rapide';
+    executeRoadMap();
+});
+
+$("#direction_startover").on('click', function(){
+    $("#start_location_input").val("");
+    $("#destination_input").val("");
+    directionGeometryVector.getSource().clear();
+    direction_start_popup.hide(undefined, '');
+    direction_destination_popup.hide(undefined, '');
+    $("#road_map_tab").empty();
+    $("#road_map_tab").empty();
+});
