@@ -9,33 +9,6 @@ $("#champRecherche").on('keyup', function (event) {
         // TRIGGER TOUCHE ENTRER
         if (event.keyCode === 13) {
             $( $("#listeChampRecherche").children(":first") ).click();
-            // $("#listeAddr").hide();
-
-            // // MISE À JOUR DES LISTES DES COUCHES
-
-            // if ( $('#mosquees').is(':checked') ){
-            //     $('#mosquees').prop("checked", false).trigger("change");
-            //     $('#mosquees').prop("checked", true).trigger("change");
-            // }
-
-            // if ( $('#ecoles').is(':checked') ){
-            //     $('#ecoles').prop("checked", false).trigger("change");
-            //     $('#ecoles').prop("checked", true).trigger("change");
-            // }
-
-            // if ( $('#banques').is(':checked') ){
-            //     $('#banques').prop("checked", false).trigger("change");
-            //     $('#banques').prop("checked", true).trigger("change");
-            // }
-
-            // if ( $('#hotels').is(':checked') ){
-            //     $('#hotels').prop("checked", false).trigger("change");
-            //     $('#hotels').prop("checked", true).trigger("change");
-            // }
-            
-
-            // /MISE À JOUR DES LISTES DES COUCHES
-
         }
         // /TRIGGER TOUCHE ENTRER
     } else {
@@ -63,12 +36,12 @@ function getAddressList(string, id, url) {
                     var name = features[i].properties.nom;
                     name = name.replace(/[']/g, "|");
                     if (features[i].properties.typedata == 'POI') {
-                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="glyphicon glyphicon-map-marker"></i> ' + features[i].properties.nom + ' ' + features[i].properties.adresse + '</a>';
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> ' + features[i].properties.nom + ' ' + features[i].properties.adresse + '</a>';
 
                     } else if (features[i].properties.typedata == 'Localite') {
-                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="glyphicon glyphicon-map-marker"></i> ' + features[i].properties.adresse + '</a>';
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-map-signs"></i> ' + features[i].properties.adresse + '</a>';
                     } else {
-                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="glyphicon glyphicon-map-marker"></i>' + features[i].properties.nom + '</a>';
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddress(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-road"></i> ' + features[i].properties.nom + '</a>';
                     }
 
                 }
