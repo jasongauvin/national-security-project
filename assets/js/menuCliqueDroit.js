@@ -142,16 +142,17 @@ var direction_geojsonFormat = new ol.format.GeoJSON();
 		          	}
 		        });
 				if(type=='start'){
+                    console.log("start");
 					direction_start_popup.hide(undefined, ''); 
 					var point_pos_search_inp = new ol.geom.Point(
 						ol.proj.transform([longitude,latitude], 'EPSG:4326', 'EPSG:3857')
 					);
 					var point_position_map_road_direction = new ol.Feature(point_pos_search_inp);
 					point_position_map_road_direction.set('type','start');
-					point_position_map_road_direction.set('image','assets/images/pois.png');
+                    point_position_map_road_direction.set('image','assets/images/pois.png');
 					directionGeometryVector.getSource().addFeature(point_position_map_road_direction);
 					direction_start_popup.show(point_position_map_road_direction.getGeometry().getCoordinates(), '<i class="icon-text_format"></i>| '+name); 
-				}else{
+                }else{
 					direction_destination_popup.hide(undefined, ''); 
 					var point_pos_search_inp = new ol.geom.Point(
 						ol.proj.transform([longitude,latitude], 'EPSG:4326', 'EPSG:3857')
@@ -190,9 +191,9 @@ var direction_geojsonFormat = new ol.format.GeoJSON();
 				}
 			}
 
-            // map.addLayer(directionGeometryVector);
-			// map.addOverlay(direction_start_popup);
-			// map.addOverlay(direction_destination_popup);
+            map.addLayer(directionGeometryVector);
+			map.addOverlay(direction_start_popup);
+			map.addOverlay(direction_destination_popup);
        
 
 			function directionGetRoadDirection(start, destination,mode, service, roadmap, id_roadmap_content){
@@ -625,6 +626,6 @@ var direction_geojsonFormat = new ol.format.GeoJSON();
                 return st;
             }
 
-            
-            
+
+
  
