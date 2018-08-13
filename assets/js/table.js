@@ -20,7 +20,6 @@ function remplirTableAttributaire(nom_couche, lien_php) {
     }
 
     success = function (data) {
-        console.log(data);
         $.each(data.columns, function (k, colObj) {
             str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
             $(str).appendTo(tableName + '>thead>tr');
@@ -106,3 +105,8 @@ $('.agent-toggle').bind('click', function () {
     }
 });
 // /GESTION DE CLIQUE SUR LE BOUTON DE LA TABLE ATTRIBUTAIRE
+
+$('#tableAttributaire').on('click', 'tbody tr', function() {
+    $("#tableAttributaire tbody tr").removeClass('row_selected');        
+    $(this).addClass('row_selected');
+});

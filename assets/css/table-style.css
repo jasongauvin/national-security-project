@@ -45,3 +45,4 @@
     opacity: 1;
     border: 1px solid rgba(23, 24, 26, 0.15);
 }
+tr.row_selected td{background-color: #4285f4 !important;}
