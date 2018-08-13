@@ -106,23 +106,24 @@ $('.agent-toggle').bind('click', function () {
 });
 // /GESTION DE CLIQUE SUR LE BOUTON DE LA TABLE ATTRIBUTAIRE
 
+// DÉFINITION DE POP-UP
+var popup = new ol.Overlay.Popup (
+    {	popupClass: "black",
+        closeBox: true,
+        positioning: 'auto',
+        autoPan: true,
+        autoPanAnimation: { duration: 250 }
+    });
+popup.addPopupClass('shadow');
+map.addOverlay(popup);
+// /DÉFINITION DE POP-UP
+
 // GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE
 function cliqueLigneTableAttr(couche, nom_couche){
 $('#tableAttributaire').on('click', 'tbody tr', function () {
     $("#tableAttributaire tbody tr").removeClass('row_selected');
     $(this).addClass('row_selected');
     var gid_table = $('#tableAttributaire').DataTable().row(this).data().gid;
-
-    var popup = new ol.Overlay.Popup (
-		{	popupClass: "black",
-			closeBox: true,
-			positioning: 'auto',
-			autoPan: true,
-			autoPanAnimation: { duration: 250 }
-        });
-    popup.addPopupClass('shadow');
-    map.addOverlay(popup);
-
 
     couche.getSource().forEachFeature(function (feature) {
         if (gid_table == feature.get('gid')) {
