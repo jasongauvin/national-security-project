@@ -106,7 +106,17 @@ $('.agent-toggle').bind('click', function () {
 });
 // /GESTION DE CLIQUE SUR LE BOUTON DE LA TABLE ATTRIBUTAIRE
 
-$('#tableAttributaire').on('click', 'tbody tr', function() {
-    $("#tableAttributaire tbody tr").removeClass('row_selected');        
+// GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE
+$('#tableAttributaire').on('click', 'tbody tr', function () {
+    $("#tableAttributaire tbody tr").removeClass('row_selected');
     $(this).addClass('row_selected');
+    var gid = $('#tableAttributaire').DataTable().row(this).data().gid;
+    coucheAccident.getSource().forEachFeature(function (feature) {
+        if (gid == feature.get('gid')) {
+            var ext = feature.getGeometry().getExtent();
+            map.getView().fit(ext, map.getSize());
+            map.getView().setZoom(17);
+        }
+    });
 });
+// GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE
