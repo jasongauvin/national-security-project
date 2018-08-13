@@ -378,6 +378,10 @@ function actualiserCoucheAccident() {
         var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
         afficherNotif("info", "La couche des accidents a été bien actualisée");
+
+        // CALCULE DE CENTROÏDE
+        pulse(calculerCentroide(coucheAccident));
+        // /CALCULE DE CENTROÏDE
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
@@ -398,41 +402,3 @@ remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php"
 // /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
 
 
-
-
-
-
-
-
-// pulse([-6.83435440063476, 34.0317497029135]);
-
-// // Pulse at lonlat
-// function pulse(lonlat) {
-//     var nb = 6;
-//     for (var i = 0; i < nb; i++) {
-//         setTimeout(function () {
-//             pulseFeature(ol.proj.transform(lonlat, 'EPSG:4326', map.getView().getProjection()));
-//         }, i * 500);
-//     };
-// }
-
-// // Pulse feature at coord
-// function pulseFeature(coord) {
-
-//     var f = new ol.Feature(new ol.geom.Point(coord));
-//     f.setStyle(new ol.style.Style(
-//         {
-//             image: new ol.style["Circle"](
-//                 {
-//                     radius: 30,
-//                     points: 4,
-//                     stroke: new ol.style.Stroke({ color: "red", width: 2 })
-//                 })
-//         }));
-//     map.animateFeature(f, new ol.featureAnimation.Zoom(
-//         {
-//             fade: ol.easing.easeOut,
-//             duration: 3000,
-//             easing: ol.easing["upAndDown"]
-//         }));
-// }

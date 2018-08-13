@@ -94,3 +94,48 @@ function supprimerCouches(couche) {
     
 }
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+
+// CALCULE DE CENTROÏDE
+function calculerCentroide(couche){
+    var x_somme=0, y_somme = 0, i=0;
+    couche.getSource().forEachFeature(function (feature) {
+        coords = ol.proj.transform(feature.getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
+        x_somme += coords[0];
+        y_somme += coords[1];
+        i++;
+    });
+    
+    return Array(x_somme/i, y_somme/i);
+}
+// /CALCULE DE CENTROÏDE
+
+// IMPULSION SUR LA CARTE
+function pulse(lonlat) {
+    var nb = 6;
+    for (var i = 0; i < nb; i++) {
+        setTimeout(function () {
+            pulseFeature(ol.proj.transform(lonlat, 'EPSG:4326', map.getView().getProjection()));
+        }, i * 500);
+    };
+}
+function pulseFeature(coord) {
+
+    var f = new ol.Feature(new ol.geom.Point(coord));
+    f.setStyle(new ol.style.Style(
+        {
+            image: new ol.style["Circle"](
+                {
+                    radius: 30,
+                    points: 4,
+                    stroke: new ol.style.Stroke({ color: "red", width: 2 })
+                })
+        }));
+    map.animateFeature(f, new ol.featureAnimation.Zoom(
+        {
+            fade: ol.easing.easeOut,
+            duration: 3000,
+            easing: ol.easing["upAndDown"]
+        }));
+}
+// /IMPULSION SUR LA CARTE
+

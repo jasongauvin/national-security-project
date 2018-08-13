@@ -360,6 +360,10 @@ function actualiserCoucheCriminologie() {
         var features = criminologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_crime.addFeatures(features);
         afficherNotif("info", "La couche des crimes  a été bien actualisée");
+
+        // CALCULE DE CENTROÏDE
+        pulse(calculerCentroide(coucheCrime));
+        // /CALCULE DE CENTROÏDE
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
