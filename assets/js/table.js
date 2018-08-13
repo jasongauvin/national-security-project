@@ -209,7 +209,6 @@ function remplirTableHistorique(nom_couche, lien_php) {
             }
         );
 
-        // Add event listeners to the two range filtering inputs
       $('#dateDebH').change( function() { table_hist.fnDraw(); } );
       $('#dateFinH').change( function() { table_hist.fnDraw(); } );
 

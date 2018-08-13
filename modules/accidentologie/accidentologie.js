@@ -330,9 +330,6 @@ $(document).on("click", "#historiqueAccidentBouton", function (e) {
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("accident", "modules/accidentologie/accidentologie.php");
     // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
-    
-
-    
 
 });
 // /PARTIE HISTORIQUE
