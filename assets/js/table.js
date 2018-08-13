@@ -4,7 +4,6 @@ function remplirTableAttributaire(nom_couche, lien_php) {
     $("#titreTableAttributaire").text("La liste des "+nom_couche+"s");
     tableName = "#tableAttributaire";
     if ( $.fn.DataTable.isDataTable(tableName) ) {
-        console.log("fn");
         $(tableName).DataTable().destroy();
         $(tableName + '>thead>tr').empty();
         $(tableName + '>tbody>tr').empty();
@@ -89,6 +88,138 @@ function remplirTableAttributaire(nom_couche, lien_php) {
     ajax(lien_php, data, error_fatale, success);
 }
 // /REMPLISSAGE DE LA TABLE ATTRIBUTAIRE
+
+// REMPLISSAGE DE LA TABLE D'HISTORIQUE
+function remplirTableHistorique(nom_couche, lien_php) {
+
+    $("#historiqueTitre").text("L'historique des "+nom_couche+"s");
+    tableName = "#tableHistorique";
+    if ( $.fn.DataTable.isDataTable(tableName) ) {
+        $(tableName).DataTable().destroy();
+        $(tableName + '>thead>tr').empty();
+        $(tableName + '>tbody>tr').empty();
+    }
+
+    data = {
+        tableAttributaire: true
+    }
+
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "Une erreur est survenu lors du chargement de la table d'historique des " + nom_couche + "s");
+    }
+
+    success = function (data) {
+        $.each(data.columns, function (k, colObj) {
+            str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
+            $(str).appendTo(tableName + '>thead>tr');
+        });
+        data.columns[0].render = function (data, type, row) {
+            return data;
+        }
+        var table_hist = $(tableName).dataTable({
+            "data": data.data,
+            "columns": data.columns,
+            dom: "<'row'<'col-sm-3'l><'col-sm-6'B><'col-sm-3'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            buttons: [
+                {
+                    extend: 'copy',
+                    text: 'Copier',
+                    className: 'btn btn-default btn-xs'
+                }
+                , {
+                    extend: 'csv',
+                    className: 'btn btn-default btn-xs'
+                }
+                ,
+                {
+                    extend: 'excel',
+                    messageTop: $("#historiqueTitre").text(),
+                    className: 'btn btn-default btn-xs'
+                },
+                {
+                    extend: 'pdf',
+                    messageTop: $("#historiqueTitre").text(),
+                    className: 'btn btn-default btn-xs'
+                },
+                {
+                    extend: 'print',
+                    text: 'Imprimer',
+                    className: 'btn btn-default btn-xs',
+                    messageTop: $("#historiqueTitre").text()
+                }
+            ],
+            "language": {
+                "sProcessing": "Traitement en cours...",
+                "sSearch": "Rechercher&nbsp;:",
+                "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo": "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty": "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix": "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst": "Premier",
+                    "sPrevious": "Pr&eacute;c&eacute;dent",
+                    "sNext": "Suivant",
+                    "sLast": "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                }
+            }
+        });
+
+       
+        $.fn.dataTableExt.afnFiltering.push(
+            function( oSettings, aData, iDataIndex ) {
+                var iFini = document.getElementById('dateDebH').value;
+                var iFfin = document.getElementById('dateFinH').value;
+                var iStartDateCol = 5;
+                var iEndDateCol = 5;
+         
+                iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
+                iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
+         
+                var datofini=aData[iStartDateCol].substring(6,10) + aData[iStartDateCol].substring(3,5)+ aData[iStartDateCol].substring(0,2);
+                var datoffin=aData[iEndDateCol].substring(6,10) + aData[iEndDateCol].substring(3,5)+ aData[iEndDateCol].substring(0,2);
+         
+                if ( iFini === "" && iFfin === "" )
+                {
+                    return true;
+                }
+                else if ( iFini <= datofini && iFfin === "")
+                {
+                    return true;
+                }
+                else if ( iFfin >= datoffin && iFini === "")
+                {
+                    return true;
+                }
+                else if (iFini <= datofini && iFfin >= datoffin)
+                {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        // Add event listeners to the two range filtering inputs
+      $('#dateDebH').change( function() { table_hist.fnDraw(); } );
+      $('#dateFinH').change( function() { table_hist.fnDraw(); } );
+
+    }
+
+
+    ajax(lien_php, data, error_fatale, success);
+}
+// /REMPLISSAGE DE LA TABLE D'HISTORIQUE
+
 
 // GESTION DE CLIQUE SUR LE BOUTON DE LA TABLE ATTRIBUTAIRE
 $('.agent-toggle').bind('click', function () {

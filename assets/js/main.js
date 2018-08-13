@@ -40,6 +40,14 @@ var $pageArea;
 var Main = function () {
     //function to detect explorer browser and its version
     var runInit = function () {
+
+        $("#dateDebH").datepicker({
+            maxDate: 0
+        });
+        $("#dateFinH").datepicker({
+            maxDate: 0
+        });
+
         if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
             var ieversion = new Number(RegExp.$1);
             if (ieversion == 8) {

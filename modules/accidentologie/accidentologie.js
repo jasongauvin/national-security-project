@@ -25,8 +25,9 @@ actualiserCoucheAccident();
 supprimerCouches(coucheAccident);
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
 
-
+// GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
 cliqueLigneTableAttr(coucheAccident, "Accident");
+// /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
 
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
@@ -323,6 +324,19 @@ $(document).on("click", "#SupprimerAccidentBouton", function (e) {
 });
 // /PARTIE SUPPRESSION
 
+// PARTIE HISTORIQUE
+$(document).on("click", "#historiqueAccidentBouton", function (e) {
+    
+    // REMPLISSAGE DE LA TABLE D'HISTORIQUE
+    remplirTableHistorique("accident", "modules/accidentologie/accidentologie.php");
+    // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
+    
+
+    
+
+});
+// /PARTIE HISTORIQUE
+
 // FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT
 function actualiserCoucheAccident() {
 
@@ -385,6 +399,13 @@ function actualiserCoucheAccident() {
 // REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
 remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
 // /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+
+
+
+
+
+
+
 
 // pulse([-6.83435440063476, 34.0317497029135]);
 

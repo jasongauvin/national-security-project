@@ -123,7 +123,7 @@
                             <div id="wrapperelem">
                                 <div id="firstelem">
                                     <div class="md-form">
-                                        <input id="heurem" type="text" class="form-control" required data-required-message="E-Mail or Username is Required!">
+                                        <input id="heurem" type="text" class="form-control">
                                         <label for="heurem">Heure</label>
                                     </div>
                                 </div>
@@ -184,6 +184,19 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSix">Historique
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseSix" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <button type="button" id="historiqueAccidentBouton" class="btn btn-primary" data-toggle="modal" data-target="#basicExampleModal">Afficher l'historique des accidents</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
                         <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Statistiques
                         </a>
                     </h4>
@@ -195,7 +208,8 @@
             </div>
         </div>
     </div>
-</div>	
+</div>
+
 <script>
 
     // DESACTIVATION DU CACHE DES FORMULAIRES
