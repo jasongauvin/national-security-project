@@ -107,16 +107,31 @@ $('.agent-toggle').bind('click', function () {
 // /GESTION DE CLIQUE SUR LE BOUTON DE LA TABLE ATTRIBUTAIRE
 
 // GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE
+function cliqueLigneTableAttr(couche, nom_couche){
 $('#tableAttributaire').on('click', 'tbody tr', function () {
     $("#tableAttributaire tbody tr").removeClass('row_selected');
     $(this).addClass('row_selected');
-    var gid = $('#tableAttributaire').DataTable().row(this).data().gid;
-    coucheAccident.getSource().forEachFeature(function (feature) {
-        if (gid == feature.get('gid')) {
+    var gid_table = $('#tableAttributaire').DataTable().row(this).data().gid;
+
+    var popup = new ol.Overlay.Popup (
+		{	popupClass: "black",
+			closeBox: true,
+			positioning: 'auto',
+			autoPan: true,
+			autoPanAnimation: { duration: 250 }
+        });
+    popup.addPopupClass('shadow');
+    map.addOverlay(popup);
+
+
+    couche.getSource().forEachFeature(function (feature) {
+        if (gid_table == feature.get('gid')) {
+            popup.show(feature.getGeometry().getCoordinates(), nom_couche+" N° "+feature.get('gid'));
             var ext = feature.getGeometry().getExtent();
             map.getView().fit(ext, map.getSize());
             map.getView().setZoom(17);
         }
     });
 });
+}
 // GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE

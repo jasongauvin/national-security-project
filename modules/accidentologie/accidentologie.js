@@ -25,6 +25,9 @@ actualiserCoucheAccident();
 supprimerCouches(coucheAccident);
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
 
+
+cliqueLigneTableAttr(coucheAccident, "Accident");
+
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
     features = [];
