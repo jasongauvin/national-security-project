@@ -320,6 +320,17 @@ $(document).on("click", "#supprimerCrimeBouton", function (e) {
 });
 // /PARTIE SUPPRESSION
 
+// PARTIE HISTORIQUE
+$(document).on("click", "#historiqueCrimeBouton", function (e) {
+    
+    // REMPLISSAGE DE LA TABLE D'HISTORIQUE
+    remplirTableHistorique("crime", "modules/criminologie/criminologie.php");
+    // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
+
+});
+// /PARTIE HISTORIQUE
+
+
 // FONCTION D'ACTUALISATION DE LA COUCHE CRIME
 function actualiserCoucheCriminologie() {
 
