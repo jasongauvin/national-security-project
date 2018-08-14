@@ -7,12 +7,19 @@ var center_icon = 'assets/img/pointeur.png';
 var toHere_icon = 'assets/img/to-64.png';
 var fromHere_icon = 'assets/img/from-64.png';
 var directions_icon = 'assets/img/directions-64.png';
+var agent_icon = 'assets/img/agent-64.png';
 var direction_mode = 'pieton';
 var direction_geojsonFormat = new ol.format.GeoJSON();
 
 //MENU 
 
 var contextmenu_items = [
+    {
+        text: 'Agents à proximité',
+        classname: 'bold',
+        icon: agent_icon,
+        callback: nearbyAgentContexteMenu
+    },
     {
         text: 'Direction',
         icon: directions_icon,
@@ -712,3 +719,28 @@ $("#direction_startover").on('click', function(){
     $("#road_map_tab").empty();
     $("#road_map_tab").empty();
 });
+
+function nearbyAgentContexteMenu(obj){
+    var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
+    getNearbyAgentsPopup('Where you clicked', obj.coordinate[0], obj.coordinate[1]);
+    
+    
+}
+
+function getNearbyAgentsPopup(name, longitude, latitude){
+    $("#main_agent_list_content").show();
+    $('.agent-toggle').removeClass('close').addClass('open');
+    $('.agent-toggle').empty();
+    $('.agent-toggle').append('<i class="icon-chevron-thin-down"></i>');
+    var c = ol.proj.transform([longitude, latitude], 'EPSG:3857', 'EPSG:4326');
+
+    refreshAgentPoliceTable(c[0], c[1]);
+}
+
+function refreshAgentPoliceTable(longitude, latitude){
+    console.log(longitude+','+latitude);
+    var table = $('#list_agent_police_table').DataTable();
+    table.ajax.url( '../../modules/php/gestionAgents/gestionAgents.php?table=true&lon='+longitude+'&lat='+latitude ).load();
+}
+
+
