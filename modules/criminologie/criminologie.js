@@ -25,6 +25,10 @@ actualiserCoucheCriminologie();
 supprimerCouches(coucheCrime);
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
 
+// GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE DES CRIMES
+cliqueLigneTableAttr(coucheCrime, "Crime");
+// /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE DES CRIMES
+
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
     features = [];
