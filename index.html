@@ -358,8 +358,10 @@
 						<div id="main_agent_list_content">
 							<div style="max-height: 200px;min-height: 200px;overflow-y: scroll;overflow-x: hidden;">
 								<div class="card" style="padding-right: 7px;">
-									<div id="titreTableAttributaire" class="h4-responsive" style="text-align: center;padding-top: 4px;">
-										<i class="icon-calendar3"></i></div>
+									<button type="button" class="btn btn-outline-default waves-effect" style="display:none;margin-left:auto;margin-right:auto;" disabled>
+										<div id="titreTableAttributaire" class="h6-responsive">
+										</div>
+									</button>
 									<div class="card-body">
 										<table id="tableAttributaire" class="table table-striped table-bordered table-sm" cellspacing="0" style="width: 100%;">
 											<thead>
@@ -367,6 +369,10 @@
 											</thead>
 										</table>
 									</div>
+								</div>
+								<div id="chargement" style="text-align: center;display: none">
+								<img src="assets/img/loading.gif" alt="">
+								<h4>Chargement ...</h4>
 								</div>
 							</div>
 						</div>

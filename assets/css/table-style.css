@@ -29,9 +29,9 @@
 }
 #main_agent_list_content_toggle > .open {
     background-position: left top;
-    bottom: 200px;
-    position: absolute;
-    left: 50%;
+    bottom: 220px;
+    position: relative;
+    margin: auto;
     width: 60px;
     opacity: 1;
     border: 1px solid rgba(23, 24, 26, 0.15);
@@ -40,7 +40,7 @@
     background-position: left top;
     position: absolute;
     bottom: 0;
-    left: 50%;
+    left: 47.8%;
     width: 60px;
     opacity: 1;
     border: 1px solid rgba(23, 24, 26, 0.15);

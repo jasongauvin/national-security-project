@@ -40,7 +40,8 @@ $.fn.dataTableExt.afnFiltering.push(
 
 // REMPLISSAGE DE LA TABLE ATTRIBUTAIRE
 function remplirTableAttributaire(nom_couche, lien_php) {
-    
+    $("#chargement").css("display" ,"block");
+    $("#titreTableAttributaire").parent().css("display", "block");
     $("#titreTableAttributaire").text("La liste des "+nom_couche+"s");
     tableName = "#tableAttributaire";
     
@@ -60,6 +61,7 @@ function remplirTableAttributaire(nom_couche, lien_php) {
     }
 
     success = function (data) {
+        $("#chargement").css("display" ,"none");
         lignes_histo = data;
         $.each(data.columns, function (k, colObj) {
             str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
