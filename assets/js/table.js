@@ -1,5 +1,5 @@
 // FILTRAGE SUR LA DATE
-var col_date_index;
+var col_date_index, lignes_histo;
 var allowFilter = ['#tableAttributaire'];
 $.fn.dataTableExt.afnFiltering.push(
     function (oSettings, aData, iDataIndex) {
@@ -60,7 +60,7 @@ function remplirTableAttributaire(nom_couche, lien_php) {
     }
 
     success = function (data) {
-        // console.log(data.columns);
+        lignes_histo = data;
         $.each(data.columns, function (k, colObj) {
             str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
             $(str).appendTo(tableName + '>thead>tr');
@@ -73,6 +73,7 @@ function remplirTableAttributaire(nom_couche, lien_php) {
         }
         table_attr = $(tableName).DataTable({
             destroy: true,
+            "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "Tous"] ],
             "data": data.data,
             "columns": data.columns,
             dom: "<'row'<'col-sm-4'l><'col-sm-5'B><'col-sm-3'f>>" +
@@ -145,14 +146,23 @@ function remplirTableHistorique(nom_couche) {
         $("#dateDebH").val('');
         $("#dateFinH").val('');
         $(tableName).DataTable().destroy();
-        $(tableName).empty();
+        $(tableName + '>thead>tr').empty();
+        $(tableName + '>tbody>tr').empty();
     }
-
-    $(tableName).html($("#tableAttributaire").html());
-    $("#tableHistorique tbody tr").removeClass('row_selected');
+        
+    $.each(lignes_histo.columns, function (k, colObj) {
+        str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
+        $(str).appendTo(tableName + '>thead>tr');
+    });
+    lignes_histo.columns[0].render = function (data, type, row) {
+        return data;
+    }
 
     table_hist = $(tableName).dataTable({
         destroy: true,
+        lengthMenu: [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "Tous"] ],
+        "data": lignes_histo.data,
+        "columns": lignes_histo.columns,
         dom: "<'row'<'col-sm-3'l><'col-sm-6'B><'col-sm-3'f>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
