@@ -8,7 +8,9 @@ interactionGraphiqueMenuDeNavigation(4, "criminologie", "Boîte à outils crimin
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
-$("<link>").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "modules/criminologie/criminologie.css").appendTo("head");
+if(!$('head').find('link[href="modules/criminologie/criminologie.css"][rel="stylesheet"]').length){
+    $("<link>").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "modules/criminologie/criminologie.css").appendTo("head");
+}
 // /LE STYLE CSS DU CONTENU HTML DU MENU DROIT
 
 // LE CONTENU HTML DU MENU DROIT

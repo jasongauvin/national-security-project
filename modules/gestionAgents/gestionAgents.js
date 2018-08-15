@@ -4,7 +4,9 @@ var draw, json, coords, coucheAgent;
 // /DECLARATION DES VARIABLES
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
-$("<link>").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "modules/gestionAgents/gestionAgents.css").appendTo("head");
+if(!$('head').find('link[href="modules/gestionAgents/gestionAgents.css"][rel="stylesheet"]').length){
+    $("<link>").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "modules/gestionAgents/gestionAgents.css").appendTo("head");
+}
 // /LE STYLE CSS DU CONTENU HTML DU MENU DROIT
 
 // LE CONTENU HTML DU MENU DROIT

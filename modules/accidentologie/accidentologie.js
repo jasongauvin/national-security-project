@@ -8,7 +8,9 @@ interactionGraphiqueMenuDeNavigation(3, "accidentologie", "Boîte à outils acci
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
-$("<link>").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "modules/accidentologie/accidentologie.css").appendTo("head");
+if(!$('head').find('link[href="modules/accidentologie/accidentologie.css"][rel="stylesheet"]').length){
+    $("<link>").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "modules/accidentologie/accidentologie.css").appendTo("head");
+}
 // /LE STYLE CSS DU CONTENU HTML DU MENU DROIT
 
 // LE CONTENU HTML DU MENU DROIT
@@ -326,9 +328,8 @@ $(document).on("click", "#SupprimerAccidentBouton", function (e) {
 
 // PARTIE HISTORIQUE
 $(document).on("click", "#historiqueAccidentBouton", function (e) {
-    
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
-    remplirTableHistorique("accident", "modules/accidentologie/accidentologie.php");
+    remplirTableHistorique("accident");
     // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
 
 });
@@ -400,5 +401,3 @@ function actualiserCoucheAccident() {
 // REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
 remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
 // /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
-
-

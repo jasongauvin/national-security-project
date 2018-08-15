@@ -3,7 +3,9 @@ interactionGraphiqueMenuDeNavigation(1, "couchesInteret", "Les couches disponibl
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
-$("<link>").attr("rel","stylesheet").attr("type","text/css").attr("href","modules/couchesInteret/couchesInteret.css").appendTo("head");
+if(!$('head').find('link[href="modules/couchesInteret/couchesInteret.css"][rel="stylesheet"]').length){
+    $("<link>").attr("rel","stylesheet").attr("type","text/css").attr("href","modules/couchesInteret/couchesInteret.css").appendTo("head");
+}
 // /LE STYLE CSS DU CONTENU HTML DU MENU DROIT
 
 // LE CONTENU HTML DU MENU DROIT

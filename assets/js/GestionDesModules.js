@@ -34,7 +34,7 @@ function ajax(url, data, error, success = function (resultat) {
     });
 }
 // /TRAITEMENT AJAX
-
+var test = true;
 // CHARGEMENT DU SCRIPT DU MODULE COUCHES D'INTÉRÊT LORS DU CLIQUE
 $("#couchesInteret").parent().click(function () {
     if(!$(".main-navigation-menu li:eq(1)").hasClass('active open')){
