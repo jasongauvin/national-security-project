@@ -198,9 +198,6 @@ $(document).on("click", "#reinitAjoutAccident", function(e) {
 // PARTIE IMPORTAION
 $(document).on("change", "#fichierExcel", function () {
 
-    // $("#barreProgres").fadeIn(200);
-    // $("#barreProgres").css("display", "block");
-
     function exporterExcelVersJSON() {
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
         /*Checks whether the file is a valid excel file*/
