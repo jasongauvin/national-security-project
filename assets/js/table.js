@@ -149,7 +149,7 @@ function remplirTableHistorique(nom_couche) {
         $(tableName + '>thead>tr').empty();
         $(tableName + '>tbody>tr').empty();
     }
-        
+
     $.each(lignes_histo.columns, function (k, colObj) {
         str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
         $(str).appendTo(tableName + '>thead>tr');
@@ -240,17 +240,6 @@ $('.agent-toggle').bind('click', function () {
 });
 // /GESTION DE CLIQUE SUR LE BOUTON DE LA TABLE ATTRIBUTAIRE
 
-// DÉFINITION DE POP-UP
-var popup = new ol.Overlay.Popup (
-    {	popupClass: "black",
-        closeBox: true,
-        positioning: 'auto',
-        autoPan: true,
-        autoPanAnimation: { duration: 250 }
-    });
-popup.addPopupClass('shadow');
-map.addOverlay(popup);
-// /DÉFINITION DE POP-UP
 
 // GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE
 function cliqueLigneTableAttr(couche, nom_couche){

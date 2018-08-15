@@ -19,6 +19,10 @@ $.get("modules/criminologie/criminologie.html", function (data) {
 });
 // /LE CONTENU HTML DU MENU DROIT
 
+// CACHER TOUS LES POP-UPS
+popup.hide();
+// CACHER TOUS LES POP-UPS
+
 // AFFICHAGE DE LA COUCHE CRIME
 actualiserCoucheCriminologie();
 // /AFFICHAGE DE LA COUCHE CRIME

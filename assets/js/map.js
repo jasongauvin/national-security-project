@@ -139,3 +139,14 @@ function pulseFeature(coord) {
 }
 // /IMPULSION SUR LA CARTE
 
+// DÉFINITION DE POP-UP
+var popup = new ol.Overlay.Popup (
+    {	popupClass: "black",
+        closeBox: true,
+        positioning: 'auto',
+        autoPan: true,
+        autoPanAnimation: { duration: 250 }
+    });
+popup.addPopupClass('shadow');
+map.addOverlay(popup);
+// /DÉFINITION DE POP-UP

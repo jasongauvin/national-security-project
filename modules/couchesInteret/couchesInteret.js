@@ -14,6 +14,10 @@ $.get("modules/couchesInteret/couchesInteret.html", function (data) {
 });
 // /LE CONTENU HTML DU MENU DROIT
 
+// CACHER TOUS LES POP-UPS
+popup.hide();
+// CACHER TOUS LES POP-UPS
+
 // GESTION DES CHECKBOX DES COUCHES DISPONIBLES
 $(document).on("change","#mosquees",function () {
     if (this.checked) {

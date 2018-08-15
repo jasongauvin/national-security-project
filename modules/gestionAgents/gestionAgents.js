@@ -15,6 +15,10 @@ $.get("modules/gestionAgents/gestionAgents.html", function (data) {
 });
 // /LE CONTENU HTML DU MENU DROIT
 
+// CACHER TOUS LES POP-UPS
+popup.hide();
+// CACHER TOUS LES POP-UPS
+
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
 interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 43, 5);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
