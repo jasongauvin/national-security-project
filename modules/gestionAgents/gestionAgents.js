@@ -27,6 +27,10 @@ actualiserCoucheAgent();
 supprimerCouches(coucheAgent);
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
 
+// GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
+cliqueLigneTableAttr(coucheAgent, "Agent");
+// /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
+
 
 // CAS DE MODIFICATION
 function singleclick (evt) {
@@ -306,6 +310,17 @@ $(document).on("click", "#SupprimerAgentBouton", function (e) {
 
 });
 // /PARTIE SUPPRESSION
+
+// PARTIE HISTORIQUE
+$(document).on("click", "#historiqueAgentBouton", function (e) {
+    
+    // REMPLISSAGE DE LA TABLE D'HISTORIQUE
+    remplirTableHistorique("agent", "modules/gestionAgents/gestionAgents.php");
+    // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
+
+});
+// /PARTIE HISTORIQUE
+
 
 // FONCTION D'ACTUALISATION DE LA COUCHE AGENT
 function actualiserCoucheAgent() {

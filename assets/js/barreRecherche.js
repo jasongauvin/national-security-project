@@ -51,7 +51,7 @@ function getAddressList(string, id, url) {
             }
         },
         error: function () {
-            console.log('error parsing');
+            afficherNotif("warning", "Veuillez vérifier votre connexion internet et réessayez");;
         },
         complete: function () {
 
