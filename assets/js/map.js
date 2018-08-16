@@ -19,7 +19,7 @@ var view = new ol.View({
     center: defaultCenter,
     extent: defaultExtent,
     zoom: 13,
-    minZoom: 13,
+    // minZoom: 13,
     maxZoom: 18
 })
 var map = new ol.Map({
