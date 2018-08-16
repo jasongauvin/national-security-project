@@ -41,11 +41,26 @@ var Main = function () {
     //function to detect explorer browser and its version
     var runInit = function () {
 
-        $("#dateDebH").datepicker({
-            maxDate: 0
+        $("#dateDebH").datetimepicker({
+            maxDate: 0,
+            currentText: "Maintenant",
+            closeText: "Ok",
+            timeInput: true,
+            timeText: "",
+            hourText: "Heure",
+            minuteText: "Minute",
+            timeOnlyTitle: "Choisissez l'heure"
         });
-        $("#dateFinH").datepicker({
-            maxDate: 0
+
+        $("#dateFinH").datetimepicker({
+            maxDate: 0,
+            currentText: "Maintenant",
+            closeText: "Ok",
+            timeInput: true,
+            timeText: "",
+            hourText: "Heure",
+            minuteText: "Minute",
+            timeOnlyTitle: "Choisissez l'heure"
         });
 
         if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
