@@ -41,11 +41,32 @@ var Main = function () {
     //function to detect explorer browser and its version
     var runInit = function () {
 
-        $("#dateDebH").datepicker({
-            maxDate: 0
+        $("#dateDebH").datetimepicker({
+            maxDate: 0,
+            
+            currentText: "Maintenant",
+            closeText: "Ok",
+            timeInput: true,
+            timeText: "",
+            hourText: "Heure",
+            minuteText: "Minute",
+            onSelect: function(){
+                $("#dateFinH").datepicker("option", "minDate", $("#dateDebH").datepicker("getDate"));
+            }
         });
-        $("#dateFinH").datepicker({
-            maxDate: 0
+
+        $("#dateFinH").datetimepicker({
+            maxDate: 0,
+            
+            currentText: "Maintenant",
+            closeText: "Ok",
+            timeInput: true,
+            timeText: "",
+            hourText: "Heure",
+            minuteText: "Minute",
+            onSelect: function(){
+                $("#dateDebH").datepicker("option", "maxDate", $("#dateFinH").datepicker("getDate"));
+            }
         });
 
         if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
