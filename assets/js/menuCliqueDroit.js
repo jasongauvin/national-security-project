@@ -70,14 +70,14 @@ function roadFromHere(obj) {
     changerClasseCss("itineraire", "dropdown open");
     $("#direction_road_map_content").show();
     var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-    getSelectedAddressRoad('Where you clicked: Start', c[0], c[1], 'start_location_suggestion_list', 'start_location_input', 'start');
+    getSelectedAddressRoadDepart('Where you clicked: Start', c[0], c[1], 'start_location_suggestion_list', 'start_location_input', 'start');
 }
 
 function roadToHere(obj) {
     changerClasseCss("itineraire", "dropdown open");
     $("#direction_road_map_content").show();
     var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-    getSelectedAddressRoad('Where you clicked: Destination', c[0], c[1], 'destination_suggestion_list', 'destination_input', 'destination');
+    getSelectedAddressRoadDepart('Where you clicked: Destination', c[0], c[1], 'destination_suggestion_list', 'destination_input', 'destination');
 }
 
 var direction_start_popup = new ol.Overlay.Popup(
@@ -136,7 +136,7 @@ var directionGeometryVector = new ol.layer.Vector(
         style: direction_styleFunction
     });
 
-function getSelectedAddressRoad(name, longitude, latitude, id_ul, id_input, type) {
+function getSelectedAddressRoadDepart(name, longitude, latitude, id_ul, id_input, type) {
     name = name.replace(/[|]/g, "'");
     directionGeometryVector.getSource().forEachFeature(function (feature) {
         var typ = feature.get('type');
@@ -671,11 +671,11 @@ function getAddressRoadList(string, id, url, id_input,type){
                     name = name.replace(/[']/g, "|");
                     //console.log(name);
                     if(features[i].properties.typedata=='POI'){
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-marker-alt"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoadDepart(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-marker-alt"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
                     }else if(features[i].properties.typedata=='Localite'){
-                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
+                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoadDepart(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
                     }else{
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoadDepart(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
                     }
                     
                 }
@@ -742,5 +742,248 @@ function refreshAgentPoliceTable(longitude, latitude){
     var table = $('#list_agent_police_table').DataTable();
     table.ajax.url( '../../modules/php/gestionAgents/gestionAgents.php?table=true&lon='+longitude+'&lat='+latitude ).load();
 }
+
+
+
+
+// BARRE DE RECHERCHE LIEU DE DEPART 
+
+$("#start_location_input").on('keyup', function (event) {
+    var addrVal = $("#start_location_input").val();
+    if ($("#start_location_input").val().length) {
+        $("#listeAdrDepart").show();
+        getAddressListDepart(addrVal, 'listeAdrDepart', "http://www.navcities.com/api/geocoding/?user=demo&maxNumberOfPois=5&find=");
+
+        // TRIGGER TOUCHE ENTRER
+        if (event.keyCode === 13) {
+            $( $("#listeChampRecherche").children(":first") ).click();
+        }
+        // /TRIGGER TOUCHE ENTRER
+    } else {
+        $("#listeAdrDepart").hide();
+    }
+});
+
+function getAddressListDepart(string, id, url) {
+    var res = '';
+    $.ajax({
+        url: url + string,
+        data: {
+        },
+        type: 'GET',
+        dataType: 'JSON',
+        async: true,
+        cache: false,
+        timeout: 5000,
+        success: function (result) {
+            var features = result.features;
+            if (features.length > 0) {
+                res += '<div id="listeChampRecherche" class="list-group" style="max-height: 200px; overflow-y: auto;">';
+                for (var i = 0; i < features.length; i++) {
+
+                    var name = features[i].properties.nom;
+                    name = name.replace(/[']/g, "|");
+                    if (features[i].properties.typedata == 'POI') {
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddressDepart(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> ' + features[i].properties.nom + ' ' + features[i].properties.adresse + '</a>';
+
+                    } else if (features[i].properties.typedata == 'Localite') {
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddressDepart(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-map-signs"></i> ' + features[i].properties.adresse + '</a>';
+                    } else {
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddressDepart(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-road"></i> ' + features[i].properties.nom + '</a>';
+                    }
+
+                }
+                res += '</div>';
+                $("#" + id).empty();
+                $("#" + id).append(res);
+            }
+        },
+        error: function () {
+            afficherNotif("warning", "Veuillez vérifier votre connexion internet et réessayez");;
+        },
+        complete: function () {
+
+        }
+    });
+}
+
+var mapAdvancedSearch_AddressStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 0.5],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: 'assets/img/marker.png'
+    })
+});
+
+var mapAdvancedSearch_AddressGeometryVector = new ol.layer.Vector(
+    {
+        name: 'MapAdvancedSearch_Address',
+        source: new ol.source.Vector(),
+        style: mapAdvancedSearch_AddressStyle
+    });
+
+var map_advanced_search_address_popup = new ol.Overlay.Popup(
+    {
+        popupClass: "black", //"tips anim", "tooltips", "warning" "black" "default", "tips", "shadow",
+        closeBox: false,
+        // onclose: function () { console.log("You close the box"); },
+        positioning: 'bottom-right',
+        autoPan: true,
+        autoPanAnimation: { duration: 100 }
+    });
+
+function getSelectedAddressDepart(name, longitude, latitude, id) {
+    // CACHER LA LISTE DES ADRESSES
+    $("#listeAdrDepart").hide();
+    // /CACHER LA LISTE DES ADRESSES
+
+    mapAdvancedSearch_AddressGeometryVector.getSource().clear();
+    map_advanced_search_address_popup.hide(undefined, '');
+    name = name.replace(/[|]/g, "'");
+
+    var point_pos_search_inp = new ol.geom.Point(
+        ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')
+    );
+    
+    var point_position_search_inp = new ol.Feature(point_pos_search_inp);
+    mapAdvancedSearch_AddressGeometryVector.getSource().addFeature(point_position_search_inp);
+    var defaultCenter = ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857');
+    
+    map_advanced_search_address_popup.show(mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures()[0].getGeometry().getCoordinates(), name);
+    
+    view.animate({
+        center: defaultCenter,
+        duration: 2000,
+        zoom: 20
+    });
+
+}
+
+
+map.addLayer(mapAdvancedSearch_AddressGeometryVector);
+
+// /BARRE DE RECHERCHE LIEU DE DEPART 
+
+
+// BARRE DE RECHERCHE LIEU D'ARRIVE 
+
+$("#destination_input").on('keyup', function (event) {
+    var addrVal = $("#destination_input").val();
+    if ($("#destination_input").val().length) {
+        $("#listeAdrArrive").show();
+        getAddressListArrive(addrVal, 'listeAdrArrive', "http://www.navcities.com/api/geocoding/?user=demo&maxNumberOfPois=5&find=");
+
+        // TRIGGER TOUCHE ENTRER
+        if (event.keyCode === 13) {
+            $( $("#listeChampRecherche").children(":first") ).click();
+        }
+        // /TRIGGER TOUCHE ENTRER
+    } else {
+        $("#listeAdrArrive").hide();
+    }
+});
+
+function getAddressListArrive(string, id, url) {
+    var res = '';
+    $.ajax({
+        url: url + string,
+        data: {
+        },
+        type: 'GET',
+        dataType: 'JSON',
+        async: true,
+        cache: false,
+        timeout: 5000,
+        success: function (result) {
+            var features = result.features;
+            if (features.length > 0) {
+                res += '<div id="listeChampRecherche" class="list-group" style="max-height: 200px; overflow-y: auto;">';
+                for (var i = 0; i < features.length; i++) {
+
+                    var name = features[i].properties.nom;
+                    name = name.replace(/[']/g, "|");
+                    if (features[i].properties.typedata == 'POI') {
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddressArrive(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-map-marker-alt"></i> ' + features[i].properties.nom + ' ' + features[i].properties.adresse + '</a>';
+
+                    } else if (features[i].properties.typedata == 'Localite') {
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddressArrive(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-map-signs"></i> ' + features[i].properties.adresse + '</a>';
+                    } else {
+                        res += '<a href="javascript:void(0)" onclick="getSelectedAddressArrive(\'' + name + '\', ' + features[i].geometry.coordinates[0] + ', ' + features[i].geometry.coordinates[1] + ',\'' + id + '\');" class="list-group-item list-group-item-action"><i class="fas fa-road"></i> ' + features[i].properties.nom + '</a>';
+                    }
+
+                }
+                res += '</div>';
+                $("#" + id).empty();
+                $("#" + id).append(res);
+            }
+        },
+        error: function () {
+            afficherNotif("warning", "Veuillez vérifier votre connexion internet et réessayez");;
+        },
+        complete: function () {
+
+        }
+    });
+}
+
+var mapAdvancedSearch_AddressStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 0.5],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: 'assets/img/marker.png'
+    })
+});
+
+var mapAdvancedSearch_AddressGeometryVector = new ol.layer.Vector(
+    {
+        name: 'MapAdvancedSearch_Address',
+        source: new ol.source.Vector(),
+        style: mapAdvancedSearch_AddressStyle
+    });
+
+var map_advanced_search_address_popup = new ol.Overlay.Popup(
+    {
+        popupClass: "black", //"tips anim", "tooltips", "warning" "black" "default", "tips", "shadow",
+        closeBox: false,
+        // onclose: function () { console.log("You close the box"); },
+        positioning: 'bottom-right',
+        autoPan: true,
+        autoPanAnimation: { duration: 100 }
+    });
+
+function getSelectedAddressArrive(name, longitude, latitude, id) {
+    // CACHER LA LISTE DES ADRESSES
+    $("#listeAdrArrive").hide();
+    // /CACHER LA LISTE DES ADRESSES
+
+    mapAdvancedSearch_AddressGeometryVector.getSource().clear();
+    map_advanced_search_address_popup.hide(undefined, '');
+    name = name.replace(/[|]/g, "'");
+
+    var point_pos_search_inp = new ol.geom.Point(
+        ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857')
+    );
+    
+    var point_position_search_inp = new ol.Feature(point_pos_search_inp);
+    mapAdvancedSearch_AddressGeometryVector.getSource().addFeature(point_position_search_inp);
+    var defaultCenter = ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857');
+    
+    map_advanced_search_address_popup.show(mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures()[0].getGeometry().getCoordinates(), name);
+    
+    view.animate({
+        center: defaultCenter,
+        duration: 2000,
+        zoom: 20
+    });
+
+}
+
+
+map.addLayer(mapAdvancedSearch_AddressGeometryVector);
+
+// /BARRE DE RECHERCHE LIEU D'ARRIVE
+
 
 
