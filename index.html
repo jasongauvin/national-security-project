@@ -422,12 +422,49 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-						<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- /CONTENEUR D'HISTORIQUE -->
+
+		<!-- CONTENEUR STATISTIQUES -->
+		<div class="modal fade" id="basicExampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="statistiquesTitre"></h4>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div id="wrapperelem" style="width: 630px;margin: auto;">
+								<div id="firstelem">
+									<div class="md-form">
+										<input id="dateDebH" type="text" class="form-control" autocomplete="off">
+										<label for="dateDebH">DateHeure début</label>
+									</div>
+								</div>
+								<div id="secondelem">
+									<div class="md-form mt-0 col-md-offset-1">
+										<input id="dateFinH" type="text" class="form-control" autocomplete="off">
+										<label for="dateFinH">DateHeure fin</label>
+									</div>
+								</div>
+							</div>
+							<div id="statistiques">
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /CONTENEUR STATISTIQUES -->
+	
 
 		<!-- FOOTER -->
 		<div class="footer clearfix">
@@ -535,7 +572,125 @@
 		<script src="assets/plugins/libsXlsxXls/xlsx/xlsx.core.min.js"></script>
 		<!-- SCRIPT DE GESTION DES FICHIERS .XLSX ET XLS -->
 
-		
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/data.js"></script>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+		<script>
+
+			Highcharts.chart('statistiques', {
+
+				credits: {
+       				enabled: false
+    			},
+
+				chart: {
+					scrollablePlotArea: {
+						minWidth: 700
+					}
+				},
+
+				data: {
+					csvURL: 'https://cdn.rawgit.com/highcharts/highcharts/' +
+						'057b672172ccc6c08fe7dbb27fc17ebca3f5b770/samples/data/analytics.csv',
+					beforeParse: function (csv) {
+						return csv.replace(/\n\n/g, '\n');
+						
+					}
+				},
+
+				title: {
+					text: 'Daily sessions at www.highcharts.com'
+				},
+
+				subtitle: {
+					text: 'Source: Google Analytics'
+				},
+
+				xAxis: {
+					tickInterval: 7 * 24 * 3600 * 1000, // one week
+					tickWidth: 0,
+					gridLineWidth: 1,
+					labels: {
+						align: 'left',
+						x: 3,
+						y: -3
+					}
+				},
+
+				yAxis: [{ // left y axis
+					title: {
+						text: null
+					},
+					labels: {
+						align: 'left',
+						x: 3,
+						y: 16,
+						format: '{value:.,0f}'
+					},
+					showFirstLabel: false
+				}, { // right y axis
+					linkedTo: 0,
+					gridLineWidth: 0,
+					opposite: true,
+					title: {
+						text: null
+					},
+					labels: {
+						align: 'right',
+						x: -3,
+						y: 16,
+						format: '{value:.,0f}'
+					},
+					showFirstLabel: false
+				}],
+
+				legend: {
+					align: 'left',
+					verticalAlign: 'top',
+					borderWidth: 0
+				},
+
+				tooltip: {
+					shared: true,
+					crosshairs: true
+				},
+
+				series: [{
+					name: 'All sessions',
+					lineWidth: 4,
+					marker: {
+						radius: 4
+					}
+				}, {
+					name: 'New users'
+				}]
+				,
+
+				lang: {
+					loading: 'Chargement...',
+					months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+					weekdays: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+					shortMonths: ['jan', 'fév', 'mar', 'avr', 'mai', 'juin', 'juil', 'aoû', 'sep', 'oct', 'nov', 'déc'],
+					exportButtonTitle: "Exporter",
+					printButtonTitle: "Imprimer",
+					rangeSelectorFrom: "Du",
+					rangeSelectorTo: "au",
+					rangeSelectorZoom: "Période",
+					downloadPNG: 'Télécharger en PNG',
+					downloadJPEG: 'Télécharger en JPEG',
+					downloadPDF: 'Télécharger en PDF',
+					downloadSVG: 'Télécharger en SVG',
+					resetZoom: "Réinitialiser le zoom",
+					resetZoomTitle: "Réinitialiser le zoom",
+					thousandsSep: " ",
+					decimalPoint: ','
+				}
+			});
+
+		</script>
+
 	</body>
 	
 </html>

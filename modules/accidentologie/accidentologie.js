@@ -336,6 +336,12 @@ $(document).on("click", "#historiqueAccidentBouton", function (e) {
 });
 // /PARTIE HISTORIQUE
 
+// PARTIE STATISTIQUES
+$(document).on("click", "#statistiquesAccidentBouton", function (e) {
+    $("#statistiquesTitre").text("les statistiques des accidents");
+});
+// /PARTIE STATISTIQUES
+
 // FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT
 function actualiserCoucheAccident() {
 
