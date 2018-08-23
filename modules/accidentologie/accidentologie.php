@@ -160,4 +160,25 @@ if($_POST['tableAttributaire']){
 }
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
 
+
+// LE CAS DU STATISTIQUES
+if($_POST['statistiques']){
+    $donnees = array();
+    if(!$_POST["dateHeureFin"] && $_POST["dateHeureDeb"]){
+        $req = executerRequete("SELECT SUM (COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0)) AS nbrvictimes, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
+    }
+    if($req) {
+		while($ligne = pg_fetch_assoc($req)) {
+            array_push($donnees, array(
+                intval($ligne["dateheure"]),
+                intval($ligne["nbrvictimes"])
+                )
+            );
+        }
+    }
+    
+    echo json_encode($donnees);
+}
+// /LE CAS DE LA TABLE ATTRIBUTAIRE
+
 ?>

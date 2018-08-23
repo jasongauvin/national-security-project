@@ -424,12 +424,49 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-						<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- /CONTENEUR D'HISTORIQUE -->
+
+		<!-- CONTENEUR STATISTIQUES -->
+		<div class="modal fade" id="basicExampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="statistiquesTitre"></h4>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div id="wrapperelem" style="width: 630px;margin: auto;">
+								<div id="firstelem">
+									<div class="md-form">
+										<input id="dateDebS" type="text" class="form-control" autocomplete="off">
+										<label for="dateDebS">DateHeure début</label>
+									</div>
+								</div>
+								<div id="secondelem">
+									<div class="md-form mt-0 col-md-offset-1">
+										<input id="dateFinS" type="text" class="form-control" autocomplete="off">
+										<label for="dateFinS">DateHeure fin</label>
+									</div>
+								</div>
+							</div>
+							<div id="statistiques">
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /CONTENEUR STATISTIQUES -->
+	
 
 		<!-- FOOTER -->
 		<div class="footer clearfix">
@@ -461,7 +498,7 @@
 		<script src="assets/js/scrolling.js"></script>
 		<script src="assets/plugins/notify/notify.min.js"></script>
 		<!-- /SCRIPTS DE LA TEMPLATE -->
-		
+
 		<!-- SCRIPT MDB CORE -->
 		<script src="assets/plugins/mdb/js/mdb.min.js"></script>
 		<!-- /SCRIPT MDB CORE -->
@@ -498,6 +535,10 @@
 		<script src="assets/plugins/data-tables/buttons.html5.min.js"></script>
 		<script src="assets/plugins/data-tables/buttons.print.min.js"></script>
 		<!-- /SCRIPT DATATABLE-EXPORTATION -->
+		
+		<!-- SCRIPT DE LA GESTION DES MODULES -->
+		<script src="assets/js/GestionDesModules.js"></script>
+		<!-- /SCRIPT DE LA GESTION DES MODULES -->
 
 		<!-- SCRIPT D'OPEN LAYERS -->
 		<script src="assets/plugins/open-layers/js/ol.js"></script>
@@ -524,10 +565,6 @@
 		<script src="assets/js/menuCliqueDroit.js"></script>
 		<!-- /SCRIPT DE MENU CLIQUE DROIT -->
 
-		<!-- SCRIPT DE LA GESTION DES MODULES -->
-		<script src="assets/js/GestionDesModules.js"></script>
-		<!-- /SCRIPT DE LA GESTION DES MODULES -->
-
 		<!-- SCRIPT DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
 		<script src="assets/js/table.js"></script>
 		<!-- SCRIPT DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
@@ -537,7 +574,11 @@
 		<script src="assets/plugins/libsXlsxXls/xlsx/xlsx.core.min.js"></script>
 		<!-- SCRIPT DE GESTION DES FICHIERS .XLSX ET XLS -->
 
-		
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/data.js"></script>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
 	</body>
 	
 </html>

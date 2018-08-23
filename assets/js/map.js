@@ -1,5 +1,5 @@
 // DECLARATION DES VARIABLES
-var defaultCenter = ol.proj.transform([-6.835259, 34.016575], 'EPSG:4326', 'EPSG:3857');
+var defaultCenter = ol.proj.transform([-6.863757, 34.010152], 'EPSG:4326', 'EPSG:3857');
 var defaultExtent = [-840080.4335449198, 3988950.4443487297, -674212.0821660873, 4072419.6792361424];
 var geojsonFormat_geom = new ol.format.GeoJSON();
 var draw;
@@ -18,8 +18,8 @@ var navcitiesMaps = new ol.layer.Tile({
 var view = new ol.View({
     center: defaultCenter,
     extent: defaultExtent,
-    zoom: 13,
-    // minZoom: 13,
+    zoom: 14,
+    minZoom: 14,
     maxZoom: 18
 })
 var map = new ol.Map({
@@ -150,3 +150,56 @@ var popup = new ol.Overlay.Popup (
 popup.addPopupClass('shadow');
 map.addOverlay(popup);
 // /DÉFINITION DE POP-UP
+
+
+actualiserRues4emeArrond();
+
+function actualiserRues4emeArrond() {
+
+    var accidentologie_geojson = new ol.format.GeoJSON();
+    var source_couche_accident = new ol.source.Vector();
+    var coucheAccident;
+
+    // DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
+    var myStlye = new ol.style.Style ({
+        stroke: new ol.style.Stroke({
+            color: [135, 32, 50, 1],
+            width: 3
+          })                               
+      });
+    // /DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
+
+    // DÉFINITION DE LA COUCHE ACCIDENT
+    coucheAccident = new ol.layer.Vector({
+        name: 'CoucheAccident',
+        title: 'Couche Accident',
+        visible: true,
+        source: source_couche_accident,
+        style: myStlye
+    });
+    // /DÉFINITION DE LA COUCHE ACCIDENT
+
+    // SUPPRESSION DU CONTENU DE LA COUCHE ACCIDENT 
+    source_couche_accident.clear();
+    // /SUPPRESSION DU CONTENU DE LA COUCHE ACCIDENT
+
+    // L'APPEL AJAX AVEC LES PARAMÈTRES
+    data = {
+        frontiere: true
+    }
+    success = function (result) {
+        var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+        source_couche_accident.addFeatures(features);
+    }
+    error_fatale = function (jqXhr) {
+        rapportErreurs(jqXhr);
+        afficherNotif("erreur_fatale", "error parse!");
+    }   
+    ajax("assets/php/fonctions.php", data, error_fatale, success);
+    // /L'APPEL AJAX AVEC LES PARAMÈTRES
+
+    // L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
+    map.addLayer(coucheAccident);
+    // /L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
+
+}
