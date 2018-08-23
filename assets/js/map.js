@@ -19,6 +19,7 @@ var view = new ol.View({
     center: defaultCenter,
     extent: defaultExtent,
     zoom: 14,
+    minZoom: 14,
     maxZoom: 18
 })
 var map = new ol.Map({
@@ -187,7 +188,6 @@ function actualiserRues4emeArrond() {
         frontiere: true
     }
     success = function (result) {
-        console.log(result);
         var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
     }

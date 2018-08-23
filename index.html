@@ -444,14 +444,14 @@
 							<div id="wrapperelem" style="width: 630px;margin: auto;">
 								<div id="firstelem">
 									<div class="md-form">
-										<input id="dateDebH" type="text" class="form-control" autocomplete="off">
-										<label for="dateDebH">DateHeure début</label>
+										<input id="dateDebS" type="text" class="form-control" autocomplete="off">
+										<label for="dateDebS">DateHeure début</label>
 									</div>
 								</div>
 								<div id="secondelem">
 									<div class="md-form mt-0 col-md-offset-1">
-										<input id="dateFinH" type="text" class="form-control" autocomplete="off">
-										<label for="dateFinH">DateHeure fin</label>
+										<input id="dateFinS" type="text" class="form-control" autocomplete="off">
+										<label for="dateFinS">DateHeure fin</label>
 									</div>
 								</div>
 							</div>
@@ -578,120 +578,6 @@
 		<script src="https://code.highcharts.com/modules/data.js"></script>
 		<script src="https://code.highcharts.com/modules/series-label.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
-
-		<script>
-
-			Highcharts.chart('statistiques', {
-
-				credits: {
-       				enabled: false
-    			},
-
-				chart: {
-					scrollablePlotArea: {
-						minWidth: 700
-					}
-				},
-
-				data: {
-					csvURL: 'https://cdn.rawgit.com/highcharts/highcharts/' +
-						'057b672172ccc6c08fe7dbb27fc17ebca3f5b770/samples/data/analytics.csv',
-					beforeParse: function (csv) {
-						return csv.replace(/\n\n/g, '\n');
-						
-					}
-				},
-
-				title: {
-					text: 'Daily sessions at www.highcharts.com'
-				},
-
-				subtitle: {
-					text: 'Source: Google Analytics'
-				},
-
-				xAxis: {
-					tickInterval: 7 * 24 * 3600 * 1000, // one week
-					tickWidth: 0,
-					gridLineWidth: 1,
-					labels: {
-						align: 'left',
-						x: 3,
-						y: -3
-					}
-				},
-
-				yAxis: [{ // left y axis
-					title: {
-						text: null
-					},
-					labels: {
-						align: 'left',
-						x: 3,
-						y: 16,
-						format: '{value:.,0f}'
-					},
-					showFirstLabel: false
-				}, { // right y axis
-					linkedTo: 0,
-					gridLineWidth: 0,
-					opposite: true,
-					title: {
-						text: null
-					},
-					labels: {
-						align: 'right',
-						x: -3,
-						y: 16,
-						format: '{value:.,0f}'
-					},
-					showFirstLabel: false
-				}],
-
-				legend: {
-					align: 'left',
-					verticalAlign: 'top',
-					borderWidth: 0
-				},
-
-				tooltip: {
-					shared: true,
-					crosshairs: true
-				},
-
-				series: [{
-					name: 'All sessions',
-					lineWidth: 4,
-					marker: {
-						radius: 4
-					}
-				}, {
-					name: 'New users'
-				}]
-				,
-
-				lang: {
-					loading: 'Chargement...',
-					months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-					weekdays: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
-					shortMonths: ['jan', 'fév', 'mar', 'avr', 'mai', 'juin', 'juil', 'aoû', 'sep', 'oct', 'nov', 'déc'],
-					exportButtonTitle: "Exporter",
-					printButtonTitle: "Imprimer",
-					rangeSelectorFrom: "Du",
-					rangeSelectorTo: "au",
-					rangeSelectorZoom: "Période",
-					downloadPNG: 'Télécharger en PNG',
-					downloadJPEG: 'Télécharger en JPEG',
-					downloadPDF: 'Télécharger en PDF',
-					downloadSVG: 'Télécharger en SVG',
-					resetZoom: "Réinitialiser le zoom",
-					resetZoomTitle: "Réinitialiser le zoom",
-					thousandsSep: " ",
-					decimalPoint: ','
-				}
-			});
-
-		</script>
 
 	</body>
 	
