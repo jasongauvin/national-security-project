@@ -336,6 +336,12 @@ $(document).on("click", "#historiqueCrimeBouton", function (e) {
 });
 // /PARTIE HISTORIQUE
 
+// PARTIE STATISTIQUES
+$(document).on("click", "#statistiquesCrimeBouton", function (e) {
+    $("#statistiquesTitre").text("les statistiques des crimes");
+});
+// /PARTIE STATISTIQUES
+
 
 // FONCTION D'ACTUALISATION DE LA COUCHE CRIME
 function actualiserCoucheCriminologie() {

@@ -596,41 +596,7 @@ li.dropdown.current-user .dropdown-menu li a {
 	display: block
 }
 
-#listeAdrDepart {
-	display: none;
-	position: absolute;
-	z-index:100;
-	list-style-type: none;
-	padding: 0px;
-	width: 96%;
-}
-#listeAdrDepart li a {
-	border: 1px solid #ddd;
-	background-color: #f6f6f6;
-	padding: 2px;
-	text-decoration: none;
-	font-size: 17px;
-	color: black;
-	display: block
-}
 
-#listeAdrAArrive {
-	display: none;
-	position: absolute;
-	z-index:100;
-	list-style-type: none;
-	padding: 0px;
-	width: 96%;
-}
-#listeAdrArrive li a {
-	border: 1px solid #ddd;
-	background-color: #f6f6f6;
-	padding: 2px;
-	text-decoration: none;
-	font-size: 17px;
-	color: black;
-	display: block
-}
 
 
 /* ---------------------------------------------------------------------- */
