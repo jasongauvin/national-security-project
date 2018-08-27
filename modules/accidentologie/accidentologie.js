@@ -14,6 +14,7 @@ if(!$('head').find('link[href="modules/accidentologie/accidentologie.css"][rel="
 // /LE STYLE CSS DU CONTENU HTML DU MENU DROIT
 
 // LE CONTENU HTML DU MENU DROIT
+
 $.get("modules/accidentologie/accidentologie.html", function (data) {
     $("#style_selector div:eq(1)").after().append(data);
 });
@@ -71,7 +72,7 @@ function onClique(evt){
     $("#pointerAccidentModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
 }
 
-$(document).on("click", "#reinitModifAccident", function() {
+$(document).off("click", "#reinitModifAccident").on("click", "#reinitModifAccident", function() {
     $("#modifierAccident")[0].reset();
     $("#modifierAccidentBouton").prop("disabled", true);
     coords = null;
@@ -92,7 +93,7 @@ $(document).on("click", "#reinitModifAccident", function() {
     }
 });
 
-$(document).on("click", "#pointerAccidentModifier", function (evt) {
+$(document).off("click", "#pointerAccidentModifier").on("click", "#pointerAccidentModifier", function (evt) {
     if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
         map.on("pointermove", activerPointeurSurFeatures);
     }
@@ -100,13 +101,13 @@ $(document).on("click", "#pointerAccidentModifier", function (evt) {
 
 });
 
-$(document).on("click", "#pointerAccidentModifierNouvEmplace", function (evt) {
+$(document).off("click", "#pointerAccidentModifierNouvEmplace").on("click", "#pointerAccidentModifierNouvEmplace", function (evt) {
     map.un("singleclick", singleclick);
     map.un("pointermove", activerPointeurSurFeatures);
     map.on("click", onClique);
 });
 
-$(document).on("click", "#modifierAccidentBouton", function (e){
+$(document).off("click", "#modifierAccidentBouton").on("click", "#modifierAccidentBouton", function (e){
     e.preventDefault();
     data = {
         modification: true,
@@ -142,7 +143,7 @@ $(document).on("click", "#modifierAccidentBouton", function (e){
 // /PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 
 // PARTIE AJOUT
-$(document).on("click", "#pointerAccidentAjouter", function () {
+$(document).off("click", "#pointerAccidentAjouter").on("click", "#pointerAccidentAjouter", function () {
     changerPointeurAjout();
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
@@ -151,7 +152,7 @@ $(document).on("click", "#pointerAccidentAjouter", function () {
 
 });
 
-$(document).on("click", "#ajouterAccidentBouton", function (e) {
+$(document).off("click", "#ajouterAccidentBouton").on("click", "#ajouterAccidentBouton", function (e) {
     e.preventDefault();
     data = {
         ajout: true,
@@ -188,7 +189,7 @@ $(document).on("click", "#ajouterAccidentBouton", function (e) {
 
 });
 
-$(document).on("click", "#reinitAjoutAccident", function(e) {
+$(document).off("click", "#reinitAjoutAccident").on("click", "#reinitAjoutAccident", function(e) {
     $("#pointerAccidentAjouter").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
     coords = null;
 });
@@ -196,7 +197,7 @@ $(document).on("click", "#reinitAjoutAccident", function(e) {
 
 
 // PARTIE IMPORTAION
-$(document).on("change", "#fichierExcel", function () {
+$(document).off("change", "#fichierExcel").on("change", "#fichierExcel", function () {
 
     function exporterExcelVersJSON() {
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
@@ -291,14 +292,14 @@ function singleclick2 (evt) {
     }
 };
 
-$(document).on("click", "#reinitSuppAccident", function(e) {
+$(document).off("click", "#reinitSuppAccident").on("click", "#reinitSuppAccident", function(e) {
     $("#pointerAccidentSupprimer").html("<i class='clip-plus-circle'></i> Localiser l'emplacement d'accident");
     $("#SupprimerAccidentBouton").prop("disabled", true);
     map.un("pointermove", activerPointeurSurFeatures);
     map.un("singleclick", singleclick2);
 });
 
-$(document).on("click", "#pointerAccidentSupprimer", function (e) {
+$(document).off("click", "#pointerAccidentSupprimer").on("click", "#pointerAccidentSupprimer", function (e) {
     if ($("#collapseFour").attr("class") == "panel-collapse collapse in") {
         map.on("pointermove", activerPointeurSurFeatures);
     }
@@ -306,7 +307,7 @@ $(document).on("click", "#pointerAccidentSupprimer", function (e) {
 
 });
 
-$(document).on("click", "#SupprimerAccidentBouton", function (e) {
+$(document).off("click", "#SupprimerAccidentBouton").on("click", "#SupprimerAccidentBouton", function (e) {
     e.preventDefault();
     data = {
         suppression: true,
@@ -328,7 +329,7 @@ $(document).on("click", "#SupprimerAccidentBouton", function (e) {
 // /PARTIE SUPPRESSION
 
 // PARTIE HISTORIQUE
-$(document).on("click", "#historiqueAccidentBouton", function (e) {
+$(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAccidentBouton", function (e) {
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("accident");
     // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
@@ -337,8 +338,49 @@ $(document).on("click", "#historiqueAccidentBouton", function (e) {
 // /PARTIE HISTORIQUE
 
 // PARTIE STATISTIQUES
-$(document).on("click", "#statistiquesAccidentBouton", function (e) {
+$(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiquesAccidentBouton", function (e) {
     $("#statistiquesTitre").text("les statistiques des accidents");
+    
+    $("#dateDebS").datetimepicker({
+        maxDate: 0,
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateFinH").datepicker("option", "minDate", $("#dateDebH").datepicker("getDate"));
+            
+                data = {
+                    statistiques: true,
+                    dateHeureDeb: $('#dateDebS').val(),
+                    dateHeureFin: $('#dateFinS').val()
+                }
+                error_fatale = function (jqXhr) {
+                    rapportErreurs(jqXhr);
+                    afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les accidents");
+                }
+                success = function (resultat) {
+                    chartZoomable(resultat);    
+                }
+                ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
+        }
+    });
+
+    $("#dateFinS").datetimepicker({
+        maxDate: 0,
+        
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateDebH").datepicker("option", "maxDate", $("#dateFinH").datepicker("getDate"));
+        }
+    });
 });
 // /PARTIE STATISTIQUES
 

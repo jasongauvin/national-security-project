@@ -152,16 +152,16 @@ map.addOverlay(popup);
 // /DÉFINITION DE POP-UP
 
 
-actualiserRues4emeArrond();
+actualiser4emeArrondis();
 
-function actualiserRues4emeArrond() {
+function actualiser4emeArrondis() {
 
-    var accidentologie_geojson = new ol.format.GeoJSON();
-    var source_couche_accident = new ol.source.Vector();
-    var coucheAccident;
+    arrondis_geojson = new ol.format.GeoJSON();
+    source_couche_arrondis = new ol.source.Vector();
+    var coucheArrondis;
 
     // DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
-    var myStlye = new ol.style.Style ({
+    styleArrondis = new ol.style.Style ({
         stroke: new ol.style.Stroke({
             color: [135, 32, 50, 1],
             width: 3
@@ -170,17 +170,17 @@ function actualiserRues4emeArrond() {
     // /DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
 
     // DÉFINITION DE LA COUCHE ACCIDENT
-    coucheAccident = new ol.layer.Vector({
-        name: 'CoucheAccident',
-        title: 'Couche Accident',
+    coucheArrondis = new ol.layer.Vector({
+        name: 'CoucheArrondis',
+        title: 'Couche Arrondis',
         visible: true,
-        source: source_couche_accident,
-        style: myStlye
+        source: source_couche_arrondis,
+        style: styleArrondis
     });
     // /DÉFINITION DE LA COUCHE ACCIDENT
 
     // SUPPRESSION DU CONTENU DE LA COUCHE ACCIDENT 
-    source_couche_accident.clear();
+    source_couche_arrondis.clear();
     // /SUPPRESSION DU CONTENU DE LA COUCHE ACCIDENT
 
     // L'APPEL AJAX AVEC LES PARAMÈTRES
@@ -188,8 +188,8 @@ function actualiserRues4emeArrond() {
         frontiere: true
     }
     success = function (result) {
-        var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
-        source_couche_accident.addFeatures(features);
+        var features = arrondis_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+        source_couche_arrondis.addFeatures(features);
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
@@ -199,7 +199,7 @@ function actualiserRues4emeArrond() {
     // /L'APPEL AJAX AVEC LES PARAMÈTRES
 
     // L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
-    map.addLayer(coucheAccident);
+    map.addLayer(coucheArrondis);
     // /L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
 
 }

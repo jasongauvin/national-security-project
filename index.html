@@ -455,8 +455,13 @@
 									</div>
 								</div>
 							</div>
-							<div id="statistiques">
-
+							<div>
+								<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" style="width: 100%;">Nombre de victimes au cours du temps</button>
+							</div>
+							<div class="collapse multi-collapse" id="multiCollapseExample1" style="position: relative;left: 3.5px;">
+								<div class="card card-body">
+									<div id="statistiques"></div>
+								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -543,7 +548,7 @@
 		<!-- SCRIPT D'OPEN LAYERS -->
 		<script src="assets/plugins/open-layers/js/ol.js"></script>
 		<script src="assets/js/ol-ext.js"></script>
-		<!-- SCRIPT D'OPEN LAYERS -->
+		<!-- /SCRIPT D'OPEN LAYERS -->
 
 		<!-- SCRIPT DU CONTEXT MENU -->
 		<script src="assets/plugins/context-menu/ol-contextmenu.js"></script>
@@ -567,17 +572,24 @@
 
 		<!-- SCRIPT DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
 		<script src="assets/js/table.js"></script>
-		<!-- SCRIPT DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
+		<!-- /SCRIPT DE LA TABLE DES DONNÉES ATTRIBUTAIRES -->
 
 		<!-- SCRIPT DE GESTION DES FICHIERS .XLSX ET XLS -->
 		<script src="assets/plugins/libsXlsxXls/xls/xls.core.min.js"></script>
 		<script src="assets/plugins/libsXlsxXls/xlsx/xlsx.core.min.js"></script>
-		<!-- SCRIPT DE GESTION DES FICHIERS .XLSX ET XLS -->
+		<!-- /SCRIPT DE GESTION DES FICHIERS .XLSX ET XLS -->
 
-		<script src="https://code.highcharts.com/highcharts.js"></script>
-		<script src="https://code.highcharts.com/modules/data.js"></script>
-		<script src="https://code.highcharts.com/modules/series-label.js"></script>
-		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<!-- SCRIPT HIGHCHARTS -->
+		<script src="assets/plugins/highcharts/highcharts.js"></script>
+		<script src="assets/plugins/highcharts/data.js"></script>
+		<script src="assets/plugins/highcharts/series-label.js"></script>	
+		<script src="assets/plugins/highcharts/exporting.js"></script>
+		<script src="assets/plugins/highcharts/export-data.js"></script>
+		<!-- /SCRIPT HIGHCHARTS -->
+
+		<!-- SCRIPT DE GESTION DES CHARTS -->
+		<script src="assets/js/charts.js"></script>
+		<!-- /SCRIPT DE GESTION DES CHARTS -->
 
 	</body>
 	
