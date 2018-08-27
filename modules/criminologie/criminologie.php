@@ -68,10 +68,10 @@ if($_POST["importation"]){
                     $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=3;
                     break;
                 case "Vol et autres crimes contre les biens":
-                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=5;
+                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=4;
                     break;
                 case "Autres":
-                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=6;
+                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=5;
                     break;
             }
             $transaction .= "INSERT INTO crime ( ".$_POST['noms_cols_excel'][0].", ".$_POST['noms_cols_excel'][1].", ".$_POST['noms_cols_excel'][2].", ".$_POST['noms_cols_excel'][3].", ".$_POST['noms_cols_excel'][4]." ) VALUES (".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]].", $gravite, $desc, to_timestamp('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]."', 'dd/mm/yyyy hh24:mi'),   st_geomfromtext('POINT(".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[0]." ".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[1].")', 4326)  );";

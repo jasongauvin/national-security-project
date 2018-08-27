@@ -135,7 +135,7 @@ $(document).on("click", "#modifierAccidentBouton", function (e){
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
-            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+       
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -183,7 +183,7 @@ $(document).on("click", "#ajouterAccidentBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
-            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+           
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -270,7 +270,7 @@ $(document).on("change", "#fichierExcel", function () {
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheAccident();
-                remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+               
             }
         }
 
@@ -323,7 +323,7 @@ $(document).on("click", "#SupprimerAccidentBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
-            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+         
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
