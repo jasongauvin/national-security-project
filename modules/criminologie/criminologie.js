@@ -134,6 +134,8 @@ $(document).on("click", "#modifierCrimeBouton", function (e){
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheCriminologie();
+            remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
+        
         }
     }
     ajax("modules/criminologie/criminologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -181,6 +183,8 @@ $(document).on("click", "#ajouterCrimeBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheCriminologie();
+            remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
+      
         }
     }
     ajax("modules/criminologie/criminologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -267,6 +271,8 @@ $(document).on("change", "#fichierExcel", function () {
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheCriminologie();
+                remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
+           
             }
         }
 
@@ -319,6 +325,8 @@ $(document).on("click", "#supprimerCrimeBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheCriminologie();
+            remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
+           
         }
     }
     ajax("modules/criminologie/criminologie.php", data, error_fatale, success);
@@ -335,6 +343,12 @@ $(document).on("click", "#historiqueCrimeBouton", function (e) {
 
 });
 // /PARTIE HISTORIQUE
+
+// PARTIE STATISTIQUES
+$(document).on("click", "#statistiquesCrimeBouton", function (e) {
+    $("#statistiquesTitre").text("les statistiques des crimes");
+});
+// /PARTIE STATISTIQUES
 
 
 // FONCTION D'ACTUALISATION DE LA COUCHE CRIME
@@ -400,6 +414,6 @@ function actualiserCoucheCriminologie() {
 }
 // /FONCTION D'ACTUALISATION DE LA COUCHE CRIME
 
-// REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+// REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE CRIME
 remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
-// /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+// /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE CRIME

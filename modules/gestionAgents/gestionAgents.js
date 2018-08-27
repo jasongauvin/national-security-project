@@ -31,9 +31,9 @@ actualiserCoucheAgent();
 supprimerCouches(coucheAgent);
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
 
-// GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
+// GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'AGENTS
 cliqueLigneTableAttr(coucheAgent, "Agent");
-// /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
+// /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'AGENTS
 
 
 // CAS DE MODIFICATION
@@ -131,6 +131,8 @@ $(document).on("click", "#modifierAgentBouton", function (e){
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
+           
         }
     }
     ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success, undefined, beforeSend);
@@ -169,6 +171,9 @@ $(document).on("click", "#ajouterAgent", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
+           
+            
         }
     }
 
@@ -253,6 +258,8 @@ $(document).on("change", "#fichierExcel", function () {
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheAgent();
+                remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
+              
             }
         }
 
@@ -305,6 +312,8 @@ $(document).on("click", "#SupprimerAgentBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
+         
         }
     }
     ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);
@@ -367,6 +376,7 @@ function actualiserCoucheAgent() {
         var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_agent.addFeatures(features);
         afficherNotif("info", "La couche des agents a été bien actualisée");
+     
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
@@ -382,7 +392,7 @@ function actualiserCoucheAgent() {
 }
 // /FONCTION D'ACTUALISATION DE LA COUCHE AGENT
 
-// REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+// REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE AGENT
 remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
-// /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE ACCIDENT
+// /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE AGENT
 

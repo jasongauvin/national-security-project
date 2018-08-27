@@ -67,14 +67,11 @@ if($_POST["importation"]){
                 case "Violence et menaces physiques":
                     $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=3;
                     break;
-                case "Conduite avec facultés affaiblies":
+                case "Vol et autres crimes contre les biens":
                     $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=4;
                     break;
-                case "Vol et autres crimes contre les biens":
-                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=5;
-                    break;
                 case "Autres":
-                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=6;
+                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=5;
                     break;
             }
             $transaction .= "INSERT INTO crime ( ".$_POST['noms_cols_excel'][0].", ".$_POST['noms_cols_excel'][1].", ".$_POST['noms_cols_excel'][2].", ".$_POST['noms_cols_excel'][3].", ".$_POST['noms_cols_excel'][4]." ) VALUES (".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]].", $gravite, $desc, to_timestamp('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]."', 'dd/mm/yyyy hh24:mi'),   st_geomfromtext('POINT(".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[0]." ".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[1].")', 4326)  );";
@@ -164,7 +161,7 @@ if($_POST['tableAttributaire']){
         );
     }
 
-    $req = executerRequete("SELECT gid , CASE WHEN type=0 THEN 'Violence familiale' WHEN type = 1 THEN 'Agression sexuelle' WHEN type = 2 THEN 'Harcèlement criminel' WHEN type =3 then 'Violence et menaces physiques' WHEN type=4 then 'Conduite avec facultés affaiblies' WHEN type=5 THEN 'Vol et autres crimes contre les biens' WHEN type =6 THEN 'Autres'  END AS type, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM crime");
+    $req = executerRequete("SELECT gid , CASE WHEN type=0 THEN 'Violence familiale' WHEN type = 1 THEN 'Agression sexuelle' WHEN type = 2 THEN 'Harcèlement criminel' WHEN type =3 then 'Violence et menaces physiques' WHEN type=4 THEN 'Vol et autres crimes contre les biens' WHEN type =5 THEN 'Autres'  END AS type, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM crime");
         if($req) {
 		    while($ligne = pg_fetch_assoc($req)) {
                 array_push($donnees, array(
@@ -179,6 +176,26 @@ if($_POST['tableAttributaire']){
         }
     
     echo json_encode(array("data" => $donnees) + array("columns" => $colonnes));
+}
+// /LE CAS DE LA TABLE ATTRIBUTAIRE
+
+// LE CAS DU STATISTIQUES
+if($_POST['statistiques']){
+    $donnees = array();
+    if(!$_POST["dateHeureFin"] && $_POST["dateHeureDeb"]){
+        $req = executerRequete("SELECT COALESCE(type, 0) AS typecrime, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM crime WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
+    }
+    if($req) {
+		while($ligne = pg_fetch_assoc($req)) {
+            array_push($donnees, array(
+                intval($ligne["dateheure"]),
+                intval($ligne["typecrime"])
+                )
+            );
+        }
+    }
+    
+    echo json_encode($donnees);
 }
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
 ?>

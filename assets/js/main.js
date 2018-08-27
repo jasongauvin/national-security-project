@@ -508,6 +508,11 @@ var Main = function () {
             return false;
         });
     };
+
+
+  
+
+    
     //Set of functions for Style Selector
     var runStyleSelector = function () {
         

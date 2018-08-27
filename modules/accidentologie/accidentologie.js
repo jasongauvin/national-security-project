@@ -136,6 +136,8 @@ $(document).off("click", "#modifierAccidentBouton").on("click", "#modifierAccide
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
+            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+       
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -183,6 +185,8 @@ $(document).off("click", "#ajouterAccidentBouton").on("click", "#ajouterAccident
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
+            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+           
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -269,6 +273,8 @@ $(document).off("change", "#fichierExcel").on("change", "#fichierExcel", functio
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheAccident();
+                remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+               
             }
         }
 
@@ -321,6 +327,8 @@ $(document).off("click", "#SupprimerAccidentBouton").on("click", "#SupprimerAcci
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
+            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
+         
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
@@ -428,6 +436,8 @@ function actualiserCoucheAccident() {
         var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
         afficherNotif("info", "La couche des accidents a été bien actualisée");
+       
+        
 
         // CALCULE DE CENTROÏDE
         pulse(calculerCentroide(coucheAccident));
