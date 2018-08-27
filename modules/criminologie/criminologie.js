@@ -134,6 +134,7 @@ $(document).on("click", "#modifierCrimeBouton", function (e){
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheCriminologie();
+            remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
         
         }
     }
@@ -182,6 +183,7 @@ $(document).on("click", "#ajouterCrimeBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheCriminologie();
+            remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
       
         }
     }
@@ -269,6 +271,7 @@ $(document).on("change", "#fichierExcel", function () {
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheCriminologie();
+                remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
            
             }
         }
@@ -322,6 +325,7 @@ $(document).on("click", "#supprimerCrimeBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheCriminologie();
+            remplirTableAttributaire("crime", "modules/criminologie/criminologie.php");
            
         }
     }

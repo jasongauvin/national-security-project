@@ -131,6 +131,7 @@ $(document).on("click", "#modifierAgentBouton", function (e){
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
            
         }
     }
@@ -170,6 +171,7 @@ $(document).on("click", "#ajouterAgent", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
            
             
         }
@@ -256,6 +258,7 @@ $(document).on("change", "#fichierExcel", function () {
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheAgent();
+                remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
               
             }
         }
@@ -309,6 +312,7 @@ $(document).on("click", "#SupprimerAgentBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
          
         }
     }
@@ -372,6 +376,7 @@ function actualiserCoucheAgent() {
         var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_agent.addFeatures(features);
         afficherNotif("info", "La couche des agents a été bien actualisée");
+     
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
