@@ -68,7 +68,7 @@ function onClique(evt){
     $("#pointerAgentModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
 }
 
-$(document).on("click", "#reinitModifAgent", function() {
+$(document).off("click", "#reinitModifAgent").on("click", "#reinitModifAgent", function() {
     $("#modifierAgent")[0].reset();
     $("#modifierAgentBouton").prop("disabled", true);
     coords = null;
@@ -89,7 +89,7 @@ $(document).on("click", "#reinitModifAgent", function() {
     }
 });
 
-$(document).on("click", "#pointerAgentModifier", function (evt) {
+$(document).off("click", "#pointerAgentModifier").on("click", "#pointerAgentModifier", function (evt) {
     if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
         map.on("pointermove", activerPointeurSurFeatures);
     }
@@ -97,13 +97,13 @@ $(document).on("click", "#pointerAgentModifier", function (evt) {
 
 });
 
-$(document).on("click", "#pointerAgentModifierNouvEmplace", function (evt) {
+$(document).off("click", "#pointerAgentModifierNouvEmplace").on("click", "#pointerAgentModifierNouvEmplace", function (evt) {
     map.un("singleclick", singleclick);
     map.un("pointermove", activerPointeurSurFeatures);
     map.on("click", onClique);
 });
 
-$(document).on("click", "#modifierAgentBouton", function (e){
+$(document).off("click", "#modifierAgentBouton").on("click", "#modifierAgentBouton", function (e){
     e.preventDefault();
     data = {
         modification: true,
@@ -142,7 +142,7 @@ $(document).on("click", "#modifierAgentBouton", function (e){
 
 
 // CAS D'AJOUT D'UN AGENT
-$(document).on("click", "#pointerAgentAjouter", function () {
+$(document).off("click", "#pointerAgentAjouter").on("click", "#pointerAgentAjouter", function () {
     changerPointeurAjout("agent_24.png");
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
@@ -151,7 +151,7 @@ $(document).on("click", "#pointerAgentAjouter", function () {
 
 });
 
-$(document).on("click", "#ajouterAgent", function (e) {
+$(document).off("click", "#ajouterAgent").on("click", "#ajouterAgent", function (e) {
     e.preventDefault();
 
     data = {
@@ -181,12 +181,12 @@ $(document).on("click", "#ajouterAgent", function (e) {
 
 });
 
-$(document).on("click", "#reinitAjoutAgent", function(e) {
+$(document).off("click", "#reinitAjoutAgent").on("click", "#reinitAjoutAgent", function(e) {
     $("#pointerAgentAjouter").html("<i class='clip-plus-circle'></i> Localiser l'emplacement de l'agent");
     coords = null;
 });
 
-$(document).on("change", "#fichierExcel", function () {
+$(document).off("change", "#fichierExcel").on("change", "#fichierExcel", function () {
 
     function exporterExcelVersJSON() {
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
@@ -283,14 +283,14 @@ function singleclick2 (evt) {
     }
 };
 
-$(document).on("click", "#reinitSuppAgent", function(e) {
+$(document).off("click", "#reinitSuppAgent").on("click", "#reinitSuppAgent", function(e) {
     $("#pointerAgentSupprimer").html("<i class='clip-plus-circle'></i> Localiser l'emplacement de l'agent");
     $("#SupprimerAgentBouton").prop("disabled", true);
     map.un("pointermove", activerPointeurSurFeatures);
     map.un("singleclick", singleclick2);
 });
 
-$(document).on("click", "#pointerAgentSupprimer", function (e) {
+$(document).off("click", "#pointerAgentSupprimer").on("click", "#pointerAgentSupprimer", function (e) {
     if ($("#collapseFour").attr("class") == "panel-collapse collapse in") {
         map.on("pointermove", activerPointeurSurFeatures);
     }
@@ -298,7 +298,7 @@ $(document).on("click", "#pointerAgentSupprimer", function (e) {
 
 });
 
-$(document).on("click", "#SupprimerAgentBouton", function (e) {
+$(document).off("click", "#SupprimerAgentBouton").on("click", "#SupprimerAgentBouton", function (e) {
     e.preventDefault();
     data = {
         suppression: true,
@@ -322,7 +322,7 @@ $(document).on("click", "#SupprimerAgentBouton", function (e) {
 // /PARTIE SUPPRESSION
 
 // PARTIE HISTORIQUE
-$(document).on("click", "#historiqueAgentBouton", function (e) {
+$(document).off("click", "#historiqueAgentBouton").on("click", "#historiqueAgentBouton", function (e) {
     
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("agent", "modules/gestionAgents/gestionAgents.php");

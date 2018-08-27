@@ -70,7 +70,7 @@ function onClique(evt){
     $("#pointerCrimeModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
 }
 
-$(document).on("click", "#reinitModifCrime", function() {
+$(document).onff("click", "#reinitModifCrime").on("click", "#reinitModifCrime", function() {
     $("#modifierCrime")[0].reset();
     $("#modifierCrimeBouton").prop("disabled", true);
     coords = null;
@@ -91,7 +91,7 @@ $(document).on("click", "#reinitModifCrime", function() {
     }
 });
 
-$(document).on("click", "#pointerCrimeModifier", function (evt) {
+$(document).off("click", "#pointerCrimeModifier").on("click", "#pointerAccidentModifier", function (evt) {
     if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
         map.on("pointermove", activerPointeurSurFeatures);
     }
@@ -99,13 +99,13 @@ $(document).on("click", "#pointerCrimeModifier", function (evt) {
 
 });
 
-$(document).on("click", "#pointerCrimeModifierNouvEmplace", function (evt) {
+$(document).off("click", "#pointerCrimeModifierNouvEmplace").on("click", "#pointerCrimeModifierNouvEmplace", function (evt) {
     map.un("singleclick", singleclick);
     map.un("pointermove", activerPointeurSurFeatures);
     map.on("click", onClique);
 });
 
-$(document).on("click", "#modifierCrimeBouton", function (e){
+$(document).off("click", "#modifierCrimeBouton").on("click", "#modifierCrimeBouton", function (e){
     e.preventDefault();
     data = {
         modification: true,
@@ -143,7 +143,7 @@ $(document).on("click", "#modifierCrimeBouton", function (e){
 // /PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 
 // PARTIE AJOUT
-$(document).on("click", "#pointerCrimeAjouter", function () {
+$(document).off("click", "#pointerCrimeAjouter").on("click", "#pointerCrimeAjouter", function () {
     changerPointeurAjout();
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
@@ -152,7 +152,7 @@ $(document).on("click", "#pointerCrimeAjouter", function () {
 
 });
 
-$(document).on("click", "#ajouterCrimeBouton", function (e) {
+$(document).off("click", "#ajouterCrimeBouton").on("click", "#ajouterCrimeBouton", function (e) {
     e.preventDefault();
     data = {
         ajout: true,
@@ -191,7 +191,7 @@ $(document).on("click", "#ajouterCrimeBouton", function (e) {
 
 });
 
-$(document).on("click", "#reinitAjoutCrime", function(e) {
+$(document).off("click", "#reinitAjoutCrime").on("click", "#reinitAjoutCrime", function(e) {
     $("#pointerCrimeAjouter").html("<i class='clip-plus-circle'></i> Localisez l'emplacement du crime");
     coords = null;
 });
@@ -199,7 +199,7 @@ $(document).on("click", "#reinitAjoutCrime", function(e) {
 
 
 // PARTIE IMPORTAION
-$(document).on("change", "#fichierExcel", function () {
+$(document).off("change", "#fichierExcel").on("change", "#fichierExcel", function () {
 
     function exporterExcelVersJSON() {
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
@@ -296,14 +296,14 @@ function singleclick2 (evt) {
     }
 };
 
-$(document).on("click", "#reinitSuppCrime", function(e) {
+$(document).off("click", "#reinitSuppCrime").on("click", "#reinitSuppCrime", function(e) {
     $("#pointerCrimeSupprimer").html("<i class='clip-plus-circle'></i> Localiser l'emplacement du crime");
     $("#supprimerCrimeBouton").prop("disabled", true);
     map.un("pointermove", activerPointeurSurFeatures);
     map.un("singleclick", singleclick2);
 });
 
-$(document).on("click", "#pointerCrimeSupprimer", function (e) {
+$(document).off("click", "#pointerCrimeSupprimer").on("click", "#pointerCrimeSupprimer", function (e) {
     if ($("#collapseFour").attr("class") == "panel-collapse collapse in") {
         map.on("pointermove", activerPointeurSurFeatures);
     }
@@ -311,7 +311,7 @@ $(document).on("click", "#pointerCrimeSupprimer", function (e) {
 
 });
 
-$(document).on("click", "#supprimerCrimeBouton", function (e) {
+$(document).off("click", "#supprimerCrimeBouton").on("click", "#supprimerCrimeBouton", function (e) {
     e.preventDefault();
     data = {
         suppression: true,
@@ -335,7 +335,7 @@ $(document).on("click", "#supprimerCrimeBouton", function (e) {
 // /PARTIE SUPPRESSION
 
 // PARTIE HISTORIQUE
-$(document).on("click", "#historiqueCrimeBouton", function (e) {
+$(document).off("click", "#historiqueCrimeBouton").on("click", "#historiqueCrimeBouton", function (e) {
     
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("crime", "modules/criminologie/criminologie.php");
@@ -345,7 +345,7 @@ $(document).on("click", "#historiqueCrimeBouton", function (e) {
 // /PARTIE HISTORIQUE
 
 // PARTIE STATISTIQUES
-$(document).on("click", "#statistiquesCrimeBouton", function (e) {
+$(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesCrimeBouton", function (e) {
     $("#statistiquesTitre").text("les statistiques des crimes");
 });
 // /PARTIE STATISTIQUES
