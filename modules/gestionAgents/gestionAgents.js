@@ -131,6 +131,7 @@ $(document).on("click", "#modifierAgentBouton", function (e){
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
         }
     }
     ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success, undefined, beforeSend);
@@ -169,6 +170,8 @@ $(document).on("click", "#ajouterAgent", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
+            
         }
     }
 
@@ -253,6 +256,7 @@ $(document).on("change", "#fichierExcel", function () {
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheAgent();
+                remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
             }
         }
 
@@ -305,6 +309,7 @@ $(document).on("click", "#SupprimerAgentBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAgent();
+            remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
         }
     }
     ajax("modules/gestionAgents/gestionAgents.php", data, error_fatale, success);

@@ -135,6 +135,7 @@ $(document).on("click", "#modifierAccidentBouton", function (e){
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
+            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -182,6 +183,7 @@ $(document).on("click", "#ajouterAccidentBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
+            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success, undefined, beforeSend);
@@ -268,6 +270,7 @@ $(document).on("change", "#fichierExcel", function () {
             else if (resultat.type == "succes") {
                 afficherNotif("succes", resultat.msg);
                 actualiserCoucheAccident();
+                remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
             }
         }
 
@@ -320,6 +323,7 @@ $(document).on("click", "#SupprimerAccidentBouton", function (e) {
         if (resultat.type == "succes") {
             afficherNotif("succes", resultat.msg);
             actualiserCoucheAccident();
+            remplirTableAttributaire("accident", "modules/accidentologie/accidentologie.php");
         }
     }
     ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
@@ -386,6 +390,7 @@ function actualiserCoucheAccident() {
         var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
         afficherNotif("info", "La couche des accidents a été bien actualisée");
+        
 
         // CALCULE DE CENTROÏDE
         pulse(calculerCentroide(coucheAccident));

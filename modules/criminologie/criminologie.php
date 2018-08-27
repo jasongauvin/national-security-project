@@ -67,9 +67,6 @@ if($_POST["importation"]){
                 case "Violence et menaces physiques":
                     $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=3;
                     break;
-                case "Conduite avec facultés affaiblies":
-                    $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=4;
-                    break;
                 case "Vol et autres crimes contre les biens":
                     $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]=5;
                     break;
@@ -164,7 +161,7 @@ if($_POST['tableAttributaire']){
         );
     }
 
-    $req = executerRequete("SELECT gid , CASE WHEN type=0 THEN 'Violence familiale' WHEN type = 1 THEN 'Agression sexuelle' WHEN type = 2 THEN 'Harcèlement criminel' WHEN type =3 then 'Violence et menaces physiques' WHEN type=4 then 'Conduite avec facultés affaiblies' WHEN type=5 THEN 'Vol et autres crimes contre les biens' WHEN type =6 THEN 'Autres'  END AS type, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM crime");
+    $req = executerRequete("SELECT gid , CASE WHEN type=0 THEN 'Violence familiale' WHEN type = 1 THEN 'Agression sexuelle' WHEN type = 2 THEN 'Harcèlement criminel' WHEN type =3 then 'Violence et menaces physiques' WHEN type=4 THEN 'Vol et autres crimes contre les biens' WHEN type =5 THEN 'Autres'  END AS type, CASE WHEN gravite THEN 'Plus grave' WHEN gravite = false THEN 'Moins grave' WHEN gravite IS NULL THEN 'Grave' END AS gravite, COALESCE(description, 'Pas de description') as description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure FROM crime");
         if($req) {
 		    while($ligne = pg_fetch_assoc($req)) {
                 array_push($donnees, array(

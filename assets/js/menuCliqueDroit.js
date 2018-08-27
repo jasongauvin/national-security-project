@@ -18,7 +18,7 @@ var contextmenu_items = [
         text: 'Agents à proximité',
         classname: 'bold',
         icon: agent_icon,
-        callback: nearbyAgentContexteMenu
+        callback: agentsProximite
     },
     {
         text: 'Direction',
@@ -246,6 +246,13 @@ function center(obj) {
         duration: 700,
         easing: elastic,
         center: obj.coordinate
+    });
+}
+
+function agentsProximite(obj) {
+    view.animate({
+        center: obj.coordinate,
+        zoom:16
     });
 }
 
@@ -675,7 +682,7 @@ function getAddressRoadList(string, id, url, id_input,type){
                     }else if(features[i].properties.typedata=='Localite'){
                         res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
                     }else{
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoadDepart(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
                     }
                     
                 }
@@ -720,28 +727,9 @@ $("#direction_startover").on('click', function(){
     $("#road_map_tab").empty();
 });
 
-function nearbyAgentContexteMenu(obj){
-    var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-    getNearbyAgentsPopup('Where you clicked', obj.coordinate[0], obj.coordinate[1]);
-    
-    
-}
 
-function getNearbyAgentsPopup(name, longitude, latitude){
-    $("#main_agent_list_content").show();
-    $('.agent-toggle').removeClass('close').addClass('open');
-    $('.agent-toggle').empty();
-    $('.agent-toggle').append('<i class="icon-chevron-thin-down"></i>');
-    var c = ol.proj.transform([longitude, latitude], 'EPSG:3857', 'EPSG:4326');
 
-    refreshAgentPoliceTable(c[0], c[1]);
-}
 
-function refreshAgentPoliceTable(longitude, latitude){
-    console.log(longitude+','+latitude);
-    var table = $('#list_agent_police_table').DataTable();
-    table.ajax.url( '../../modules/php/gestionAgents/gestionAgents.php?table=true&lon='+longitude+'&lat='+latitude ).load();
-}
 
 
 
