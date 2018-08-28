@@ -20,19 +20,40 @@ Highcharts.setOptions({
         printChart: "Imprimer le graphe",
         downloadCSV: "Télécharger en format CSV",
         downloadXLS: "Télécharger en format EXCEL"
+    },
 
-    }
+    exporting: {
+        sourceWidth: 1162,
+        buttons: {
+          contextButton: {
+            menuItems: ["printChart",
+                        "separator",
+                        "downloadPNG",
+                        "downloadJPEG",
+                        "downloadPDF",
+                        "downloadSVG",
+                        "separator",
+                        "downloadCSV",
+                        "downloadXLS"]
+          }
+        },
+        chartOptions: {
+            subtitle: null,
+        }
+    },
+
+    credits: false
 });
 
 
-function chartZoomable(data) {
+function chartZoomable(container, data, titre) {
     
-    Highcharts.chart('statistiques', {
+    Highcharts.chart(container, {
         chart: {
             zoomType: 'x'
         },
         title: {
-            text: 'Nombre de victimes au cours du temps'
+            text: titre
         },
         subtitle: {
             text: document.ontouchstart === undefined ?
@@ -45,6 +66,7 @@ function chartZoomable(data) {
             }
         },
         yAxis: {
+            allowDecimals: false,
             title: {
                 text: 'Nombre de victimes'
             },
@@ -79,34 +101,51 @@ function chartZoomable(data) {
                 threshold: null
             }
         },
-        
-
         series: [{
             type: 'area',
             name: 'Nombre de victimes',
             data: data
-        }],
+        }]
+    });
+}
 
-        exporting: {
-            sourceWidth: 1162,
-            buttons: {
-              contextButton: {
-                menuItems: ["printChart",
-                            "separator",
-                            "downloadPNG",
-                            "downloadJPEG",
-                            "downloadPDF",
-                            "downloadSVG",
-                            "separator",
-                            "downloadCSV",
-                            "downloadXLS"]
-              }
-            },
-            chartOptions: {
-                subtitle: null,
+function chartPie(container, data, titre, couleurs) {
+
+    Highcharts.chart(container, {
+        colors: couleurs,
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45,
+                beta: 0
             }
-        },  
-
-        credits: false
+        },
+        title: {
+            text: titre
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                showInLegend: true,
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Pourcentage',
+            data: data
+        }]
     });
 }

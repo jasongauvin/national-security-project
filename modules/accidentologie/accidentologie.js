@@ -347,6 +347,40 @@ $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAc
 $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiquesAccidentBouton", function (e) {
     $("#statistiquesTitre").text("les statistiques des accidents");
     
+    function traitementStatistiques(){
+        data = {
+            statistiques: true,
+            dateHeureDeb: $('#dateDebS').val(),
+            dateHeureFin: $('#dateFinS').val()
+        }
+        error_fatale = function (jqXhr) {
+            rapportErreurs(jqXhr);
+            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les accidents");
+        }
+        success = function (resultat) {
+
+            if($('#dateDebS').val() && $('#dateFinS').val()){
+                titre1 = "Nombre de victimes entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+                titre2 = "Pourcentage de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+                titre3 = "Pourcentage de la gravité des accidents entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();;
+            }else if($('#dateDebS').val() && !$('#dateFinS').val()){
+                titre1 = "Nombre de victimes depuis "+$('#dateDebS').val();
+                titre2 = "Pourcentage de Morts et de Blessés depuis "+$('#dateDebS').val();
+                titre3 = "Pourcentage de la gravité des accidents depuis "+$('#dateDebS').val();
+            }else{
+                titre1 = "Nombre de victimes jusqu'à "+$('#dateFinS').val();
+                titre2 = "Pourcentage de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
+                titre3 = "Pourcentage de la gravité des accidents jusqu'à "+$('#dateFinS').val();
+            }
+            
+            chartZoomable("chartZoomable", resultat.chartZoomable, titre1);
+            chartPie("piePourceBlesMorts", resultat.piePourceBlesMorts, titre2, ['#ff4444', '#33b5e5']);
+            chartPie("piePourceGravite", resultat.piePourceGravite, titre3, ['#ffbb33', '#00C851', '#2BBBAD']);
+        }
+
+        ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
+    }
+
     $("#dateDebS").datetimepicker({
         maxDate: 0,
         currentText: "Maintenant",
@@ -356,21 +390,8 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
         hourText: "Heure",
         minuteText: "Minute",
         onSelect: function(){
-            $("#dateFinH").datepicker("option", "minDate", $("#dateDebH").datepicker("getDate"));
-            
-                data = {
-                    statistiques: true,
-                    dateHeureDeb: $('#dateDebS').val(),
-                    dateHeureFin: $('#dateFinS').val()
-                }
-                error_fatale = function (jqXhr) {
-                    rapportErreurs(jqXhr);
-                    afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les accidents");
-                }
-                success = function (resultat) {
-                    chartZoomable(resultat);    
-                }
-                ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
+            $("#dateFinS").datepicker("option", "minDate", $("#dateDebS").datepicker("getDate"));
+            traitementStatistiques();
         }
     });
 
@@ -384,7 +405,8 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
         hourText: "Heure",
         minuteText: "Minute",
         onSelect: function(){
-            $("#dateDebH").datepicker("option", "maxDate", $("#dateFinH").datepicker("getDate"));
+            $("#dateDebS").datepicker("option", "maxDate", $("#dateFinS").datepicker("getDate"));
+            traitementStatistiques();
         }
     });
 });
