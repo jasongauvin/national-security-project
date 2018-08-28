@@ -20,7 +20,7 @@ popup.hide();
 // CACHER TOUS LES POP-UPS
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
-interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 43, 5);
+interactionGraphiqueMenuDeNavigation(2, "gestionAgents", "Boîte à outils gestion des agents", 43, 0);
 // /INTERACTION GRAPHIQUE POUR LE MENU DROIT
 
 // AFFICHAGE DE LA COUCHE AGENT
@@ -335,6 +335,7 @@ $(document).off("click", "#historiqueAgentBouton").on("click", "#historiqueAgent
 // FONCTION D'ACTUALISATION DE LA COUCHE AGENT
 function actualiserCoucheAgent() {
 
+    map.removeLayer(coucheAgent);
     // DÉFINITION DU STYLE DE LA COUCHE AGENT
     var styleCoucheAgent = function (feature) {
 

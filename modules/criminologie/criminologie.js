@@ -354,6 +354,7 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
 // FONCTION D'ACTUALISATION DE LA COUCHE CRIME
 function actualiserCoucheCriminologie() {
 
+    map.removeLayer(coucheCrime);
     // DÉFINITION DU STYLE DE LA COUCHE CRIME
     var styleCoucheCrime = function (feature) {
 

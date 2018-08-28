@@ -394,6 +394,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
 // FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT
 function actualiserCoucheAccident() {
 
+    map.removeLayer(coucheAccident);
     // DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
     var styleCoucheAccident = function (feature) {
 
