@@ -40,7 +40,6 @@ cliqueLigneTableAttr(coucheAgent, "Agent");
 function singleclick (evt) {
     features = [];
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-        layer = [coucheAgent];
         return feature;
     });
     if (feature) {

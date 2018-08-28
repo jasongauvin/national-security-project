@@ -39,7 +39,6 @@ cliqueLigneTableAttr(coucheCrime, "Crime");
 function singleclick (evt) {
     features = [];
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-        layer = [coucheCrime];
         return feature;
     });
     if (feature) {
@@ -70,7 +69,7 @@ function onClique(evt){
     $("#pointerCrimeModifierNouvEmplace").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
 }
 
-$(document).onff("click", "#reinitModifCrime").on("click", "#reinitModifCrime", function() {
+$(document).off("click", "#reinitModifCrime").on("click", "#reinitModifCrime", function() {
     $("#modifierCrime")[0].reset();
     $("#modifierCrimeBouton").prop("disabled", true);
     coords = null;
@@ -91,7 +90,7 @@ $(document).onff("click", "#reinitModifCrime").on("click", "#reinitModifCrime", 
     }
 });
 
-$(document).off("click", "#pointerCrimeModifier").on("click", "#pointerAccidentModifier", function (evt) {
+$(document).off("click", "#pointerCrimeModifier").on("click", "#pointerCrimeModifier", function (evt) {
     if ($("#collapseThree").attr("class") == "panel-collapse collapse in") {
         map.on("pointermove", activerPointeurSurFeatures);
     }
@@ -398,7 +397,7 @@ function actualiserCoucheCriminologie() {
         afficherNotif("info", "La couche des crimes  a été bien actualisée");
 
         // CALCULE DE CENTROÏDE
-        pulse(calculerCentroide(coucheCrime));
+        //pulse(calculerCentroide(coucheCrime));
         // /CALCULE DE CENTROÏDE
     }
     error_fatale = function (jqXhr) {

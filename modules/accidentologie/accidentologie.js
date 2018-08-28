@@ -14,7 +14,6 @@ if(!$('head').find('link[href="modules/accidentologie/accidentologie.css"][rel="
 // /LE STYLE CSS DU CONTENU HTML DU MENU DROIT
 
 // LE CONTENU HTML DU MENU DROIT
-
 $.get("modules/accidentologie/accidentologie.html", function (data) {
     $("#style_selector div:eq(1)").after().append(data);
 });
@@ -435,12 +434,10 @@ function actualiserCoucheAccident() {
     success = function (result) {
         var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
-        afficherNotif("info", "La couche des accidents a été bien actualisée");
-       
-        
+        afficherNotif("info", "La couche des accidents a été bien actualisée");   
 
         // CALCULE DE CENTROÏDE
-        pulse(calculerCentroide(coucheAccident));
+        //pulse(calculerCentroide(coucheAccident));
         // /CALCULE DE CENTROÏDE
     }
     error_fatale = function (jqXhr) {
