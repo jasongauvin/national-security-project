@@ -3,6 +3,7 @@ var defaultCenter = ol.proj.transform([-6.863757, 34.010152], 'EPSG:4326', 'EPSG
 var defaultExtent = [-840080.4335449198, 3988950.4443487297, -674212.0821660873, 4072419.6792361424];
 var geojsonFormat_geom = new ol.format.GeoJSON();
 var draw;
+var coucheArrondis;
 var navcitiesXYZSource = new ol.source.XYZ({
     attributions: [new ol.Attribution({
         html: 'Tiles © <a href="https://www.navcities.com">Navcities</a>'
@@ -33,7 +34,13 @@ var map = new ol.Map({
 function activerPointeurSurFeatures(e){
     if (e.dragging) return;
     var pixel = map.getEventPixel(e.originalEvent);
-    var hit = map.hasFeatureAtPixel(pixel);
+    var hit = map.hasFeatureAtPixel(pixel, {
+        layerFilter: function (layer) {
+            if(layer != coucheArrondis){
+                return true;
+            }
+        }
+    });
 
     map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 }
@@ -158,7 +165,6 @@ function actualiser4emeArrondis() {
 
     arrondis_geojson = new ol.format.GeoJSON();
     source_couche_arrondis = new ol.source.Vector();
-    var coucheArrondis;
 
     // DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
     styleArrondis = new ol.style.Style ({

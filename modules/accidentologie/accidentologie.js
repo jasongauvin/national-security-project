@@ -40,7 +40,6 @@ cliqueLigneTableAttr(coucheAccident, "Accident");
 function singleclick (evt) {
     features = [];
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-        layer = [coucheAccident];
         return feature;
     });
     if (feature) {
@@ -60,8 +59,8 @@ function singleclick (evt) {
         $("#modifierAccident #nbrMorts").val(feature.get("nbrmorts"));
         $("#modifierAccident #gravite").val(feature.get("gravite") == 'f' ? "false" : (feature.get("gravite") == 't' ? "true" : "null"));
         $("#modifierAccident #description").val(feature.get("description"));
-        $("#modifierAccident #heurem").val(feature.get("dateheure").split(" ")[1]);
-        $("#modifierAccident #datem").val(feature.get("dateheure").split(" ")[0]);
+        $("#modifierAccident #heurem").val( feature.get("dateheure")? feature.get("dateheure").split(" ")[1]: '' );
+        $("#modifierAccident #datem").val( feature.get("dateheure")? feature.get("dateheure").split(" ")[0]: '' );
         gid = feature.get("gid");
     }
 
