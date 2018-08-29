@@ -45,7 +45,6 @@ Highcharts.setOptions({
     credits: false
 });
 
-
 function chartZoomable(container, data, titre) {
     
     Highcharts.chart(container, {
