@@ -149,9 +149,10 @@ function chartPie(container, data, titre, couleurs) {
     });
 }
 
-function chartLigne(container, data, titre) {
+function chartLigne(container, data, titre, couleurs) {
 
     Highcharts.chart(container, {
+        colors: couleurs,
 
         chart: {
             scrollablePlotArea: {

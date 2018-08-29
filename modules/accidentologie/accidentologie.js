@@ -363,18 +363,21 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
                 titre2 = "Pourcentage de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
                 titre3 = "Pourcentage de la gravité des accidents entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
                 titre4 = "Nombre de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+                titre5 = "Pourcentage de la densité des accidents selon les tranches horaires entre"+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
 
             }else if($('#dateDebS').val() && !$('#dateFinS').val()){
                 titre1 = "Nombre de victimes depuis "+$('#dateDebS').val();
                 titre2 = "Pourcentage de Morts et de Blessés depuis "+$('#dateDebS').val();
                 titre3 = "Pourcentage de la gravité des accidents depuis "+$('#dateDebS').val();
                 titre4 = "Nombre de Morts et de Blessés depuis "+$('#dateDebS').val();
+                titre5 = "Pourcentage de la densité des accidents selon les tranches horaires depuis "+$('#dateDebS').val();
 
             }else{
                 titre1 = "Nombre de victimes jusqu'à "+$('#dateFinS').val();
                 titre2 = "Pourcentage de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
                 titre3 = "Pourcentage de la gravité des accidents jusqu'à "+$('#dateFinS').val();
                 titre4 = "Nombre de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
+                titre5 = "Pourcentage de la densité des accidents selon les tranches horaires jusqu'à "+$('#dateFinS').val();
 
             }
             
@@ -398,7 +401,9 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
                 }
             }]
 
-            chartLigne("chartLigneBlesMorts", donnees, titre4);
+            chartLigne("chartLigneBlesMorts", donnees, titre4, ["#ffc400", "#795548"]);
+
+            chartPie("piePourceTranchesH", resultat.piePourceTranchesH, titre5, ["#795548", '#ffbb33', '#00C851', '#2BBBAD']);
         }
 
         ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);
