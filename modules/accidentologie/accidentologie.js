@@ -358,24 +358,47 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les accidents");
         }
         success = function (resultat) {
-
             if($('#dateDebS').val() && $('#dateFinS').val()){
                 titre1 = "Nombre de victimes entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
                 titre2 = "Pourcentage de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
-                titre3 = "Pourcentage de la gravité des accidents entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();;
+                titre3 = "Pourcentage de la gravité des accidents entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+                titre4 = "Nombre de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+
             }else if($('#dateDebS').val() && !$('#dateFinS').val()){
                 titre1 = "Nombre de victimes depuis "+$('#dateDebS').val();
                 titre2 = "Pourcentage de Morts et de Blessés depuis "+$('#dateDebS').val();
                 titre3 = "Pourcentage de la gravité des accidents depuis "+$('#dateDebS').val();
+                titre4 = "Nombre de Morts et de Blessés depuis "+$('#dateDebS').val();
+
             }else{
                 titre1 = "Nombre de victimes jusqu'à "+$('#dateFinS').val();
                 titre2 = "Pourcentage de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
                 titre3 = "Pourcentage de la gravité des accidents jusqu'à "+$('#dateFinS').val();
+                titre4 = "Nombre de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
+
             }
             
             chartZoomable("chartZoomable", resultat.chartZoomable, titre1);
             chartPie("piePourceBlesMorts", resultat.piePourceBlesMorts, titre2, ['#ff4444', '#33b5e5']);
             chartPie("piePourceGravite", resultat.piePourceGravite, titre3, ['#ffbb33', '#00C851', '#2BBBAD']);
+
+            donnees = [{
+                data: resultat.chartLigneBlesMorts.Morts,
+                name: 'Morts',
+                lineWidth: 4,
+                marker: {
+                    radius: 4
+                }
+            }, {
+                data: resultat.chartLigneBlesMorts.Blesses,
+                name: 'Blessés',
+                lineWidth: 4,
+                marker: {
+                    radius: 4
+                }
+            }]
+
+            chartLigne("chartLigneBlesMorts", donnees, titre4);
         }
 
         ajax("modules/accidentologie/accidentologie.php", data, error_fatale, success);

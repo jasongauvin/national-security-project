@@ -166,19 +166,24 @@ if($_POST['statistiques']){
     $chartZoomable = array();
     $piePourceBlesMorts = array();
     $piePourceGravite = array();
+    $chartLigneBles = array();
+    $chartLigneMorts = array();
 
     if(!$_POST["dateHeureFin"] && $_POST["dateHeureDeb"]){
         $req = executerRequete("SELECT SUM (COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0)) AS nbrvictimes, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((CAST(SUM(COALESCE(nbrmorts, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceMorts, TRUNC((CAST(SUM(COALESCE(nbrblesses, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceBlesses FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
+        $req4 = executerRequete("SELECT SUM(COALESCE(nbrmorts, 0)) AS nbrmorts , SUM(COALESCE(nbrblesses, 0)) AS nbrblesses, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
     }else if($_POST["dateHeureFin"] && !$_POST["dateHeureDeb"]){
         $req = executerRequete("SELECT SUM (COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0)) AS nbrvictimes, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM accident WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((CAST(SUM(COALESCE(nbrmorts, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceMorts, TRUNC((CAST(SUM(COALESCE(nbrblesses, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceBlesses FROM accident WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from accident WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
+        $req4 = executerRequete("SELECT SUM(COALESCE(nbrmorts, 0)) AS nbrmorts , SUM(COALESCE(nbrblesses, 0)) AS nbrblesses, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM accident WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
     }else{
         $req = executerRequete("SELECT SUM (COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0)) AS nbrvictimes, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM accident WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((CAST(SUM(COALESCE(nbrmorts, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceMorts, TRUNC((CAST(SUM(COALESCE(nbrblesses, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceBlesses FROM accident WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from accident WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
+        $req4 = executerRequete("SELECT SUM(COALESCE(nbrmorts, 0)) AS nbrmorts , SUM(COALESCE(nbrblesses, 0)) AS nbrblesses, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM accident WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
     }
 
     if($req) {
@@ -221,10 +226,24 @@ if($_POST['statistiques']){
         }
     }
 
+    if($req4) {
+		while($ligne = pg_fetch_assoc($req4)) {
+            array_push($chartLigneBles,
+                [intval($ligne["dateheure"]), intval($ligne["nbrblesses"])]
+            );
+            array_push($chartLigneMorts,
+                [intval($ligne["dateheure"]), intval($ligne["nbrmorts"])]
+            );
+        }
+    }
+
     echo json_encode(array(
         "chartZoomable" => $chartZoomable,
         "piePourceBlesMorts" => $piePourceBlesMorts,
-        "piePourceGravite" => $piePourceGravite
+        "piePourceGravite" => $piePourceGravite,
+        "chartLigneBlesMorts" => ["Morts" => $chartLigneMorts,
+                                  "Blesses" => $chartLigneBles
+        ]
     ));
 }
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
