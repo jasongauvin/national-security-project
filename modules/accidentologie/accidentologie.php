@@ -161,7 +161,7 @@ if($_POST['tableAttributaire']){
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
 
 
-// LE CAS DU STATISTIQUES
+// LE CAS DU 
 if($_POST['statistiques']){
     $chartZoomable = array();
     $piePourceBlesMorts = array();
@@ -246,6 +246,7 @@ if($_POST['statistiques']){
         ]
     ));
 }
+
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
 
 ?>
