@@ -101,17 +101,17 @@
 						<li id="itineraire" class="dropdown">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
 								<img src="assets/img/exportation.png">
-								<span id="" class="badge"></span>
+								<span class="badge"></span>
 							</a>
 							<ul class="dropdown-menu todo">
 								<li>
-									<span id="" class="dropdown-menu-title">EXPORTATION DE LA CARTE</span>
+									<span class="dropdown-menu-title">EXPORTATION DE LA CARTE</span>
 								</li>
 								<li>
 									<div class="card" style="padding: 10px;">
 										<div class="card-body">
-											<button type="button" id="" class="btn btn-primary" >Format PDF</button>
-											<button type="button" id="" class="btn btn-primary" >Format PNG</button>
+											<button type="button" id="exporterCartePDF" class="btn btn-primary" style="width: -webkit-fill-available;" >Format PDF</button>
+											<button type="button" id="exporterCartePNG" class="btn btn-primary" style="width: -webkit-fill-available;" >Format PNG</button>
 										</div>
 									</div>
 								</li>
@@ -757,7 +757,7 @@
 		<!-- SCRIPT DU CONTEXT MENU -->
 		<script src="assets/plugins/context-menu/ol-contextmenu.js"></script>
 		<!-- /SCRIPT DU CONTEXT MENU -->
-		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
 		<!-- SCRIPT DE LA CARTE ET LES COUCHES PRÉDÉFINIES -->
 		<script src="assets/js/map.js"></script>
 		<!-- /SCRIPT DE LA CARTE ET LES COUCHES PRÉDÉFINIES -->

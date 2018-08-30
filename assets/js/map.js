@@ -8,7 +8,9 @@ var navcitiesXYZSource = new ol.source.XYZ({
     attributions: [new ol.Attribution({
         html: 'Tiles © <a href="https://www.navcities.com">Navcities</a>'
     })],
-    url: "http://www.navcities.com/mapcache/tms/1.0.0/lintermediaire@NavG/{z}/{x}/{-y}.png"
+    url: "http://www.navcities.com/mapcache/tms/1.0.0/lintermediaire@NavG/{z}/{x}/{-y}.png",
+    crossOrigin: 'Anonymous'
+
 });
 var navcitiesMaps = new ol.layer.Tile({
     name: 'Navcities Maps',
@@ -158,6 +160,24 @@ var popup = new ol.Overlay.Popup (
 popup.addPopupClass('shadow');
 map.addOverlay(popup);
 // /DÉFINITION DE POP-UP
+
+// EXPORTATION DE LA CARTE
+$("#exporterCartePNG").click(function (e) {
+
+    map.once('postcompose', function (event) {
+        var canvas = event.context.canvas;
+        if (navigator.msSaveBlob) {
+            navigator.msSaveBlob(canvas.msToBlob(), '4eme_arrondissement.png');
+        } else {
+            canvas.toBlob(function (blob) {
+                saveAs(blob, '4eme_arrondissement.png');
+            });
+        }
+    });
+    map.renderSync();
+});
+
+// /EXPORTATION DE LA CARTE
 
 
 actualiser4emeArrondis();

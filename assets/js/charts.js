@@ -241,7 +241,7 @@ function chartLigne(container, data, titre, couleurs) {
 
 }
 
-function chartBar(container, data, titre, couleurs) {
+function chartBar(container, data, titre, couleurs, type) {
     Highcharts.chart(container, {
         colors: couleurs,
         chart: {
@@ -263,7 +263,7 @@ function chartBar(container, data, titre, couleurs) {
             }
         },
         tooltip: {
-            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} Accidents</b> ({point.percentage:.2f}%)<br/>',
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} '+type+'</b> ({point.percentage:.2f}%)<br/>',
             shared: true
         },
         plotOptions: {

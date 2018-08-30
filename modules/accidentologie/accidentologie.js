@@ -456,7 +456,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
                 data: resultat.chartBarGravTranchesH[0].m
             }];
 
-            chartBar("chartBarGravTranchesH", donnees, titre6, ["#ff4444", '#ffbb33', '#1de9b6']);
+            chartBar("chartBarGravTranchesH", donnees, titre6, ["#ff4444", '#ffbb33', '#1de9b6'], "Accidents");
 
         }
 
@@ -517,6 +517,11 @@ $(document).off("click", "#heatMapAccidents").on("click", "#heatMapAccidents", f
     map.addLayer(heatmapLayer);
 
 });
+
+$(document).off("click", "#viderCarte").on("click", "#viderCarte", function (e) {
+    reinit();
+});
+
 // /PARTIE THÉMATIQUES
 
 // FONCTION DE RÉINITIALISATION
