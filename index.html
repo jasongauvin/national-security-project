@@ -558,6 +558,100 @@
 				</div>
 			</div>
 			<!-- /CONTENEUR STATISTIQUES -->
+
+
+		<!-- CONTENEUR STATISTIQUES CRIMINOLOGIE-->
+		<div class="modal fade" id="basicExampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="statistiquesTitre"></h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div id="wrapperelem" style="width: 630px;margin: auto;">
+							<div id="firstelem">
+								<div class="md-form">
+									<input id="dateDebS" type="text" class="form-control" autocomplete="off">
+									<label for="dateDebS">DateHeure début</label>
+								</div>
+							</div>
+							<div id="secondelem">
+								<div class="md-form mt-0 col-md-offset-1">
+									<input id="dateFinS" type="text" class="form-control" autocomplete="off">
+									<label for="dateFinS">DateHeure fin</label>
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" style="width: 100%;">Nombre de victimes au cours du temps</button>
+						</div>
+						<div class="collapse multi-collapse collapse in" id="multiCollapseExample1" style="position: relative;left: 3.5px;">
+							<div class="card card-body">
+								<div id="chartZoomable"></div>
+							</div>
+						</div>
+
+						<table style="width:100%">
+							<tr>
+								<td>
+									<div>
+										<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample2"
+										 role="button" aria-expanded="false" aria-controls="multiCollapseExample2" style="width: 100%;">Pourcentage de Morts
+											et de Blessés au cours du temps</button>
+									</div>
+								</td>
+								<td>
+									<div>
+										<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample3"
+										 role="button" aria-expanded="false" aria-controls="multiCollapseExample3" style="width: 100%;">Pourcentage de la
+											gravité des accidents au cours du temps</button>
+									</div>
+						
+								</td>
+							</tr>
+						
+							<tr>
+								<td style="width: 50%">
+						
+									<div class="collapse multi-collapse collapse in" id="multiCollapseExample2" style="position: relative;left: 3.5px;">
+										<div class="card card-body">
+											<div id="piePourceBlesMorts"></div>
+										</div>
+									</div>
+								</td>
+								<td style="width: 50%">
+									<div class="collapse multi-collapse collapse in" id="multiCollapseExample3" style="position: relative;left: 3.5px;">
+										<div class="card card-body">
+											<div id="piePourceGravite"></div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+
+						<div>
+							<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample4"
+							 role="button" aria-expanded="false" aria-controls="multiCollapseExample4" style="width: 100%;">Nombre de Morts et de Blessés au cours
+								du temps</button>
+						</div>
+						<div class="collapse multi-collapse collapse in" id="multiCollapseExample4" style="position: relative;left: 3.5px;">
+							<div class="card card-body">
+								<div id="chartLigneBlesMorts"></div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /CONTENEUR STATISTIQUES -->
 	
 
 		<!-- FOOTER -->

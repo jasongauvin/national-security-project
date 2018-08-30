@@ -346,6 +346,93 @@ $(document).off("click", "#historiqueCrimeBouton").on("click", "#historiqueCrime
 // PARTIE STATISTIQUES
 $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesCrimeBouton", function (e) {
     $("#statistiquesTitre").text("les statistiques des crimes");
+
+    
+    function traitementStatistiques(){
+        data = {
+            statistiques: true,
+            dateHeureDeb: $('#dateDebS').val(),
+            dateHeureFin: $('#dateFinS').val()
+        }
+        error_fatale = function (jqXhr) {
+            rapportErreurs(jqXhr);
+            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les crimes");
+        }
+        success = function (resultat) {
+            if($('#dateDebS').val() && $('#dateFinS').val()){
+                titre1 = "Nombre de victimes entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+                titre2 = "Pourcentage de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+                titre3 = "Pourcentage de la gravité des accidents entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+                titre4 = "Nombre de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+
+            }else if($('#dateDebS').val() && !$('#dateFinS').val()){
+                titre1 = "Nombre de victimes depuis "+$('#dateDebS').val();
+                titre2 = "Pourcentage de Morts et de Blessés depuis "+$('#dateDebS').val();
+                titre3 = "Pourcentage de la gravité des accidents depuis "+$('#dateDebS').val();
+                titre4 = "Nombre de Morts et de Blessés depuis "+$('#dateDebS').val();
+
+            }else{
+                titre1 = "Nombre de victimes jusqu'à "+$('#dateFinS').val();
+                titre2 = "Pourcentage de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
+                titre3 = "Pourcentage de la gravité des accidents jusqu'à "+$('#dateFinS').val();
+                titre4 = "Nombre de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
+
+            }
+            
+            chartZoomable("chartZoomable", resultat.chartZoomable, titre1);
+            chartPie("piePourceBlesMorts", resultat.piePourceBlesMorts, titre2, ['#ff4444', '#33b5e5']);
+            chartPie("piePourceGravite", resultat.piePourceGravite, titre3, ['#ffbb33', '#00C851', '#2BBBAD']);
+
+            donnees = [{
+                data: resultat.chartLigneBlesMorts.Morts,
+                name: 'Morts',
+                lineWidth: 4,
+                marker: {
+                    radius: 4
+                }
+            }, {
+                data: resultat.chartLigneBlesMorts.Blesses,
+                name: 'Blessés',
+                lineWidth: 4,
+                marker: {
+                    radius: 4
+                }
+            }]
+
+            chartLigne("chartLigneBlesMorts", donnees, titre4);
+        }
+
+        ajax("modules/criminologie/criminologie.php", data, error_fatale, success);
+    }
+
+    $("#dateDebS").datetimepicker({
+        maxDate: 0,
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateFinS").datepicker("option", "minDate", $("#dateDebS").datepicker("getDate"));
+            traitementStatistiques();
+        }
+    });
+
+    $("#dateFinS").datetimepicker({
+        maxDate: 0,
+        
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateDebS").datepicker("option", "maxDate", $("#dateFinS").datepicker("getDate"));
+            traitementStatistiques();
+        }
+    });
 });
 // /PARTIE STATISTIQUES
 
