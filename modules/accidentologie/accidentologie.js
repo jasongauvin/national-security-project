@@ -1,6 +1,6 @@
 // DECLARATION DES VARIABLES
 var accidentologie_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
-var json, coords, coucheAccident, execFonc = false, gid;
+var json, coords, coucheAccident, execFonc = false, gid, mindate = '0';
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -34,6 +34,16 @@ supprimerCouches(coucheAccident);
 // GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
 cliqueLigneTableAttr(coucheAccident, "Accident");
 // /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
+
+// FAIRE RESSORTIR LA DATE MIN
+data = {
+    mindate: true
+}
+success = function (resultat) {
+    mindate = resultat;
+}
+ajax("modules/accidentologie/accidentologie.php", data, undefined, success);
+// /FAIRE RESSORTIR LA DATE MIN
 
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
@@ -336,6 +346,33 @@ $(document).off("click", "#SupprimerAccidentBouton").on("click", "#SupprimerAcci
 
 // PARTIE HISTORIQUE
 $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAccidentBouton", function (e) {
+    $("#dateDebH").datetimepicker({
+        maxDate: 0,
+        minDate: mindate,
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateFinH").datepicker("option", "minDate", $("#dateDebH").datepicker("getDate"));
+        }
+    });
+
+    $("#dateFinH").datetimepicker({
+        maxDate: 0,    
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateDebH").datepicker("option", "maxDate", $("#dateFinH").datepicker("getDate"));
+        }
+    });
+    
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("accident");
     // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
@@ -428,6 +465,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
 
     $("#dateDebS").datetimepicker({
         maxDate: 0,
+        minDate: mindate,
         currentText: "Maintenant",
         closeText: "Ok",
         timeInput: true,
