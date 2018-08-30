@@ -149,9 +149,10 @@ function chartPie(container, data, titre, couleurs) {
     });
 }
 
-function chartLigne(container, data, titre) {
+function chartLigne(container, data, titre, couleurs) {
 
     Highcharts.chart(container, {
+        colors: couleurs,
 
         chart: {
             scrollablePlotArea: {
@@ -238,4 +239,42 @@ function chartLigne(container, data, titre) {
         series: data
     });
 
+}
+
+function chartBar(container, data, titre, couleurs) {
+    Highcharts.chart(container, {
+        colors: couleurs,
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: titre
+        },
+        xAxis: {
+            title: {
+                text: 'Tranches horaires'
+            },
+            categories: ['La nuit [23h - 6h]', 'Le matin [6h - 12h]', 'L\'après-midi [12h - 18h]', 'Le soir [18h - 23h]']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Pourcentage des types de gravité'
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} Accidents</b> ({point.percentage:.2f}%)<br/>',
+            shared: true
+        },
+        plotOptions: {
+            column: {
+                stacking: 'percent',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                }
+            }
+        },
+        series: data
+    });
 }
