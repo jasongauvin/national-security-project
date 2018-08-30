@@ -119,6 +119,7 @@ function calculerCentroide(couche){
 // IMPULSION SUR LA CARTE
 function pulse(lonlat) {
     var nb = 6;
+    popup.show(ol.proj.transform(lonlat, 'EPSG:4326', map.getView().getProjection()), "Le centroïde des accidents");
     for (var i = 0; i < nb; i++) {
         setTimeout(function () {
             pulseFeature(ol.proj.transform(lonlat, 'EPSG:4326', map.getView().getProjection()));

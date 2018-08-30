@@ -495,6 +495,40 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
 });
 // /PARTIE STATISTIQUES
 
+// PARTIE THÉMATIQUES
+$(document).off("click", "#centroideAccidents").on("click", "#centroideAccidents", function (e) {
+
+    reinit();
+    // CALCULE DU CENTROÏDE
+    pulse(calculerCentroide(coucheAccident));
+    // /CALCULE DU CENTROÏDE
+});
+
+$(document).off("click", "#heatMapAccidents").on("click", "#heatMapAccidents", function (e) {
+
+    reinit();
+    heatmapLayer = new ol.layer.Heatmap({
+        source: source_couche_accident,
+        radius: 25,
+        blur: 30,
+        shadow: 300
+    });
+
+    map.addLayer(heatmapLayer);
+
+});
+// /PARTIE THÉMATIQUES
+
+// FONCTION DE RÉINITIALISATION
+function reinit(){
+    popup.hide();
+    if(typeof heatmapLayer != "undefined") {
+        map.removeLayer(heatmapLayer);
+    }
+
+}
+// /FONCTION DE RÉINITIALISATION
+
 // FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT
 function actualiserCoucheAccident() {
 
@@ -540,10 +574,6 @@ function actualiserCoucheAccident() {
         var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
         afficherNotif("info", "La couche des accidents a été bien actualisée");   
-
-        // CALCULE DE CENTROÏDE
-        //pulse(calculerCentroide(coucheAccident));
-        // /CALCULE DE CENTROÏDE
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
