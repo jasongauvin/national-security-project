@@ -1,6 +1,6 @@
 // DECLARATION DES VARIABLES
 var accidentologie_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
-var json, coords, coucheAccident, execFonc = false, gid;
+var json, coords, coucheAccident, execFonc = false, gid, mindate = '0';
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -34,6 +34,16 @@ supprimerCouches(coucheAccident);
 // GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
 cliqueLigneTableAttr(coucheAccident, "Accident");
 // /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'ACCIDENTS
+
+// FAIRE RESSORTIR LA DATE MIN
+data = {
+    mindate: true
+}
+success = function (resultat) {
+    mindate = resultat;
+}
+ajax("modules/accidentologie/accidentologie.php", data, undefined, success);
+// /FAIRE RESSORTIR LA DATE MIN
 
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
@@ -336,6 +346,33 @@ $(document).off("click", "#SupprimerAccidentBouton").on("click", "#SupprimerAcci
 
 // PARTIE HISTORIQUE
 $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAccidentBouton", function (e) {
+    $("#dateDebH").datetimepicker({
+        maxDate: 0,
+        minDate: mindate,
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateFinH").datepicker("option", "minDate", $("#dateDebH").datepicker("getDate"));
+        }
+    });
+
+    $("#dateFinH").datetimepicker({
+        maxDate: 0,    
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateDebH").datepicker("option", "maxDate", $("#dateFinH").datepicker("getDate"));
+        }
+    });
+    
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("accident");
     // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
@@ -419,7 +456,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
                 data: resultat.chartBarGravTranchesH[0].m
             }];
 
-            chartBar("chartBarGravTranchesH", donnees, titre6, ["#ff4444", '#ffbb33', '#1de9b6']);
+            chartBar("chartBarGravTranchesH", donnees, titre6, ["#ff4444", '#ffbb33', '#1de9b6'], "Accidents");
 
         }
 
@@ -428,6 +465,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
 
     $("#dateDebS").datetimepicker({
         maxDate: 0,
+        minDate: mindate,
         currentText: "Maintenant",
         closeText: "Ok",
         timeInput: true,
@@ -456,6 +494,45 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
     });
 });
 // /PARTIE STATISTIQUES
+
+// PARTIE THÉMATIQUES
+$(document).off("click", "#centroideAccidents").on("click", "#centroideAccidents", function (e) {
+
+    reinit();
+    // CALCULE DU CENTROÏDE
+    pulse(calculerCentroide(coucheAccident));
+    // /CALCULE DU CENTROÏDE
+});
+
+$(document).off("click", "#heatMapAccidents").on("click", "#heatMapAccidents", function (e) {
+
+    reinit();
+    heatmapLayer = new ol.layer.Heatmap({
+        source: source_couche_accident,
+        radius: 25,
+        blur: 30,
+        shadow: 300
+    });
+
+    map.addLayer(heatmapLayer);
+
+});
+
+$(document).off("click", "#viderCarte").on("click", "#viderCarte", function (e) {
+    reinit();
+});
+
+// /PARTIE THÉMATIQUES
+
+// FONCTION DE RÉINITIALISATION
+function reinit(){
+    popup.hide();
+    if(typeof heatmapLayer != "undefined") {
+        map.removeLayer(heatmapLayer);
+    }
+
+}
+// /FONCTION DE RÉINITIALISATION
 
 // FONCTION D'ACTUALISATION DE LA COUCHE ACCIDENT
 function actualiserCoucheAccident() {
@@ -502,10 +579,6 @@ function actualiserCoucheAccident() {
         var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
         source_couche_accident.addFeatures(features);
         afficherNotif("info", "La couche des accidents a été bien actualisée");   
-
-        // CALCULE DE CENTROÏDE
-        //pulse(calculerCentroide(coucheAccident));
-        // /CALCULE DE CENTROÏDE
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
