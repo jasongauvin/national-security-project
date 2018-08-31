@@ -162,6 +162,71 @@ map.addOverlay(popup);
 // /DÉFINITION DE POP-UP
 
 // EXPORTATION DE LA CARTE
+$("#exporterCartePDF").click(function (e) {
+    var format = new ol.format.WKT();
+
+    var dims = {
+        a0: [1189, 841],
+        a1: [841, 594],
+        a2: [594, 420],
+        a3: [420, 297],
+        a4: [297, 210],
+        a5: [210, 148]
+    };
+
+    var loading = 0;
+    var loaded = 0;
+
+    afficherNotif("info", "L\'exportation en cours ...", undefined, true, false);
+
+    var format = document.getElementById('format').value;
+    var resolution = document.getElementById('resolution').value;
+    var dim = dims[format];
+    var width = Math.round(dim[0] * resolution / 25.4);
+    var height = Math.round(dim[1] * resolution / 25.4);
+    var size = /** @type {ol.Size} */ (map.getSize());
+    var extent = map.getView().calculateExtent(size);
+
+    var source = navcitiesMaps.getSource();
+
+    var tileLoadStart = function () {
+        ++loading;
+    };
+
+    var tileLoadEnd = function () {
+        ++loaded;
+        if (loading === loaded) {
+            var canvas = this;
+            window.setTimeout(function () {
+                loading = 0;
+                loaded = 0;
+                var data = canvas.toDataURL('image/png');
+                var pdf = new jsPDF('landscape', undefined, format);
+                pdf.addImage(data, 'JPEG', 5, 5, dim[0] - 10, dim[1] - 10);
+                pdf.save('map.pdf');
+                source.un('tileloadstart', tileLoadStart);
+                source.un('tileloadend', tileLoadEnd, canvas);
+                source.un('tileloaderror', tileLoadEnd, canvas);
+                map.setSize(size);
+                map.getView().fit(extent);
+                map.renderSync();
+                $('.notifyjs-corner').empty();
+                afficherNotif("succes", "Le fichier PDF a été bien exporté avec succès");
+            }, 100);
+        }
+    };
+
+    map.once('postcompose', function (event) {
+        source.on('tileloadstart', tileLoadStart);
+        source.on('tileloadend', tileLoadEnd, event.context.canvas);
+        source.on('tileloaderror', tileLoadEnd, event.context.canvas);
+    });
+
+    map.setSize([width, height]);
+    map.getView().fit(extent);
+    map.renderSync();
+});
+
 $("#exporterCartePNG").click(function (e) {
 
     map.once('postcompose', function (event) {
@@ -175,6 +240,16 @@ $("#exporterCartePNG").click(function (e) {
         }
     });
     map.renderSync();
+});
+
+
+$("#imprimerCarte").click(function (e) {
+    
+    // var canvas = document.getElementById("map").getElementsByClassName("ol-unselectable")[0];
+    // var img = canvas.toDataURL("image/png");
+    // document.write('<img src="'+img+'"/>');
+    
+
 });
 
 // /EXPORTATION DE LA CARTE

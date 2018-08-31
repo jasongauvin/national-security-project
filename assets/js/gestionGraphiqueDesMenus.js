@@ -54,7 +54,7 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
 // /INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
 
 // GESTION DES NOTIFICATIONS
-function afficherNotif(type, msg, temps = 10000) {
+function afficherNotif(type, msg, temps = 10000, gif = false, autohide = true) {
     var classe, titre;
     if (type == "erreur") {
         classe = "alert alert-block alert-danger fade in";
@@ -73,20 +73,35 @@ function afficherNotif(type, msg, temps = 10000) {
         titre = "<i class='fas fa-exclamation-triangle' ></i> Attention !";
     } else if (type == "info") {
         classe = "alert alert-block alert-info fade in";
-        titre = "<i class='fas fa-info-circle' ></i> Info !"
+        titre = "<i class='fas fa-info-circle' ></i> Info !";
     }
 
     // DÉFINITION DU STYLE ET CONTENU DE NOTIFICATION
-    $.notify.addStyle('style', {
-        html:
-            "<div id='notif' style='width: 440px;'>" +
-                "<button data-dismiss='alert' class='close' type='button'>" +
-                    "&times;" +
-                "</button>" +
-                "<h4 class='alert-heading' data-notify-html='title'></h4>" +
-                "<p data-notify-html='contenu'></p>" +
-            "</div>"
-    });
+    if(gif){
+        $.notify.addStyle('style', {
+            html:
+                "<div id='notif' style='width: 440px;'>" +
+                    "<button data-dismiss='alert' class='close' type='button'>" +
+                        "&times;" +
+                    "</button>" +
+                    "<h4 class='alert-heading' data-notify-html='title'></h4>" +
+                    "<img src='assets/img/loading.gif' width='15%'><p data-notify-html='contenu' style='display: inline;'></p>"+
+                "</div>"
+        });
+    }else{
+        $.notify.addStyle('style', {
+            html:
+                "<div id='notif' style='width: 440px;'>" +
+                    "<button data-dismiss='alert' class='close' type='button'>" +
+                        "&times;" +
+                    "</button>" +
+                    "<h4 class='alert-heading' data-notify-html='title'></h4>" +
+                    "<p data-notify-html='contenu'></p>" +
+                "</div>"
+        });
+    }
+
+    
 
     $.notify({
         title: titre,
@@ -94,7 +109,7 @@ function afficherNotif(type, msg, temps = 10000) {
     }, {
             style: 'style',
             className: classe,
-            autoHide: true,
+            autoHide: autohide,
             autoHideDelay: temps,
             showAnimation: 'slideDown',
             hideAnimation: 'slideUp',
