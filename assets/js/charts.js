@@ -45,7 +45,7 @@ Highcharts.setOptions({
     credits: false
 });
 
-function chartZoomable(container, data, titre) {
+function chartZoomable(container, data, titre, axe) {
     
     Highcharts.chart(container, {
         chart: {
@@ -67,7 +67,7 @@ function chartZoomable(container, data, titre) {
         yAxis: {
             allowDecimals: false,
             title: {
-                text: 'Nombre de victimes'
+                text: axe
             },
             min: 0
         },
@@ -102,7 +102,7 @@ function chartZoomable(container, data, titre) {
         },
         series: [{
             type: 'area',
-            name: 'Nombre de victimes',
+            name: axe,
             data: data
         }]
     });
