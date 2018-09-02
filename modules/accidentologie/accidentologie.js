@@ -500,7 +500,7 @@ $(document).off("click", "#centroideAccidents").on("click", "#centroideAccidents
 
     reinit();
     // CALCULE DU CENTROÏDE
-    pulse(calculerCentroide(coucheAccident));
+    pulse(calculerCentroide(coucheAccident), "Le centroïde des accidents");
     // /CALCULE DU CENTROÏDE
 });
 
