@@ -110,8 +110,26 @@
 								<li>
 									<div class="card" style="padding: 10px;">
 										<div class="card-body">
-											<button type="button" id="exporterCartePDF" class="btn btn-primary" style="width: -webkit-fill-available;" >Format PDF</button>
-											<button type="button" id="exporterCartePNG" class="btn btn-primary" style="width: -webkit-fill-available;" >Format PNG</button>
+											<button type="button" id="exporterCartePNG" class="btn btn-primary" style="width: -webkit-fill-available;">Format PNG</button>
+											<hr>
+											<label>Les dimensions de la page</label>
+											<select id="format" style="width: 27%;">
+												<option value="a0">A0</option>
+												<option value="a1">A1</option>
+												<option value="a2">A2</option>
+												<option value="a3">A3</option>
+												<option value="a4" selected>A4</option>
+												<option value="a5">A5</option>
+											</select>
+											<br>
+											<label>La résolution</label>
+											<select id="resolution">
+												<option value="150">150 dpi</option>
+												<option value="300">300 dpi</option>
+											</select>
+											<button type="button" id="exporterCartePDF" class="btn btn-primary" style="width: -webkit-fill-available;">Format PDF</button>
+											<hr>
+											<button type="button" id="imprimerCarte" class="btn btn-primary" style="width: -webkit-fill-available;">Imprimer</button>
 										</div>
 									</div>
 								</li>
@@ -790,7 +808,19 @@
 		<!-- SCRIPT DU CONTEXT MENU -->
 		<script src="assets/plugins/context-menu/ol-contextmenu.js"></script>
 		<!-- /SCRIPT DU CONTEXT MENU -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+		
+		<!-- SCRIPT DU FILE-SAVER -->
+		<script src="assets/plugins/file-saver/FileSaver.min.js"></script>
+		<!-- /SCRIPT DU FILE-SAVER -->
+		
+		<!-- SCRIPT DU PRINT-THIS -->
+		<script src="assets/plugins/print-this/printThis.js"></script>
+		<!-- SCRIPT DU PRINT-THIS -->
+
+		<!-- SCRIPT DU JSPDF -->
+		<script src="assets/plugins/jspdf/jspdf.min.js"></script>
+		<!-- /SCRIPT DU JSPDF -->
+
 		<!-- SCRIPT DE LA CARTE ET LES COUCHES PRÉDÉFINIES -->
 		<script src="assets/js/map.js"></script>
 		<!-- /SCRIPT DE LA CARTE ET LES COUCHES PRÉDÉFINIES -->
