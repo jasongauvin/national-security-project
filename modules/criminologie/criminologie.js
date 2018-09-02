@@ -494,7 +494,7 @@ $(document).off("click", "#centroideCrimes").on("click", "#centroideCrimes", fun
 
     reinit();
     // CALCULE DU CENTROÏDE
-    pulse(calculerCentroide(coucheCrime));
+    pulse(calculerCentroide(coucheCrime),"Le centroïde des crimes");
     // /CALCULE DU CENTROÏDE
 });
 
