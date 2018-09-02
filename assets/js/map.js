@@ -245,10 +245,12 @@ $("#exporterCartePNG").click(function (e) {
 
 $("#imprimerCarte").click(function (e) {
     
-    // var canvas = document.getElementById("map").getElementsByClassName("ol-unselectable")[0];
-    // var img = canvas.toDataURL("image/png");
-    // document.write('<img src="'+img+'"/>');
-    
+    $("#map").children().children(".ol-unselectable").printThis({
+        pageTitle: "Carte du 4ème Arrondissement", 
+        printDelay: 0, 
+        importCSS: false,
+        canvas: true
+    });
 
 });
 
