@@ -1,6 +1,7 @@
 // DECLARATION DES VARIABLES
 var criminologie_geojson = new ol.format.GeoJSON(), source_couche_crime = new ol.source.Vector();
-var json, coords, coucheCrime, execFonc = false, gid;
+var json, coords, coucheCrime, execFonc = false, gid, mindatec = '0';
+
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -34,6 +35,18 @@ supprimerCouches(coucheCrime);
 // GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE DES CRIMES
 cliqueLigneTableAttr(coucheCrime, "Crime");
 // /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE DES CRIMES
+
+
+// FAIRE RESSORTIR LA DATE MIN
+data = {
+    mindate: true
+}
+success = function (resultat) {
+    mindate = resultat;
+}
+ajax("modules/criminologie/criminologie.php", data, undefined, success);
+// /FAIRE RESSORTIR LA DATE MIN
+
 
 // PARTIE MODIFICATION OU BIEN LE DÉPLACEMENT
 function singleclick (evt) {
@@ -335,6 +348,32 @@ $(document).off("click", "#supprimerCrimeBouton").on("click", "#supprimerCrimeBo
 
 // PARTIE HISTORIQUE
 $(document).off("click", "#historiqueCrimeBouton").on("click", "#historiqueCrimeBouton", function (e) {
+
+    $("#dateDebH").datetimepicker({
+        maxDate: 0,
+        minDate: mindate,
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateFinH").datepicker("option", "minDate", $("#dateDebH").datepicker("getDate"));
+        }
+    });
+     $("#dateFinH").datetimepicker({
+        maxDate: 0,    
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateDebH").datepicker("option", "maxDate", $("#dateFinH").datepicker("getDate"));
+        }
+    });
     
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("crime", "modules/criminologie/criminologie.php");
@@ -345,68 +384,82 @@ $(document).off("click", "#historiqueCrimeBouton").on("click", "#historiqueCrime
 
 // PARTIE STATISTIQUES
 $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesCrimeBouton", function (e) {
-    $("#statistiquesTitre").text("les statistiques des crimes");
+    $("#statistiquesTitreCrime").text("les statistiques des crimes");
 
+    
     
     function traitementStatistiques(){
         data = {
             statistiques: true,
-            dateHeureDeb: $('#dateDebS').val(),
-            dateHeureFin: $('#dateFinS').val()
+            dateHeureDeb: $('#dateDebSC').val(),
+            dateHeureFin: $('#dateFinSC').val()
         }
         error_fatale = function (jqXhr) {
             rapportErreurs(jqXhr);
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les crimes");
         }
         success = function (resultat) {
-            if($('#dateDebS').val() && $('#dateFinS').val()){
-                titre1 = "Nombre de victimes entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
-                titre2 = "Pourcentage de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
-                titre3 = "Pourcentage de la gravité des accidents entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
-                titre4 = "Nombre de Morts et de Blessés entre "+$('#dateDebS').val()+ " et "+$('#dateFinS').val();
+            if($('#dateDebSC').val() && $('#dateFinSC').val()){
+                titre1 = "Nombre de crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
+                titre2 = "Pourcentage des crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
+                titre3 = "Pourcentage de la gravité des crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
+                titre4 = "Pourcentage de la densité des crimes selon les tranches horaires entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
+                titre5 = "Pourcentage de la gravité des crimes selon les tranches horaires entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
 
-            }else if($('#dateDebS').val() && !$('#dateFinS').val()){
-                titre1 = "Nombre de victimes depuis "+$('#dateDebS').val();
-                titre2 = "Pourcentage de Morts et de Blessés depuis "+$('#dateDebS').val();
-                titre3 = "Pourcentage de la gravité des accidents depuis "+$('#dateDebS').val();
-                titre4 = "Nombre de Morts et de Blessés depuis "+$('#dateDebS').val();
+            }else if($('#dateDebSC').val() && !$('#dateFinSC').val()){
+                titre1 = "Nombre de crimes depuis "+$('#dateDebSC').val();
+                titre2 = "Pourcentage des  crimes depuis "+$('#dateDebSC').val();
+                titre3 = "Pourcentage des crimes depuis "+$('#dateDebSC').val();
+                titre4 = "Pourcentage de la densité des crimes selon les tranches horaires depuis "+$('#dateDebSC').val();
+                titre5 = "Pourcentage de la gravité des crimes selon les tranches horaires depuis "+$('#dateDebSC').val();
 
             }else{
-                titre1 = "Nombre de victimes jusqu'à "+$('#dateFinS').val();
-                titre2 = "Pourcentage de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
-                titre3 = "Pourcentage de la gravité des accidents jusqu'à "+$('#dateFinS').val();
-                titre4 = "Nombre de Morts et de Blessés jusqu'à "+$('#dateFinS').val();
+                titre1 = "Nombre de crimes jusqu'à "+$('#dateFinSC').val();
+                titre2 = "Pourcentage des  crimes jusqu'à "+$('#dateFinSC').val();
+                titre3 = "Pourcentage de la gravité des crimes jusqu'à "+$('#dateFinSC').val();
+                titre4 = "Pourcentage de la densité des crimes selon les tranches horaires jusqu'à "+$('#dateFinSC').val();
+                titre5 = "Pourcentage de la gravité des crimes selon les tranches horaires jusqu'à "+$('#dateFinSC').val();
 
             }
             
-            chartZoomable("chartZoomable", resultat.chartZoomable, titre1);
-            chartPie("piePourceBlesMorts", resultat.piePourceBlesMorts, titre2, ['#ff4444', '#33b5e5']);
-            chartPie("piePourceGravite", resultat.piePourceGravite, titre3, ['#ffbb33', '#00C851', '#2BBBAD']);
+            chartZoomable("chartZoomableCrime", resultat.chartZoomableCrime, titre1);
+            chartPie("piePourceCrime", resultat.piePourceCrime, titre2, ['#ff4444', '#33b5e5','#e8a0a0','#aebae2','#934848','#338c8c']);
+            chartPie("piePourceGraviteCrime", resultat.piePourceGraviteCrime, titre3, ['#1b5e20', '#4caf50', '#c8e6c9']);
 
             donnees = [{
-                data: resultat.chartLigneBlesMorts.Morts,
-                name: 'Morts',
+                data: resultat.chartLigneCrime.Crimes,
+                name: 'Crimes',
                 lineWidth: 4,
                 marker: {
                     radius: 4
                 }
-            }, {
-                data: resultat.chartLigneBlesMorts.Blesses,
-                name: 'Blessés',
-                lineWidth: 4,
-                marker: {
-                    radius: 4
-                }
-            }]
+            } ]
 
-            chartLigne("chartLigneBlesMorts", donnees, titre4);
+            // chartLigne("chartLigneCrime", donnees, titre4, ["#00695c", "#e65100 "]);
+
+            chartPie("piePourceTranchesHCrime", resultat.piePourceTranchesHCrime, titre4, ["#795548", '#aa66cc', '#00C851', '#2BBBAD']);
+
+            donnees = [{
+                name: 'Plus grave',
+                data: resultat.chartBarGravTranchesHCrime[0].p
+            }, {
+                name: 'Grave',
+                data: resultat.chartBarGravTranchesHCrime[0].g
+            }, {
+                name: 'Moins grave',
+                data: resultat.chartBarGravTranchesHCrime[0].m
+            }];
+
+            chartBar("chartBarGravTranchesHCrime", donnees, titre5, ["#ff4444", '#ffbb33', '#1de9b6'], "Crimes");
+
         }
 
         ajax("modules/criminologie/criminologie.php", data, error_fatale, success);
     }
 
-    $("#dateDebS").datetimepicker({
+    $("#dateDebSC").datetimepicker({
         maxDate: 0,
+        minDatec: mindatec,
         currentText: "Maintenant",
         closeText: "Ok",
         timeInput: true,
@@ -414,12 +467,12 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
         hourText: "Heure",
         minuteText: "Minute",
         onSelect: function(){
-            $("#dateFinS").datepicker("option", "minDate", $("#dateDebS").datepicker("getDate"));
+            $("#dateFinSC").datepicker("option", "minDate", $("#dateDebSC").datepicker("getDate"));
             traitementStatistiques();
         }
     });
 
-    $("#dateFinS").datetimepicker({
+    $("#dateFinSC").datetimepicker({
         maxDate: 0,
         
         currentText: "Maintenant",
@@ -429,13 +482,12 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
         hourText: "Heure",
         minuteText: "Minute",
         onSelect: function(){
-            $("#dateDebS").datepicker("option", "maxDate", $("#dateFinS").datepicker("getDate"));
+            $("#dateDebSC").datepicker("option", "maxDate", $("#dateFinSC").datepicker("getDate"));
             traitementStatistiques();
         }
     });
 });
 // /PARTIE STATISTIQUES
-
 
 // FONCTION D'ACTUALISATION DE LA COUCHE CRIME
 function actualiserCoucheCriminologie() {

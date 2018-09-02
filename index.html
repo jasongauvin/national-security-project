@@ -583,12 +583,12 @@
 			<!-- /CONTENEUR STATISTIQUES -->
 
 
-		<!-- CONTENEUR STATISTIQUES CRIMINOLOGIE-->
-		<div class="modal fade" id="basicExampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!-- CONTENEUR STATISTIQUES CRIMINOLOGIE -->
+		<div class="modal fade" id="basicExampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" id="statistiquesTitre"></h4>
+						<h4 class="modal-title" id="statistiquesTitreCrime"></h4>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -597,14 +597,14 @@
 						<div id="wrapperelem" style="width: 630px;margin: auto;">
 							<div id="firstelem">
 								<div class="md-form">
-									<input id="dateDebS" type="text" class="form-control" autocomplete="off">
-									<label for="dateDebS">DateHeure début</label>
+									<input id="dateDebSC" type="text" class="form-control" autocomplete="off">
+									<label for="dateDebSC">DateHeure début</label>
 								</div>
 							</div>
 							<div id="secondelem">
 								<div class="md-form mt-0 col-md-offset-1">
-									<input id="dateFinS" type="text" class="form-control" autocomplete="off">
-									<label for="dateFinS">DateHeure fin</label>
+									<input id="dateFinSC" type="text" class="form-control" autocomplete="off">
+									<label for="dateFinSC">DateHeure fin</label>
 								</div>
 							</div>
 						</div>
@@ -614,7 +614,7 @@
 						</div>
 						<div class="collapse multi-collapse collapse in" id="multiCollapseExample1" style="position: relative;left: 3.5px;">
 							<div class="card card-body">
-								<div id="chartZoomable"></div>
+								<div id="chartZoomableCrime"></div>
 							</div>
 						</div>
 
@@ -623,7 +623,7 @@
 								<td>
 									<div>
 										<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample2"
-										 role="button" aria-expanded="false" aria-controls="multiCollapseExample2" style="width: 100%;">Pourcentage des Crimes au cours du temps</button>
+										 role="button" aria-expanded="false" aria-controls="multiCollapseExample2" style="width: 100%;">Pourcentage des crimes au cours du temps</button>
 									</div>
 								</td>
 								<td>
@@ -654,7 +654,7 @@
 							</tr>
 						</table>
 
-						<div>
+						<!-- <div>
 							<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample4"
 							 role="button" aria-expanded="false" aria-controls="multiCollapseExample4" style="width: 100%;">Nombre des crimes au cours du temps</button>
 						</div>
@@ -662,7 +662,43 @@
 							<div class="card card-body">
 								<div id="chartLigneCrime"></div>
 							</div>
-						</div>
+						</div> -->
+
+						<table style="width:100%">
+							<tr>
+								<td>
+									<div>
+										<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample5"
+										 role="button" aria-expanded="false" aria-controls="multiCollapseExample5" style="width: 100%;">Pourcentage de la densité des crimes selon les tranches horaires</button>
+									</div>
+								</td>
+								<td>
+									<div>
+										<button type="button" data-toggle="collapse" class="btn btn-outline-secondary waves-effect" href="#multiCollapseExample6"
+										 role="button" aria-expanded="false" aria-controls="multiCollapseExample6" style="width: 100%;">Pourcentage de la gravité des crimes selon les tranches horaires</button>
+									</div>
+						
+								</td>
+							</tr>
+						
+							<tr>
+								<td style="width: 50%">
+						
+									<div class="collapse multi-collapse collapse in" id="multiCollapseExample5" style="position: relative;left: 3.5px;">
+										<div class="card card-body">
+											<div id="piePourceTranchesHCrime"></div>
+										</div>
+									</div>
+								</td>
+								<td style="width: 50%">
+									<div class="collapse multi-collapse collapse in" id="multiCollapseExample6" style="position: relative;left: 3.5px;">
+										<div class="card card-body">
+											<div id="chartBarGravTranchesHCrime"></div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
 
 					</div>
 					<div class="modal-footer">
@@ -671,8 +707,8 @@
 				</div>
 			</div>
 		</div>
-		<!-- /CONTENEUR STATISTIQUES CRIMINOLOGIE-->
-	
+		<!-- /CONTENEUR STATISTIQUES CRIMINOLOGIE -->
+
 
 		<!-- FOOTER -->
 		<div class="footer clearfix">

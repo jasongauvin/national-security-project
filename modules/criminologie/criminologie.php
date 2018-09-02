@@ -147,6 +147,21 @@ if($_POST["suppression"]){
 // LE CAS SUPPRESSION
 
 // LE CAS DE LA TABLE ATTRIBUTAIRE
+
+// LE CAS DU SELECTION DE LA DATE MIN
+if($_POST['mindate']){
+    $req = executerRequete("SELECT to_char(MIN(dateheure), 'dd/mm/yyyy') AS mindate FROM crime");
+    
+    if($req) {
+		while($ligne = pg_fetch_assoc($req)) {
+            echo json_encode(
+                $ligne['mindate']
+            );
+        }
+    }
+    
+}
+// /LE CAS DU SELECTION DE LA DATE MIN
 if($_POST['tableAttributaire']){
 
     $colonnes = array();
@@ -179,42 +194,57 @@ if($_POST['tableAttributaire']){
 }
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
 
+// LE CAS DU SELECTION DE LA DATE MIN
+if($_POST['mindatec']){
+    $req = executerRequete("SELECT to_char(MIN(dateheure), 'dd/mm/yyyy') AS mindatec  FROM crime");
+    
+    if($req) {
+		while($ligne = pg_fetch_assoc($req)) {
+            echo json_encode(
+                $ligne['mindatec']
+            );
+        }
+    }
+    
+}
+// /LE CAS DU SELECTION DE LA DATE MIN
+
 // LE CAS DU STATISTIQUES
 if($_POST['statistiques']){
-    $chartZoomable = array();
+    $chartZoomableCrime = array();
     $piePourceCrime = array();
     $piePourceGraviteCrime = array();
-    $chartLigneBles = array();
-    $chartLigneMorts = array();
-    $piePourceTranchesH = array();
-    $chartBarGravTranchesH = array();
+    $chartLigneCrime = array();
+    
+    $piePourceTranchesHCrime = array();
+    $chartBarGravTranchesHCrime = array();
 
     if(!$_POST["dateHeureFin"] && $_POST["dateHeureDeb"]){
         $req = executerRequete("SELECT COUNT(*) AS nbrcrimes, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM crime WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((COUNT(CASE WHEN type=0 THEN 0 END)*100)/COUNT(*),2) AS violence_familiale, TRUNC((COUNT(CASE WHEN type=1 THEN 0 END)*100)/COUNT(*),2) AS agression_sexuelle, TRUNC((COUNT(CASE WHEN type=2 THEN 0 END)*100)/COUNT(*),2) AS harcèlement_criminel, TRUNC((COUNT(CASE WHEN type=3 THEN 0 END)*100)/COUNT(*),2) AS violence_menaces_physiques, TRUNC((COUNT(CASE WHEN type=4 THEN 0 END)*100)/COUNT(*),2) AS vol_autresCrimes, TRUNC((COUNT(CASE WHEN type=5 THEN 0 END)*100)/COUNT(*),2) AS autres from crime  WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from crime WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
-        $req5 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS nuit, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS matin, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS aprem, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS soir FROM crime WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
-        $req6 = executerRequete("SELECT COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=false THEN 0 END) AS  m_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=false THEN 0 END) AS m_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=false THEN 0 END) AS m_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=false THEN 0 END) AS m_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite IS NULL THEN 0 END) AS  g_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite IS NULL THEN 0 END) AS g_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite IS NULL THEN 0 END) AS g_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite IS NULL THEN 0 END) AS g_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=true THEN 0 END) AS  p_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=true THEN 0 END) AS p_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=true THEN 0 END) AS p_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=true THEN 0 END) AS p_soir FROM crime WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
+        $req4 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS nuit, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS matin, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS aprem, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS soir FROM crime WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
+        $req5 = executerRequete("SELECT COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=false THEN 0 END) AS  m_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=false THEN 0 END) AS m_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=false THEN 0 END) AS m_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=false THEN 0 END) AS m_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite IS NULL THEN 0 END) AS  g_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite IS NULL THEN 0 END) AS g_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite IS NULL THEN 0 END) AS g_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite IS NULL THEN 0 END) AS g_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=true THEN 0 END) AS  p_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=true THEN 0 END) AS p_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=true THEN 0 END) AS p_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=true THEN 0 END) AS p_soir FROM crime WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
 
     }else if($_POST["dateHeureFin"] && !$_POST["dateHeureDeb"]){
         $req = executerRequete("SELECT COUNT(*) AS nbrcrimes, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM crime WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((COUNT(CASE WHEN type=0 THEN 0 END)*100)/COUNT(*),2) AS violence_familiale, TRUNC((COUNT(CASE WHEN type=1 THEN 0 END)*100)/COUNT(*),2) AS agression_sexuelle, TRUNC((COUNT(CASE WHEN type=2 THEN 0 END)*100)/COUNT(*),2) AS harcèlement_criminel, TRUNC((COUNT(CASE WHEN type=3 THEN 0 END)*100)/COUNT(*),2) AS violence_menaces_physiques, TRUNC((COUNT(CASE WHEN type=4 THEN 0 END)*100)/COUNT(*),2) AS vol_autresCrimes, TRUNC((COUNT(CASE WHEN type=5 THEN 0 END)*100)/COUNT(*),2) AS autres from crime  WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from crime WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
-        $req5 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS nuit, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS matin, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS aprem, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS soir FROM crime WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
-        $req6 = executerRequete("SELECT COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=false THEN 0 END) AS  m_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=false THEN 0 END) AS m_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=false THEN 0 END) AS m_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=false THEN 0 END) AS m_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite IS NULL THEN 0 END) AS  g_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite IS NULL THEN 0 END) AS g_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite IS NULL THEN 0 END) AS g_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite IS NULL THEN 0 END) AS g_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=true THEN 0 END) AS  p_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=true THEN 0 END) AS p_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=true THEN 0 END) AS p_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=true THEN 0 END) AS p_soir FROM crime WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
+        $req4 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS nuit, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS matin, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS aprem, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS soir FROM crime WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
+        $req5 = executerRequete("SELECT COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=false THEN 0 END) AS  m_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=false THEN 0 END) AS m_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=false THEN 0 END) AS m_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=false THEN 0 END) AS m_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite IS NULL THEN 0 END) AS  g_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite IS NULL THEN 0 END) AS g_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite IS NULL THEN 0 END) AS g_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite IS NULL THEN 0 END) AS g_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=true THEN 0 END) AS  p_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=true THEN 0 END) AS p_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=true THEN 0 END) AS p_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=true THEN 0 END) AS p_soir FROM crime WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
 
     }else{
         $req = executerRequete("SELECT SUM (COALESCE(type, 0)) AS nbrcrimes, EXTRACT(epoch FROM dateheure)*1000 AS dateheure FROM crime WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((COUNT(CASE WHEN type=0 THEN 0 END)*100)/COUNT(*),2) AS violence_familiale, TRUNC((COUNT(CASE WHEN type=1 THEN 0 END)*100)/COUNT(*),2) AS agression_sexuelle, TRUNC((COUNT(CASE WHEN type=2 THEN 0 END)*100)/COUNT(*),2) AS harcèlement_criminel, TRUNC((COUNT(CASE WHEN type=3 THEN 0 END)*100)/COUNT(*),2) AS violence_menaces_physiques, TRUNC((COUNT(CASE WHEN type=4 THEN 0 END)*100)/COUNT(*),2) AS vol_autresCrimes, TRUNC((COUNT(CASE WHEN type=5 THEN 0 END)*100)/COUNT(*),2) AS autres from crime  WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from crime WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
-        $req5 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS nuit, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS matin, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS aprem, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS soir FROM crime WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
-        $req6 = executerRequete("SELECT COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=false THEN 0 END) AS  m_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=false THEN 0 END) AS m_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=false THEN 0 END) AS m_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=false THEN 0 END) AS m_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite IS NULL THEN 0 END) AS  g_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite IS NULL THEN 0 END) AS g_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite IS NULL THEN 0 END) AS g_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite IS NULL THEN 0 END) AS g_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=true THEN 0 END) AS  p_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=true THEN 0 END) AS p_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=true THEN 0 END) AS p_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=true THEN 0 END) AS p_soir FROM crime WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
+        $req4 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS nuit, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS matin, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS aprem, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS soir FROM crime WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
+        $req5 = executerRequete("SELECT COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=false THEN 0 END) AS  m_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=false THEN 0 END) AS m_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=false THEN 0 END) AS m_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=false THEN 0 END) AS m_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite IS NULL THEN 0 END) AS  g_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite IS NULL THEN 0 END) AS g_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite IS NULL THEN 0 END) AS g_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite IS NULL THEN 0 END) AS g_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=true THEN 0 END) AS  p_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=true THEN 0 END) AS p_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=true THEN 0 END) AS p_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=true THEN 0 END) AS p_soir FROM crime WHERE dateheure BETWEEN to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') AND to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
 
     }
 
     if($req) {
 		while($ligne = pg_fetch_assoc($req)) {
-            array_push($chartZoomable, array(
+            array_push($chartZoomableCrime, array(
                 intval($ligne["dateheure"]),
                 intval($ligne["nbrcrimes"])
                 )
@@ -224,12 +254,28 @@ if($_POST['statistiques']){
 
     if($req2){
         while($ligne = pg_fetch_assoc($req2)) {
-            array_push($piePourceBlesMorts, array(
-                "Morts", floatval($ligne["pourcemorts"])? floatval($ligne["pourcemorts"]): 0
+            array_push($piePourceCrime, array(
+                "violence familiale", floatval($ligne["violence_familiale"])? floatval($ligne["violence_familiale"]): 0
                 )
             );
-            array_push($piePourceBlesMorts, array(
-                "Blessés", floatval($ligne["pourceblesses"])? floatval($ligne["pourceblesses"]): 0
+            array_push($piePourceCrime, array(
+                "agression sexuelle", floatval($ligne["agression_sexuelle"])? floatval($ligne["agression_sexuelle"]): 0
+                )
+            );
+            array_push($piePourceCrime, array(
+                "harcèlement criminel", floatval($ligne["harcèlement_criminel"])? floatval($ligne["harcèlement_criminel"]): 0
+                )
+            );
+            array_push($piePourceCrime, array(
+                "violence menaces physiques", floatval($ligne["violence_menaces_physiques"])? floatval($ligne["violence_menaces_physiques"]): 0
+                )
+            );
+            array_push($piePourceCrime, array(
+                "vol et autres crimes contre les biens", floatval($ligne["vol_autresCrimes"])? floatval($ligne["vol_autresCrimes"]): 0
+                )
+            );
+            array_push($piePourceCrime, array(
+                "autres", floatval($ligne["autres"])? floatval($ligne["autres"]): 0
                 )
             );
         }
@@ -252,41 +298,30 @@ if($_POST['statistiques']){
         }
     }
 
-    if($req4) {
-		while($ligne = pg_fetch_assoc($req4)) {
-            array_push($chartLigneBles,
-                [intval($ligne["dateheure"]), intval($ligne["nbrcrimes"])]
-            );
-            array_push($chartLigneMorts,
-                [intval($ligne["dateheure"]), intval($ligne["nbrcrimes"])]
-            );
-        }
-    }
-
-    if($req5){
-        while($ligne = pg_fetch_assoc($req5)) {
-            array_push($piePourceTranchesH, array(
+    if($req4){
+        while($ligne = pg_fetch_assoc($req4)) {
+            array_push($piePourceTranchesHCrime, array(
                 "La nuit [23h - 6h] ", floatval($ligne["nuit"])
                 )
             );
-            array_push($piePourceTranchesH, array(
+            array_push($piePourceTranchesHCrime, array(
                 "Le matin [6h - 12h] ", floatval($ligne["matin"])
                 )
             );
-            array_push($piePourceTranchesH, array(
+            array_push($piePourceTranchesHCrime, array(
                 "L'après-midi [12h - 18h] ", floatval($ligne["aprem"])
                 )
             );
-            array_push($piePourceTranchesH, array(
+            array_push($piePourceTranchesHCrime, array(
                 "Le soir [18h - 23h] ", floatval($ligne["soir"])
                 )
             );
         }
     }
 
-    if($req6){
-        while($ligne = pg_fetch_assoc($req6)) {
-            array_push($chartBarGravTranchesH, [
+    if($req5){
+        while($ligne = pg_fetch_assoc($req5)) {
+            array_push($chartBarGravTranchesHCrime, [
                 "m" => [intval($ligne["m_nuit"]), intval($ligne["m_matin"]), intval($ligne["m_aprem"]), intval($ligne["m_soir"])],
                 "g" => [intval($ligne["g_nuit"]), intval($ligne["g_matin"]), intval($ligne["g_aprem"]), intval($ligne["g_soir"])],
                 "p" => [intval($ligne["p_nuit"]), intval($ligne["p_matin"]), intval($ligne["p_aprem"]), intval($ligne["p_soir"])]
@@ -296,14 +331,19 @@ if($_POST['statistiques']){
     }
 
     echo json_encode(array(
-        "chartZoomable" => $chartZoomable,
+        "chartZoomableCrime" => $chartZoomableCrime,
         "piePourceCrime" => $piePourceCrime,
         "piePourceGraviteCrime" => $piePourceGraviteCrime,
-        "chartLigneCrime" => ["Crimes" => $chartLigneMorts,
-                                  "Crimes" => $chartLigneBles
+        "chartLigneCrime" => ["violence_familiale" => $chartLigneCrime,
+                                  "agression_sexuelle" => $chartLigneCrime,
+                                  "agression_sexuelle" => $chartLigneCrime,
+                                  "harcèlement_criminel" => $chartLigneCrime,
+                                  "violence_menaces_physiques" => $chartLigneCrime,
+                                  "vol_autresCrimes" => $chartLigneCrime,
+                                  "autres" => $chartLigneCrime
         ],
-        "piePourceTranchesH" => $piePourceTranchesH,
-        "chartBarGravTranchesH" => $chartBarGravTranchesH
+        "piePourceTranchesHCrime" => $piePourceTranchesHCrime,
+        "chartBarGravTranchesHCrime" => $chartBarGravTranchesHCrime
     ));
 }
 // /LE CAS DE LA TABLE ATTRIBUTAIRE

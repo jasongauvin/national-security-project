@@ -284,7 +284,7 @@ if($_POST['statistiques']){
         "chartZoomable" => $chartZoomable,
         "piePourceBlesMorts" => $piePourceBlesMorts,
         "piePourceGravite" => $piePourceGravite,
-        "chartLigneBlesMorts" => ["Morts" => $chartLigneMorts,
+        "chartLigneCrime" => ["Morts" => $chartLigneMorts,
                                   "Blesses" => $chartLigneBles
         ],
         "piePourceTranchesH" => $piePourceTranchesH,
