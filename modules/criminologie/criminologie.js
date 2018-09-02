@@ -467,7 +467,7 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
         hourText: "Heure",
         minuteText: "Minute",
         onSelect: function(){
-            $("#dateFinSC").datepicker("option", "minDate", $("#dateDebSC").datepicker("getDate"));
+            $("#dateFinSC").datepicker("option", "minDatec", $("#dateDebSC").datepicker("getDate"));
             traitementStatistiques();
         }
     });
@@ -488,6 +488,45 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
     });
 });
 // /PARTIE STATISTIQUES
+
+// PARTIE THÉMATIQUES
+$(document).off("click", "#centroideCrimes").on("click", "#centroideCrimes", function (e) {
+
+    reinit();
+    // CALCULE DU CENTROÏDE
+    pulse(calculerCentroide(coucheCrime));
+    // /CALCULE DU CENTROÏDE
+});
+
+$(document).off("click", "#heatMapCrimes").on("click", "#heatMapCrimes", function (e) {
+
+    reinit();
+    heatmapLayer = new ol.layer.Heatmap({
+        source: source_couche_crime,
+        radius: 25,
+        blur: 30,
+        shadow: 300
+    });
+
+    map.addLayer(heatmapLayer);
+
+});
+
+$(document).off("click", "#viderCarte").on("click", "#viderCarte", function (e) {
+    reinit();
+});
+
+// /PARTIE THÉMATIQUES
+
+// FONCTION DE RÉINITIALISATION
+function reinit(){
+    popup.hide();
+    if(typeof heatmapLayer != "undefined") {
+        map.removeLayer(heatmapLayer);
+    }
+
+}
+// /FONCTION DE RÉINITIALISATION
 
 // FONCTION D'ACTUALISATION DE LA COUCHE CRIME
 function actualiserCoucheCriminologie() {

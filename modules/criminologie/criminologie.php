@@ -148,20 +148,7 @@ if($_POST["suppression"]){
 
 // LE CAS DE LA TABLE ATTRIBUTAIRE
 
-// LE CAS DU SELECTION DE LA DATE MIN
-if($_POST['mindate']){
-    $req = executerRequete("SELECT to_char(MIN(dateheure), 'dd/mm/yyyy') AS mindate FROM crime");
-    
-    if($req) {
-		while($ligne = pg_fetch_assoc($req)) {
-            echo json_encode(
-                $ligne['mindate']
-            );
-        }
-    }
-    
-}
-// /LE CAS DU SELECTION DE LA DATE MIN
+
 if($_POST['tableAttributaire']){
 
     $colonnes = array();
