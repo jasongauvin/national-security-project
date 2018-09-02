@@ -421,7 +421,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
 
             }
             
-            chartZoomable("chartZoomable", resultat.chartZoomable, titre1);
+            chartZoomable("chartZoomable", resultat.chartZoomable, titre1, "Nombre de victimes");
             chartPie("piePourceBlesMorts", resultat.piePourceBlesMorts, titre2, ['#ff4444', '#33b5e5']);
             chartPie("piePourceGravite", resultat.piePourceGravite, titre3, ['#1b5e20', '#4caf50', '#c8e6c9']);
 
