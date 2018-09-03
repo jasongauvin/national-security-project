@@ -401,21 +401,21 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
         success = function (resultat) {
             if($('#dateDebSC').val() && $('#dateFinSC').val()){
                 titre1 = "Nombre de crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
-                titre2 = "Pourcentage des crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
+                titre2 = "Pourcentage des crimes par type entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
                 titre3 = "Pourcentage de la gravité des crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
                 titre4 = "Pourcentage de la densité des crimes selon les tranches horaires entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
                 titre5 = "Pourcentage de la gravité des crimes selon les tranches horaires entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
 
             }else if($('#dateDebSC').val() && !$('#dateFinSC').val()){
                 titre1 = "Nombre de crimes depuis "+$('#dateDebSC').val();
-                titre2 = "Pourcentage des  crimes depuis "+$('#dateDebSC').val();
-                titre3 = "Pourcentage des crimes depuis "+$('#dateDebSC').val();
+                titre2 = "Pourcentage des  crimes par type depuis "+$('#dateDebSC').val();
+                titre3 = "Pourcentage de la gravité des crimes depuis "+$('#dateDebSC').val();
                 titre4 = "Pourcentage de la densité des crimes selon les tranches horaires depuis "+$('#dateDebSC').val();
                 titre5 = "Pourcentage de la gravité des crimes selon les tranches horaires depuis "+$('#dateDebSC').val();
 
             }else{
                 titre1 = "Nombre de crimes jusqu'à "+$('#dateFinSC').val();
-                titre2 = "Pourcentage des  crimes jusqu'à "+$('#dateFinSC').val();
+                titre2 = "Pourcentage des  crimes par type jusqu'à "+$('#dateFinSC').val();
                 titre3 = "Pourcentage de la gravité des crimes jusqu'à "+$('#dateFinSC').val();
                 titre4 = "Pourcentage de la densité des crimes selon les tranches horaires jusqu'à "+$('#dateFinSC').val();
                 titre5 = "Pourcentage de la gravité des crimes selon les tranches horaires jusqu'à "+$('#dateFinSC').val();
@@ -426,16 +426,6 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
             chartPie("piePourceCrime", resultat.piePourceCrime, titre2, ['#ff4444', '#33b5e5','#e8a0a0','#aebae2','#934848','#338c8c']);
             chartPie("piePourceGraviteCrime", resultat.piePourceGraviteCrime, titre3, ['#1b5e20', '#4caf50', '#c8e6c9']);
 
-            donnees = [{
-                data: resultat.chartLigneCrime.Crimes,
-                name: 'Crimes',
-                lineWidth: 4,
-                marker: {
-                    radius: 4
-                }
-            } ]
-
-            // chartLigne("chartLigneCrime", donnees, titre4, ["#00695c", "#e65100 "]);
 
             chartPie("piePourceTranchesHCrime", resultat.piePourceTranchesHCrime, titre4, ["#795548", '#aa66cc', '#00C851', '#2BBBAD']);
 
