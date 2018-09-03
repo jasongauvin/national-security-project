@@ -46,7 +46,6 @@ Highcharts.setOptions({
 });
 
 function chartZoomable(container, data, titre, axe) {
-    
     Highcharts.chart(container, {
         chart: {
             zoomType: 'x'
