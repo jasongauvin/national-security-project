@@ -66,3 +66,19 @@ $("#criminologie").parent().click(function () {
     }
 });
 // /CHARGEMENT DU SCRIPT DU MODULE CRIMINOLGIE LORS DU CLIQUE
+
+// CHARGEMENT DU SCRIPT DU MODULE LES ACTIVITÉS À RISQUE LORS DU CLIQUE
+$("#activitesRisque").parent().click(function () {
+    if(!$(".main-navigation-menu li:eq(5)").hasClass('active open')){
+        $.getScript("modules/activitesRisque/activitesRisque.js");
+    }
+});
+// /CHARGEMENT DU SCRIPT DU MODULE LES ACTIVITÉS À RISQUE LORS DU CLIQUE
+
+// CHARGEMENT DU SCRIPT DU MODULE SUIVI EN TEMPS RÉEL LORS DU CLIQUE
+$("#suiviTempsReel").parent().click(function () {
+    if(!$(".main-navigation-menu li:eq(6)").hasClass('active open')){
+        $.getScript("modules/suiviTempsReel/suiviTempsReel.js");
+    }
+});
+// /CHARGEMENT DU SCRIPT DU MODULE SUIVI EN TEMPS RÉEL LORS DU CLIQUE
