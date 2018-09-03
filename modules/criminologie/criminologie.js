@@ -421,7 +421,8 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
                 titre5 = "Pourcentage de la gravité des crimes selon les tranches horaires jusqu'à "+$('#dateFinSC').val();
 
             }
-
+            
+            
             chartZoomable("chartZoomableCrime", resultat.chartZoomableCrime, titre1, "Nombre de crimes");
             
             chartPie("piePourceCrime", resultat.piePourceCrime, titre2, ['#ff4444', '#33b5e5','#e8a0a0','#aebae2','#934848','#338c8c']);
