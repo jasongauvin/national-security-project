@@ -124,7 +124,7 @@ function chartPie(container, data, titre, couleurs) {
             text: titre
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
         },
         plotOptions: {
             pie: {
@@ -134,7 +134,7 @@ function chartPie(container, data, titre, couleurs) {
                 showInLegend: true,
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    format: '<b>{point.name}</b>: {point.percentage:.2f} %',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     }
