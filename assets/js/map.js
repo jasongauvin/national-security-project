@@ -4,6 +4,7 @@ var defaultExtent = [-840080.4335449198, 3988950.4443487297, -674212.0821660873,
 var geojsonFormat_geom = new ol.format.GeoJSON();
 var draw;
 var coucheArrondis;
+var coucheRues;
 var navcitiesXYZSource = new ol.source.XYZ({
     attributions: [new ol.Attribution({
         html: 'Tiles © <a href="https://www.navcities.com">Navcities</a>'
@@ -49,7 +50,7 @@ function activerPointeurSurFeatures(e){
 // /ACTIVATION DE POINTEUR SUR LES FEATURES
 
 // CHANGEMENT DE POINTEUR LORS DE L'AJOUT
-function changerPointeurAjout(icone = "pointeur.png") {
+function changerPointeurAjout(icone = "pointeur.png", check = false) {
 
     draw = new ol.interaction.Draw({
         type: 'Point',
@@ -64,7 +65,7 @@ function changerPointeurAjout(icone = "pointeur.png") {
     });
 
     $("#map").mouseover(function () {
-        if ($("#collapseTwo").attr("class") == "panel-collapse collapse in") {
+        if ($("#collapseTwo").attr("class") == "panel-collapse collapse in" || check) {
             $("#map").css("cursor", "none");
             map.addInteraction(draw);
         } else {
@@ -257,43 +258,55 @@ $("#imprimerCarte").click(function (e) {
 // /EXPORTATION DE LA CARTE
 
 
-actualiser4emeArrondis();
+// L'AJOUT DE LA COUCHE FRONTIÈRE
+data = {
+    frontiere: true
+}
+actualiserCouche("coucheArrondis", 'coucheArrondis', 'Couche Arrondis', data);
+// /L'AJOUT DE LA COUCHE FRONTIÈRE
 
-function actualiser4emeArrondis() {
+// L'AJOUT DE LA COUCHE RUES
+data = {
+    rues: true
+}
+actualiserCouche("coucheRues", 'coucheRues', 'Couche Rues', data);
+// /L'AJOUT DE LA COUCHE RUES
 
-    arrondis_geojson = new ol.format.GeoJSON();
-    source_couche_arrondis = new ol.source.Vector();
 
-    // DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
-    styleArrondis = new ol.style.Style ({
+function actualiserCouche(couche, name, title, data) {
+
+    geojson = new ol.format.GeoJSON();
+    source_couche = new ol.source.Vector();
+
+    // DÉFINITION DU STYLE DE LA COUCHE
+    style = new ol.style.Style ({
         stroke: new ol.style.Stroke({
-            color: [135, 32, 50, 1],
-            width: 3
+           color: [23, 39, 38, 1],
+            width: 2
           })                               
       });
-    // /DÉFINITION DU STYLE DE LA COUCHE ACCIDENT
+    // /DÉFINITION DU STYLE DE LA COUCHE
 
-    // DÉFINITION DE LA COUCHE ACCIDENT
-    coucheArrondis = new ol.layer.Vector({
-        name: 'CoucheArrondis',
-        title: 'Couche Arrondis',
+    // DÉFINITION DE LA COUCHE ARRONDIS
+    window[couche] = new ol.layer.Vector({
+        name: name,
+        title: title,
         visible: true,
-        source: source_couche_arrondis,
-        style: styleArrondis
+        source: source_couche,
+        style: style
     });
-    // /DÉFINITION DE LA COUCHE ACCIDENT
+    // /DÉFINITION DE LA COUCHE ARRONDIS
 
-    // SUPPRESSION DU CONTENU DE LA COUCHE ACCIDENT 
-    source_couche_arrondis.clear();
-    // /SUPPRESSION DU CONTENU DE LA COUCHE ACCIDENT
+    // SUPPRESSION DU CONTENU DE LA COUCHE
+    source_couche.clear();
+    // /SUPPRESSION DU CONTENU DE LA COUCHE
 
     // L'APPEL AJAX AVEC LES PARAMÈTRES
-    data = {
-        frontiere: true
-    }
+    data = data
     success = function (result) {
-        var features = arrondis_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
-        source_couche_arrondis.addFeatures(features);
+        
+        var features = geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+        source_couche.addFeatures(features);
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
@@ -302,8 +315,21 @@ function actualiser4emeArrondis() {
     ajax("assets/php/fonctions.php", data, error_fatale, success);
     // /L'APPEL AJAX AVEC LES PARAMÈTRES
 
-    // L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
-    map.addLayer(coucheArrondis);
-    // /L'AJOUT DE LA COUCHE ACCIDENT À LA CARTE
+    // L'AJOUT DE LA COUCHE À LA CARTE
+    map.addLayer(window[couche]);
+    // /L'AJOUT DE LA COUCHE À LA CARTE
 
 }
+
+// TRANSFORMER LA COUCHE VECTEUR VERS UN OBJET GEOJSON
+function coucheVersGeoJSON(couche) {
+    geojson = new ol.format.GeoJSON();
+
+    as_geojson = geojson.writeFeatures(couche.getSource().getFeatures(), {
+        featureProjection: 'EPSG:3857',
+        dataProjection: 'EPSG:4326'
+    });
+
+    return(JSON.parse(as_geojson));
+}
+// /TRANSFORMER LA COUCHE VECTEUR VERS UN OBJET GEOJSON
