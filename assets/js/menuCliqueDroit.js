@@ -18,7 +18,7 @@ var contextmenu_items = [
         text: 'Agents à proximité',
         classname: 'bold',
         icon: agent_icon,
-        callback: agentsProximite
+        callback: nearbyAgentContexteMenu
     },
     {
         text: 'Direction',
@@ -249,12 +249,61 @@ function center(obj) {
     });
 }
 
-function agentsProximite(obj) {
-    view.animate({
-        center: obj.coordinate,
-        zoom:16
+// function agentsProximite(obj) {
+//     view.animate({
+//         center: obj.coordinate,
+//         zoom:16
+//     });
+// }
+
+
+function nearbyAgentContexteMenu(obj){
+    var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
+    getNearbyAgentsPopup('Where you clicked', obj.coordinate[0], obj.coordinate[1]);
+    
+    
+}
+
+function getNearbyAgentsPopup(name, longitude, latitude){
+    $("#main_agent_list_content").show();
+    // $('#tableAttributaire').append('<th>DISTANCE</th>');
+    str = '<th class="th-sm">DISTANCE<i aria-hidden="true"></i></th>';
+    $(str).appendTo('#tableAttributaire' + '>thead>tr');
+    $('.agent-toggle').removeClass('close').addClass('open');
+    $('.agent-toggle').empty();
+    // $('.agent-toggle').append('<i class="icon-chevron-thin-down"></i>');
+    
+    var c = ol.proj.transform([longitude, latitude], 'EPSG:3857', 'EPSG:4326');
+
+    refreshAgentPoliceTable(c[0], c[1]);
+
+    
+}
+
+function refreshAgentPoliceTable(longitude, latitude){
+    console.log(longitude+','+latitude);
+    var table = $('#tableAttributaire').DataTable();
+    table.ajax.url( '../modules/gestionAgents/gestionAgents.php');
+}
+
+function getAgentPoliceTable(param, longitude, latitude){
+
+    $('#tableAttributaire').DataTable({
+        "ajax": '../modules/gestionAgents/gestionAgents.php',
+        "order": [],
+        "columns": [
+            { "data": "gid" },
+            { "data": "nom" },
+            { "data": "prenom" },
+            { "data": "mobilite" },
+            { "data": "distance" },
+           
+        ],
+        'iDisplayLength': 5,
     });
 }
+
+
 
 function mapRoadDirectionGetRoadMap(start, destination, mode, service, id_roadmap_content) {
     $("#" + id_roadmap_content).empty();
