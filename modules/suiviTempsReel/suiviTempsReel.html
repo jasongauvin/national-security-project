@@ -1,0 +1,43 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="panel-group accordion-custom accordion-teal" id="accordion" style="margin-bottom: 0px;">
+            <div class="panel panel-default">
+
+                <h3 class="h3-responsive"><strong>Veuillez sélectionner les deux agents</strong></h3>
+                <br>
+                        <label>Agent mobile 1</label>
+                        <select class="custom-select mb-4" id="agent1"></select>
+
+                        <br><br>
+                        <label>Agent mobile 2</label>
+                        <select class="custom-select mb-4" id="agent2"></select>
+                    
+                        <br><br>
+            
+
+                <button type="reset" id="reinitSuivre" class="btn btn-blue-grey">Réinitialiser</button>
+                <button type="button" id="suivre" class="btn btn-light-green">Suivre la marche de protestation</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function checkTheDropdowns(){
+  var arr  = $('select').find(':selected');
+  $('select').find('option').show();
+	$.each($('select'), function(){  
+	var self = this;
+	var selectVal = $(this).val();
+	$.each(arr, function(){  		
+			if (selectVal !== $(this).val()){
+					$(self).find('option[value="'+$(this).val()+'"]').hide()
+      } else {
+					$(self).find('option[value="'+$(this).val()+'"]').show()
+      }
+  });
+})
+};
+checkTheDropdowns();
+$(document).off('change', 'select').on('change', 'select', checkTheDropdowns);
+</script>

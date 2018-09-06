@@ -191,6 +191,8 @@ $(document).off("click", "#appliquer").on("click", "#appliquer", function (e) {
             }
             error_fatale = function (jqXhr) {
                 rapportErreurs(jqXhr);
+                afficherNotif("erreur", "Une erreur est survenu lors du chargement de la liste des bouchons");
+
             }
             success = function (resultat) {
 
