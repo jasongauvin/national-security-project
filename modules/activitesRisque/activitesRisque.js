@@ -175,36 +175,47 @@ $(document).off("click", "#appliquer").on("click", "#appliquer", function (e) {
             })
         })]
         }
-        var id_points = 0;
+        var id_bouchon = 1;
+        
+        var tab_bouchons = [];
+
         pts_intersection.getSource().getFeatures().forEach(function(pts){
+            tab_bouchons.push( ol.proj.toLonLat(pts.getGeometry().getCoordinates()));
+            pts.set('description', "   Bouchon N° " + id_bouchon++);
+            pts.setStyle(style_pts);
+        });
 
-            data = {
-                rue_bouchon: true,
-                coords: ol.proj.toLonLat( pts.getGeometry().getCoordinates())
-            }
-            error_fatale = function (jqXhr) {
-                rapportErreurs(jqXhr);
-            }
-            success = function (resultat) {
-                pts.set('description', "   Bouchon N° "+id_points++);
-                pts.setStyle(style_pts);
+        data = {
+            rue_bouchon: true,
+            tab_bouchons: tab_bouchons
+        }
+        error_fatale = function (jqXhr) {
+            rapportErreurs(jqXhr);
+        }
+        success = function (resultat) {
 
-                coucheRues.getSource().getFeatures().forEach(function(f){
-                    if(f.get("id")==resultat[0]){
-                        if(!resultat[1]){
-                            f.set('description', resultat[2]);
-                        }else{
-                            f.set('description', resultat[1]+" ,"+resultat[2]);
-                        }
-                        f.setStyle(sty_rues);
+            ids_rues = [];
+            for(i=0;i<Object.keys(resultat.data).length; i++){
+                ids_rues.push(resultat.data[i].id_rue);
+            }
+
+            coucheRues.getSource().getFeatures().forEach(function (f) {
+
+                if (ids_rues.includes( parseInt(f.get("id")) )) {
+                    if (!f.get("name")) {
+                        f.set('description', f.get("on"));
+                    } else {
+                        f.set('description', f.get("name") + " ," + f.get("on"));
                     }
-                });
-                
-            }
-            ajax("modules/activitesRisque/activitesRisque.php", data, error_fatale, success);
-
-
-        });  
+                    f.setStyle(sty_rues);
+                }
+            });
+            
+            // REMPLIR LA TABLE ATTRIBUTAIRE
+            remplirTableActivRisque(resultat);
+            // /REMPLIR LA TABLE ATTRIBUTAIRE
+        }
+        ajax("modules/activitesRisque/activitesRisque.php", data, error_fatale, success);
 
     }
 });

@@ -226,6 +226,92 @@ function remplirTableHistorique(nom_couche) {
 }
 // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
 
+// REMPLISSAGE DE LA TABLE DES ACTIVITÉS À RISQUE
+function remplirTableActivRisque(donnees) {
+    
+    $("#chargement").css("display" ,"block");
+    $("#titreTableAttributaire").parent().css("display", "block");
+    $("#titreTableAttributaire").text("La liste des bouchons");
+    
+    tableName = "#tableAttributaire";
+
+    if ( $.fn.DataTable.isDataTable(tableName) ) {
+        $(tableName).DataTable().destroy();
+        $(tableName + '>thead>tr').empty();
+        $(tableName + '>tbody>tr').empty();
+    }
+
+    $.each(donnees.columns, function (k, colObj) {
+        str = '<th class="th-sm">' + colObj.name + '<i aria-hidden="true"></i></th>';
+        $(str).appendTo(tableName + '>thead>tr');
+    });
+    donnees.columns[0].render = function (data, type, row) {
+        return data;
+    }
+
+    $(tableName).dataTable({
+        destroy: true,
+        lengthMenu: [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "Tous"] ],
+        "data": donnees.data,
+        "columns": donnees.columns,
+        dom: "<'row'<'col-sm-3'l><'col-sm-6'B><'col-sm-3'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons: [
+            {
+                extend: 'copy',
+                text: 'Copier',
+                className: 'btn btn-default btn-xs'
+            }
+            , {
+                extend: 'csv',
+                className: 'btn btn-default btn-xs'
+            }
+            ,
+            {
+                extend: 'excel',
+                messageTop: $("#titreTableAttributaire").text(),
+                className: 'btn btn-default btn-xs'
+            },
+            {
+                extend: 'pdf',
+                messageTop: $("#titreTableAttributaire").text(),
+                className: 'btn btn-default btn-xs'
+            },
+            {
+                extend: 'print',
+                text: 'Imprimer',
+                className: 'btn btn-default btn-xs',
+                messageTop: $("#titreTableAttributaire").text()
+            }
+        ],
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            }
+        }
+    });
+    $("#chargement").css("display" ,"none");
+}
+// /REMPLISSAGE DE LA TABLE DES ACTIVITÉS À RISQUE
+
 // GESTION DE CLIQUE SUR LE BOUTON DE LA TABLE ATTRIBUTAIRE
 $('.agent-toggle').bind('click', function () {
     if ($(this).hasClass('open')) {

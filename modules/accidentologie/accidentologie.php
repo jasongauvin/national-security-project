@@ -161,7 +161,7 @@ if($_POST['tableAttributaire']){
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
 
 
-// LE CAS DU 
+// LE CAS STATISTIQUES
 if($_POST['statistiques']){
     $chartZoomable = array();
     $piePourceBlesMorts = array();
@@ -291,8 +291,7 @@ if($_POST['statistiques']){
         "chartBarGravTranchesH" => $chartBarGravTranchesH
     ));
 }
-
-// /LE CAS DE LA TABLE ATTRIBUTAIRE
+// /LE CAS STATISTIQUES
 
 // LE CAS DU SELECTION DE LA DATE MIN
 if($_POST['mindate']){
