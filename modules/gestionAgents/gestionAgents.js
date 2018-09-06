@@ -37,6 +37,17 @@ cliqueLigneTableAttr(coucheAgent, "Agent");
 
 
 // CAS DE MODIFICATION
+
+
+$(document).off("change", "#modifierAgent #Mobilite").on("change", "#modifierAgent #Mobilite", function() {
+    if(this.value == "true"){
+        $("#modifierAgent #imei").parent().show()
+    }else{
+        $("#modifierAgent #imei").parent().hide()
+    }
+});
+
+
 function singleclick (evt) {
     features = [];
     var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
@@ -57,6 +68,14 @@ function singleclick (evt) {
         $("#modifierAgent #Nom").val(feature.get("nom"));
         $("#modifierAgent #Prenom").val(feature.get("prenom"));
         $("#modifierAgent #Mobilite").val(feature.get("mobilite")=='t'? "true" : "false");
+        if(feature.get("mobilite")=='t'){
+            $("#modifierAgent #imei").parent().show()
+            $("#modifierAgent #imei").val(feature.get("imei"));
+            $("#modifierAgent #imei").next().addClass("active");
+        }else{
+            $("#modifierAgent #imei").parent().hide()
+        }
+
         gid = feature.get("gid");
     }
 
@@ -104,11 +123,17 @@ $(document).off("click", "#pointerAgentModifierNouvEmplace").on("click", "#point
 
 $(document).off("click", "#modifierAgentBouton").on("click", "#modifierAgentBouton", function (e){
     e.preventDefault();
+
+    if($("#modifierAgent #Mobilite").val() === "false"){
+        $("#modifierAgent #imei").val("");
+    }
+
     data = {
         modification: true,
         nom: $("#modifierAgent #Nom").val()? "'"+$("#modifierAgent #Nom").val()+"'": "null",
         prenom: $("#modifierAgent #Prenom").val()? "'"+$("#modifierAgent #Prenom").val()+"'": "null",
         mobilite: $("#modifierAgent #Mobilite").val(),
+        imei: $("#modifierAgent #imei").val()? "'"+$("#modifierAgent #imei").val()+"'": "null",
         emplacement: coords,
         gid: gid
     }
@@ -141,6 +166,14 @@ $(document).off("click", "#modifierAgentBouton").on("click", "#modifierAgentBout
 
 
 // CAS D'AJOUT D'UN AGENT
+$(document).off("change", "#Mobilite").on("change", "#Mobilite", function() {
+    if(this.value == "true"){
+        $("#imei").parent().show()
+    }else{
+        $("#imei").parent().hide()
+    }
+});
+
 $(document).off("click", "#pointerAgentAjouter").on("click", "#pointerAgentAjouter", function () {
     changerPointeurAjout("agent_24.png");
     map.on('click', function (evt) {
@@ -152,12 +185,13 @@ $(document).off("click", "#pointerAgentAjouter").on("click", "#pointerAgentAjout
 
 $(document).off("click", "#ajouterAgent").on("click", "#ajouterAgent", function (e) {
     e.preventDefault();
-
+    
     data = {
 		ajout: true,
 		nom: $("#Prenom").val(),
         prenom: $("#Nom").val(),
         mobilite: $("#Mobilite").val(),
+        imei: $("#imei").val()? "'"+$("#imei").val()+"'": "null",
         emplacement: coords,
     }
 

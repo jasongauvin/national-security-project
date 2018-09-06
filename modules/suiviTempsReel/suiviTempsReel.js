@@ -23,5 +23,6 @@ popup.hide();
 // CACHER TOUS LES POP-UPS
 
 // SUPPRESSION DE TOUTES LES AUTRES COUCHES
-supprimerCouches();
+supprimerCouches(undefined);
 // /SUPPRESSION DE TOUTES LES AUTRES COUCHES
+

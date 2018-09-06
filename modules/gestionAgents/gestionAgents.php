@@ -80,9 +80,9 @@ if($_POST["importation"]){
 // LE CAS DE LA MODIFICATION OU BIEN LE DÉPLACEMENT
 if($_POST['modification']){
     if($_POST['emplacement']){
-        $var = executerRequete("UPDATE agent SET nom = ".$_POST['nom'].", prenom = ".$_POST['prenom'].", mobilite = ".$_POST['mobilite'].", emplacement = st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) WHERE gid = ".$_POST['gid']."");
+        $var = executerRequete("UPDATE agent SET nom = ".$_POST['nom'].", prenom = ".$_POST['prenom'].", mobilite = ".$_POST['mobilite'].", imei = ".$_POST['imei']." , emplacement = st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) WHERE gid = ".$_POST['gid']."");
     }else{
-        $var = executerRequete("UPDATE agent SET nom = ".$_POST['nom'].", prenom = ".$_POST['prenom'].", mobilite = ".$_POST['mobilite']." WHERE gid = ".$_POST['gid']."");
+        $var = executerRequete("UPDATE agent SET nom = ".$_POST['nom'].", prenom = ".$_POST['prenom'].", mobilite = ".$_POST['mobilite'].", imei = ".$_POST['imei']." WHERE gid = ".$_POST['gid']."");
     }
 
     if($var){
@@ -98,7 +98,7 @@ if($_POST['modification']){
 // LE CAS D'AJOUT
 if($_POST['ajout']){
 	
-	$insert_agent = executerRequete("INSERT INTO agent VALUES (DEFAULT, '".$_POST['nom']."', '".$_POST['prenom']."', ".$_POST['mobilite']." , DEFAULT, st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
+	$insert_agent = executerRequete("INSERT INTO agent VALUES (DEFAULT, '".$_POST['nom']."', '".$_POST['prenom']."', ".$_POST['mobilite']." , DEFAULT, st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326), ".$_POST['imei']." )");
 	
 	if($insert_agent){
 		echo json_encode(array(
@@ -162,7 +162,7 @@ if($_GET['table']){
 
 // SELECTION DES DONNEES 
 if($_POST['selection']){
-	$result = executerRequete("SELECT gid, nom, prenom, mobilite, st_asgeojson(emplacement) as geom FROM agent");
+	$result = executerRequete("SELECT gid, nom, prenom, mobilite, imei, st_asgeojson(emplacement) as geom FROM agent");
 	if($result) {
 		    while($row = pg_fetch_assoc($result)) {
 		    	$row['removable']='true';
@@ -189,10 +189,10 @@ if($_POST['selection']){
 if($_POST['tableAttributaire']){
 
     $colonnes = array();
-    $noms_cols = array("Id", "Nom", "Prenom", "Mobilité", "Date et heure");
+    $noms_cols = array("Id", "Nom", "Prenom", "Mobilité", "Date et heure d'ajout");
     $donnees = array();
 
-    for($i = 0; $i < count(colsTabVersArray("agent"))-1; $i++){
+    for($i = 0; $i < count(colsTabVersArray("agent"))-2; $i++){
         array_push($colonnes, array(
             "data" => colsTabVersArray("agent")[$i],
             "name" => mb_strtoupper($noms_cols[$i])
