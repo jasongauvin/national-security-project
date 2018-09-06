@@ -95,6 +95,22 @@ function supprimerCouches(couche) {
     if (typeof coucheAgent !== "undefined") {
         couches.push(coucheAgent);
     }
+    if (typeof cercle !== "undefined") {
+        couches.push(cercle);
+    }
+    if (typeof pts_intersection !== "undefined") {
+        couches.push(pts_intersection);
+
+        coucheRues.getSource().getFeatures().forEach(function(f){
+            f.setStyle(new ol.style.Style ({
+                stroke: new ol.style.Stroke({
+                   color: [23, 39, 38, 1],
+                    width: 2
+                  })                               
+            }));
+        });
+        
+    }
     
     for (i = 0; i < couches.length; i++) {
         if (couches[i] != couche) {
@@ -259,10 +275,10 @@ $("#imprimerCarte").click(function (e) {
 
 
 // L'AJOUT DE LA COUCHE FRONTIÈRE
-data = {
-    frontiere: true
-}
-actualiserCouche("coucheArrondis", 'coucheArrondis', 'Couche Arrondis', data);
+// data = {
+//     frontiere: true
+// }
+// actualiserCouche("coucheArrondis", 'coucheArrondis', 'Couche Arrondis', data);
 // /L'AJOUT DE LA COUCHE FRONTIÈRE
 
 // L'AJOUT DE LA COUCHE RUES

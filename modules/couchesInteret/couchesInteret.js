@@ -18,6 +18,10 @@ $.get("modules/couchesInteret/couchesInteret.html", function (data) {
 popup.hide();
 // CACHER TOUS LES POP-UPS
 
+// SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+supprimerCouches(undefined);
+// /SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
+
 // GESTION DES CHECKBOX DES COUCHES DISPONIBLES
 $(document).on("change","#mosquees",function () {
     if (this.checked) {

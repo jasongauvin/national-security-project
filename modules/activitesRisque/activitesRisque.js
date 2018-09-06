@@ -105,7 +105,7 @@ $(document).off("click", "#appliquer").on("click", "#appliquer", function (e) {
 
         // POINTS D'INTERSECTION
         pts_intersection = turf.lineIntersect(coucheVersGeoJSON(coucheRues), coucheVersGeoJSON(cercle));
-
+        
         pts_intersection = new ol.layer.Vector({
             source: new ol.source.Vector({
                 features: geojson.readFeatures(pts_intersection, { featureProjection: 'EPSG:3857' })
@@ -114,108 +114,109 @@ $(document).off("click", "#appliquer").on("click", "#appliquer", function (e) {
         map.addLayer(pts_intersection);
         // /POINTS D'INTERSECTION
 
-        pts_coords = [];
-        id_points = 1;
+        if (!pts_intersection.getSource().getFeatures().length) {
+            afficherNotif("warning", "Pas de bouchons disponibles");
+        } else {
 
-
-        function style_pts() {
-            return [new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: 7,
-                    fill: new ol.style.Fill({ color: 'black' }),
+            function style_pts() {
+                return [new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({ color: 'black' }),
+                        stroke: new ol.style.Stroke({
+                            color: [255, 0, 0], width: 2
+                        })
+                    })
+                }),
+                new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: '#ffa500'
+                    }),
                     stroke: new ol.style.Stroke({
-                        color: [255, 0, 0], width: 2
+                        color: '#000000',
+                        width: 3
+                    }),
+                    text: new ol.style.Text({
+                        font: '13px sans-serif',
+                        fill: new ol.style.Fill({ color: '#ffa500' }),
+                        stroke: new ol.style.Stroke({
+                            color: '#000000', width: 3
+                        }),
+                        text: this.get('description')
+                        ,
+                        offsetX: 45,
+                        offsetY: 0,
+                        rotation: 0
                     })
                 })
-            }),
-            new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: '#ffa500'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#000000',
-                    width: 3
-                }),
-                text: new ol.style.Text({
-                    font: '13px sans-serif',
-                    fill: new ol.style.Fill({ color: '#ffa500' }),
-                    stroke: new ol.style.Stroke({
-                        color: '#000000', width: 3
-                    }),
-                    text: this.get('description')
-                    ,
-                    offsetX: 45,
-                    offsetY: 0,
-                    rotation: 0
-                })
-            })
-            ];
-        }
-
-        function sty_rues() {
-            return [new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: '#ffa500'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#1de9b6',
-                width: 3
-            }),
-            text: new ol.style.Text({
-                font: '13px sans-serif',
-                fill: new ol.style.Fill({ color: '#1de9b6' }),
-                stroke: new ol.style.Stroke({
-                    color: '#000000', width: 3
-                }),
-                text: this.get('description')
-                ,
-                offsetX: 45,
-                offsetY: 0,
-                rotation: 0
-            })
-        })]
-        }
-        var id_bouchon = 1;
-        
-        var tab_bouchons = [];
-
-        pts_intersection.getSource().getFeatures().forEach(function(pts){
-            tab_bouchons.push( ol.proj.toLonLat(pts.getGeometry().getCoordinates()));
-            pts.set('description', "   Bouchon N° " + id_bouchon++);
-            pts.setStyle(style_pts);
-        });
-
-        data = {
-            rue_bouchon: true,
-            tab_bouchons: tab_bouchons
-        }
-        error_fatale = function (jqXhr) {
-            rapportErreurs(jqXhr);
-        }
-        success = function (resultat) {
-
-            ids_rues = [];
-            for(i=0;i<Object.keys(resultat.data).length; i++){
-                ids_rues.push(resultat.data[i].id_rue);
+                ];
             }
 
-            coucheRues.getSource().getFeatures().forEach(function (f) {
+            function sty_rues() {
+                return [new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: '#ffa500'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#1de9b6',
+                        width: 3
+                    }),
+                    text: new ol.style.Text({
+                        font: '13px sans-serif',
+                        fill: new ol.style.Fill({ color: '#1de9b6' }),
+                        stroke: new ol.style.Stroke({
+                            color: '#000000', width: 3
+                        }),
+                        text: this.get('description')
+                        ,
+                        offsetX: 45,
+                        offsetY: 0,
+                        rotation: 0
+                    })
+                })]
+            }
 
-                if (ids_rues.includes( parseInt(f.get("id")) )) {
-                    if (!f.get("name")) {
-                        f.set('description', f.get("on"));
-                    } else {
-                        f.set('description', f.get("name") + " ," + f.get("on"));
-                    }
-                    f.setStyle(sty_rues);
-                }
-            });
+            var id_bouchon = 1;
+            var tab_bouchons = [];
             
-            // REMPLIR LA TABLE ATTRIBUTAIRE
-            remplirTableActivRisque(resultat);
-            // /REMPLIR LA TABLE ATTRIBUTAIRE
-        }
-        ajax("modules/activitesRisque/activitesRisque.php", data, error_fatale, success);
+            pts_intersection.getSource().getFeatures().forEach(function (pts) {
+                tab_bouchons.push(ol.proj.toLonLat(pts.getGeometry().getCoordinates()));
+                pts.set('description', "   Bouchon N° " + id_bouchon++);
+                pts.setStyle(style_pts);
+            });
 
+            data = {
+                rue_bouchon: true,
+                tab_bouchons: tab_bouchons
+            }
+            error_fatale = function (jqXhr) {
+                rapportErreurs(jqXhr);
+            }
+            success = function (resultat) {
+
+                ids_rues = [];
+                for (i = 0; i < Object.keys(resultat.data).length; i++) {
+                    ids_rues.push(resultat.data[i].id_rue);
+                }
+
+                coucheRues.getSource().getFeatures().forEach(function (f) {
+
+                    if (ids_rues.includes(parseInt(f.get("id")))) {
+                        if (!f.get("name")) {
+                            f.set('description', f.get("on"));
+                        } else {
+                            f.set('description', f.get("name") + " ," + f.get("on"));
+                        }
+                        f.setStyle(sty_rues);
+                    }
+                });
+
+                // REMPLIR LA TABLE ATTRIBUTAIRE
+                remplirTableActivRisque(resultat);
+                // /REMPLIR LA TABLE ATTRIBUTAIRE
+            }
+            ajax("modules/activitesRisque/activitesRisque.php", data, error_fatale, success);
+
+        }
     }
 });
