@@ -98,6 +98,9 @@ function supprimerCouches(couche) {
     if (typeof cercle !== "undefined") {
         couches.push(cercle);
     }
+    if (typeof coucheSuivi !== "undefined") {
+        couches.push(coucheSuivi);
+    }
     if (typeof pts_intersection !== "undefined") {
         couches.push(pts_intersection);
 

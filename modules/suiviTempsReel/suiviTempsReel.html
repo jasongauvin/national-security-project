@@ -7,14 +7,25 @@
                 <br>
                         <label>Agent mobile 1</label>
                         <select class="custom-select mb-4" id="agent1"></select>
-
-                        <br><br>
+                        <br>
                         <label>Agent mobile 2</label>
                         <select class="custom-select mb-4" id="agent2"></select>
                     
                         <br><br>
-            
 
+                        <div class="md-form" style="width: 70%;margin: auto;">
+                            <input type="number" id="denManif" min="0" value="1" class="form-control">
+                            <label for="denManif">Densité de manifestants (Nombre de manifestants / m²)</label>
+                        </div>
+
+                        <br>
+
+                        <div class="md-form" style="width: 50%;margin: auto;">
+                            <input type="number" id="tempsSync" min="0" value="1" class="form-control">
+                            <label for="tempsSync">Temps de synchronisation par seconde</label>
+                        </div>
+
+                        <br>
                 <button type="reset" id="reinitSuivre" class="btn btn-blue-grey">Réinitialiser</button>
                 <button type="button" id="suivre" class="btn btn-light-green">Suivre la marche de protestation</button>
             </div>
