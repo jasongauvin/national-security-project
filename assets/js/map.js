@@ -39,7 +39,7 @@ function activerPointeurSurFeatures(e){
     var pixel = map.getEventPixel(e.originalEvent);
     var hit = map.hasFeatureAtPixel(pixel, {
         layerFilter: function (layer) {
-            if(layer != coucheArrondis){
+            if(layer !== coucheRues){
                 return true;
             }
         }
