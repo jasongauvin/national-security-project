@@ -376,7 +376,6 @@ a.bricky:hover {
 .navbar > .container .navbar-brand, .logo {
 	padding: 4px 9px 12px;
 	margin-left: 0;
-	min-width:210px;
 }
 .navbar > .container .navbar-brand i, .logo i {
 	font-size: 20px;

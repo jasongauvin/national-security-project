@@ -175,7 +175,7 @@ $(document).off("change", "#Mobilite").on("change", "#Mobilite", function() {
 });
 
 $(document).off("click", "#pointerAgentAjouter").on("click", "#pointerAgentAjouter", function () {
-    changerPointeurAjout("agent_24.png");
+    changerPointeurAjout();
     map.on('click', function (evt) {
         coords = ol.proj.toLonLat(evt.coordinate);
         $("#pointerAgentAjouter").html('<i class="clip-plus-circle"></i> ' + coords[0].toFixed(6) + ", " + coords[1].toFixed(6));
