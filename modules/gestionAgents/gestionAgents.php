@@ -38,13 +38,16 @@ if($_POST["importation"]){
 
         $transaction = "BEGIN;";
         // INSERTION DANS LA TABLE
+
         for($i=0; $i<count($_POST["lignes_excel"]); $i++){
 
-			$mobilite = $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][2]]=="mobile"? "true": "false";
-            
-            $transaction .= "INSERT INTO agent (".$_POST['noms_cols_excel'][0].", ".$_POST['noms_cols_excel'][1].", ".$_POST['noms_cols_excel'][2].", ".$_POST['noms_cols_excel'][3].", ".$_POST['noms_cols_excel'][4]." ) VALUES ('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]."','".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][1]]."', $mobilite,  to_timestamp('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]."', 'dd/mm/yyyy hh24:mi'),   st_geomfromtext('POINT(".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[0]." ".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[1].")', 4326));";
+            $mobilite = $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][2]]=="mobile"? "true": "false";
+            $imei = $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][5]]? "'".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][5]]."'": "null";
+    
+            $transaction .= "INSERT INTO agent (".$_POST['noms_cols_excel'][0].", ".$_POST['noms_cols_excel'][1].", ".$_POST['noms_cols_excel'][2].", ".$_POST['noms_cols_excel'][3].", ".$_POST['noms_cols_excel'][4].", ".$_POST['noms_cols_excel'][5]." ) VALUES ('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]]."','".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][1]]."', $mobilite,  to_timestamp('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]."', 'mm/dd/yy hh24:mi'),   st_geomfromtext('POINT(".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[0]." ".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[1].")', 4326), $imei);";
             
         }
+    
 
         executerRequete($transaction .= "COMMIT;");
         

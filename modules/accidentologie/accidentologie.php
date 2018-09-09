@@ -50,11 +50,12 @@ if($_POST["importation"]){
 
         $transaction = "BEGIN;";
         // INSERTION DANS LA TABLE
+
         for($i=0; $i<count($_POST["lignes_excel"]); $i++){
-            $gravite = $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][1]]=="grave"? "null": (strpos($_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][1]], "plus") === false? "false": "true");
-            $desc = $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][2]]? "'".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][2]]."'": "null";
+            $gravite = $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][2]]=="grave"? "null": (strpos($_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][2]], "plus") === false? "false": "true");
+            $desc = $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]? "'".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]."'": "null";
             
-            $transaction .= "INSERT INTO accident (".$_POST['noms_cols_excel'][0].", ".$_POST['noms_cols_excel'][1].", ".$_POST['noms_cols_excel'][2].", ".$_POST['noms_cols_excel'][3].", ".$_POST['noms_cols_excel'][4].", ".$_POST['noms_cols_excel'][5]." ) VALUES (".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]].", $gravite, $desc, to_timestamp('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][3]]."', 'dd/mm/yyyy hh24:mi'),   st_geomfromtext('POINT(".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[0]." ".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]])[1].")', 4326)    , ".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][5]]." );";
+            $transaction .= "INSERT INTO accident (".$_POST['noms_cols_excel'][0].", ".$_POST['noms_cols_excel'][1].", ".$_POST['noms_cols_excel'][2].", ".$_POST['noms_cols_excel'][3].", ".$_POST['noms_cols_excel'][4].", ".$_POST['noms_cols_excel'][5]." ) VALUES (".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][0]].", ".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][1]].", $gravite, $desc, to_timestamp('".$_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][4]]."', 'mm/dd/yy hh24:mi'),   st_geomfromtext('POINT(".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][5]])[0]." ".explode(',', $_POST['lignes_excel'][$i][$_POST['noms_cols_excel'][5]])[1].")', 4326) );";
             
         }
 
