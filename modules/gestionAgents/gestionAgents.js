@@ -429,20 +429,3 @@ function actualiserCoucheAgent() {
 // REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE AGENT
 remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php");
 // /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE AGENT
-
-// AGENTS A PROXIMITE
-$('.agent-toggle').bind('click', function () {
-    if ($(this).hasClass('open')) {
-        $(this).removeClass('open').addClass('close');
-        $(this).empty();
-        $(this).append('<i class="icon-chevron-thin-up"></i>');
-        $('#main_agent_list_content').hide();
-    } else {
-        $(this).removeClass('close').addClass('open');
-        $(this).empty();
-        $(this).append('<i class="icon-chevron-thin-down"></i>');
-        $('#main_agent_list_content').show();
-    }
-});
-
-// /AGENTS A PROXIMITE

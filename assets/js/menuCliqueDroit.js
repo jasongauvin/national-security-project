@@ -82,20 +82,23 @@ function roadToHere(obj) {
 
 var direction_start_popup = new ol.Overlay.Popup(
     {
-        popupClass: "black", //"tooltips", "warning" "black" "default", "tips", "shadow",
-        closeBox: false,
-        positioning: 'bottom-center',
+        popupClass: "black",
+        closeBox: true,
+        positioning: 'auto',
         autoPan: true,
-        autoPanAnimation: { duration: 100 }
+        autoPanAnimation: { duration: 250 }
     });
+    direction_start_popup.addPopupClass('shadow');
+
 var direction_destination_popup = new ol.Overlay.Popup(
     {
-        popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
-        closeBox: false,
-        positioning: 'bottom-center',
+        popupClass: "black",
+        closeBox: true,
+        positioning: 'auto',
         autoPan: true,
-        autoPanAnimation: { duration: 100 }
+        autoPanAnimation: { duration: 250 }
     });
+    direction_destination_popup.addPopupClass('shadow');
 
 var direction_styleFunction = function (feature, resolution) {
     var direction_Style = {
@@ -153,7 +156,7 @@ function getSelectedAddressRoad(name, longitude, latitude, id_ul, id_input, type
         point_position_map_road_direction.set('type', 'start');
         point_position_map_road_direction.set('image', 'assets/images/pois.png');
         directionGeometryVector.getSource().addFeature(point_position_map_road_direction);
-        direction_start_popup.show(point_position_map_road_direction.getGeometry().getCoordinates(), '<i class="icon-text_format"></i>| ' + name);
+        direction_start_popup.show(point_position_map_road_direction.getGeometry().getCoordinates(), '<i class="fas fa-map-marker-alt"></i> ' + name);
     } else {
         direction_destination_popup.hide(undefined, '');
         var point_pos_search_inp = new ol.geom.Point(
@@ -163,7 +166,7 @@ function getSelectedAddressRoad(name, longitude, latitude, id_ul, id_input, type
         point_position_map_road_direction.set('type', 'destination');
         point_position_map_road_direction.set('image', 'assets/images/pois.png');
         directionGeometryVector.getSource().addFeature(point_position_map_road_direction);
-        direction_destination_popup.show(point_position_map_road_direction.getGeometry().getCoordinates(), '<i class="icon-format_bold"></i>| ' + name);
+        direction_destination_popup.show(point_position_map_road_direction.getGeometry().getCoordinates(), '<i class="fas fa-map-marker-alt"></i> ' + name);
     }
 
     $("#" + id_input).val(name);

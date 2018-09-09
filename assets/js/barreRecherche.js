@@ -61,9 +61,7 @@ function getAddressList(string, id, url) {
 
 var mapAdvancedSearch_AddressStyle = new ol.style.Style({
     image: new ol.style.Icon({
-        anchor: [0.5, 0.5],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'fraction',
+        anchor: [0.5, 1],
         src: 'assets/img/marker.png'
     })
 });
@@ -77,13 +75,13 @@ var mapAdvancedSearch_AddressGeometryVector = new ol.layer.Vector(
 
 var map_advanced_search_address_popup = new ol.Overlay.Popup(
     {
-        popupClass: "black", //"tips anim", "tooltips", "warning" "black" "default", "tips", "shadow",
-        closeBox: false,
-        // onclose: function () { console.log("You close the box"); },
-        positioning: 'bottom-right',
+        popupClass: "black",
+        closeBox: true,
+        positioning: 'auto',
         autoPan: true,
-        autoPanAnimation: { duration: 100 }
+        autoPanAnimation: { duration: 250 }
     });
+    map_advanced_search_address_popup.addPopupClass('shadow');
 
 function getSelectedAddress(name, longitude, latitude, id) {
     // CACHER LA LISTE DES ADRESSES

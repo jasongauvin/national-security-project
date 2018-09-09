@@ -454,9 +454,6 @@ ul.notifications li, ul.todo li, ul.posts li {
 	white-space: normal !important;
 	display: block;
 }
-.navbar-tools .dropdown-menu > li:last-child a {
-	border-bottom: none !important;
-}
 li.dropdown.current-user .dropdown-toggle {
 	padding: 10px 4px 7px 9px;
 }
@@ -1177,7 +1174,7 @@ color: #AAAAAA !important;
 	border-bottom: 1px solid #E4E6EB;
 	font-size: 12px;
 	margin-left: 0 !important;
-	padding: 10px 10px 10px 20px !important;
+	padding: 10px 10px 10px 40px !important;
 	position: relative;
 	display: block;
 	color: #333333;
@@ -1289,7 +1286,6 @@ ul.main-navigation-menu > li {
 ul.main-navigation-menu > li > a {
 	border: 0 none;
 	display: block;
-	font-size: 14px;
 	font-weight: 300;
 	margin: 0;
 	padding: 10px 15px;
