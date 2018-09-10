@@ -39,10 +39,10 @@ cliqueLigneTableAttr(coucheCrime, "Crime");
 
 // FAIRE RESSORTIR LA DATE MIN
 data = {
-    mindate: true
+    mindatec: true
 }
 success = function (resultat) {
-    mindate = resultat;
+    mindatec = resultat;
 }
 ajax("modules/criminologie/criminologie.php", data, undefined, success);
 // /FAIRE RESSORTIR LA DATE MIN
@@ -352,7 +352,7 @@ $(document).off("click", "#historiqueCrimeBouton").on("click", "#historiqueCrime
 
     $("#dateDebH").datetimepicker({
         maxDate: 0,
-        minDate: mindate,
+        minDate: mindatec,
         currentText: "Maintenant",
         closeText: "Ok",
         timeInput: true,
@@ -451,7 +451,7 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
 
     $("#dateDebSC").datetimepicker({
         maxDate: 0,
-        minDatec: mindatec,
+        minDate: mindatec,
         currentText: "Maintenant",
         closeText: "Ok",
         timeInput: true,
@@ -459,7 +459,7 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
         hourText: "Heure",
         minuteText: "Minute",
         onSelect: function(){
-            $("#dateFinSC").datepicker("option", "minDatec", $("#dateDebSC").datepicker("getDate"));
+            $("#dateFinSC").datepicker("option", "minDate", $("#dateDebSC").datepicker("getDate"));
             traitementStatistiques();
         }
     });
