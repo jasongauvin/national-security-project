@@ -168,3 +168,21 @@ $("#suiviTempsReel").parent().click(function () {
     }
 });
 // /CHARGEMENT DU SCRIPT DU MODULE SUIVI EN TEMPS RÉEL LORS DU CLIQUE
+
+// CHARGEMENT DU SCRIPT DU MODULE GESTION DU CORTÈGE LORS DU CLIQUE
+$("#gestionCortege").parent().click(function () {
+    if(!$(".main-navigation-menu li:eq(7)").hasClass('active open')){
+        $("#sectionTabBord").css("visibility", "hidden");
+        $("#sectionTabBord").css("height", "0px");
+        $("#map").css("visibility", "");
+        $("#map").css("position", "");
+        $(".agent-toggle").css("visibility", "hidden");
+        $("#main_agent_list_content").css("display", "none");
+        
+        $("#style_selector").css("display", "block");
+        
+        map.updateSize();
+        $.getScript("modules/gestionCortege/gestionCortege.js");
+    }
+});
+// /CHARGEMENT DU SCRIPT DU MODULE GESTION DU CORTÈGE LORS DU CLIQUE
