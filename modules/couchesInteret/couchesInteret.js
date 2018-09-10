@@ -38,7 +38,7 @@ $(document).on("change","#mosquees",function () {
     }
 });
 
-$(document).on("change","#ecoles",function () {
+$(document).off("change","#ecoles").on("change","#ecoles",function () {
     if (this.checked) {
         changerClasseCss("listeCoucheEcoles", "dropdown open");
         critere = 142;
@@ -53,7 +53,7 @@ $(document).on("change","#ecoles",function () {
     }
 });
 
-$(document).on("change","#banques",function () {
+$(document).off("change","#banques").on("change","#banques",function () {
     if (this.checked) {
         changerClasseCss("listeCoucheBanques", "dropdown open");
         critere = 150;
@@ -68,7 +68,7 @@ $(document).on("change","#banques",function () {
     }
 });
 
-$(document).on("change","#hotels",function () {
+$(document).off("change","#hotels").on("change","#hotels",function () {
     if (this.checked) {
         changerClasseCss("listeCoucheHotels", "dropdown open");
         critere = 266;
@@ -83,7 +83,7 @@ $(document).on("change","#hotels",function () {
     }
 });
 
-$(document).on("change","#pharmacies",function () {
+$(document).off("change","#pharmacies").on("change","#pharmacies",function () {
     if (this.checked) {
         changerClasseCss("listeCouchePharmacies", "dropdown open");
         critere = 216;
@@ -91,14 +91,14 @@ $(document).on("change","#pharmacies",function () {
         nearbyPoisGeometryVector.changed();
     } else {
         changerClasseCss("listeCouchePharmacies", "dropdown");
-        removePoisFeatures('Pharmacies');
+        removePoisFeatures('Pharmacie');
         $("#ulPharmacies").empty();
         $("#nbrPharmacies").empty();
         $("#nbrPharmaciesTitre").empty();
     }
 });
 
-$(document).on("change","#dispensaires",function () {
+$(document).off("change","#dispensaires").on("change","#dispensaires",function () {
     if (this.checked) {
         changerClasseCss("listeCoucheDispensaires", "dropdown open");
         critere = 207;
@@ -106,7 +106,7 @@ $(document).on("change","#dispensaires",function () {
         nearbyPoisGeometryVector.changed();
     } else {
         changerClasseCss("listeCoucheDispensaires", "dropdown");
-        removePoisFeatures('Dispensaires');
+        removePoisFeatures('Dispensaire, Centre Médical');
         $("#ulDispensaires").empty();
         $("#nbrDispensaires").empty();
         $("#nbrDispensairesTitre").empty();
