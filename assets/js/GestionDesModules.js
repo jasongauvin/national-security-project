@@ -47,14 +47,18 @@ $.getScript("modules/tableauBord/tableauBord.js");
 // CHARGEMENT DU SCRIPT DU MODULE TABLEAU DE BORD LORS DU CLIQUE
 $("#tableauBord").parent().click(function () {
     if(!$(".main-navigation-menu li:eq(0)").hasClass('active open')){
+       
+        $("#style_selector").css("display", "none");
+
+
+        $(".agent-toggle").css("visibility", "hidden");
+        $('.notifyjs-wrapper').trigger('notify-hide');
+        $("#main_agent_list_content").css("display", "none");
+        $("#map").css("visibility", "hidden");
+        $("#map").css("position", "absolute");
         $("#sectionTabBord").css("visibility", "");
         $("#sectionTabBord").css("position", "");
         $("#sectionTabBord").css("height", "");
-
-        $("#map").css("visibility", "hidden");
-        $("#map").css("position", "absolute");
-        $(".agent-toggle").css("visibility", "hidden");
-        $("#main_agent_list_content").css("display", "none");
         $.getScript("modules/tableauBord/tableauBord.js");
     }
 });
@@ -70,6 +74,9 @@ $("#couchesInteret").parent().click(function () {
         $("#map").css("position", "");
         $(".agent-toggle").css("visibility", "hidden");
         $("#main_agent_list_content").css("display", "none");
+
+        $("#style_selector").css("display", "block");
+
         map.updateSize();
         $.getScript("modules/couchesInteret/couchesInteret.js");
     }
@@ -84,6 +91,9 @@ $("#gestionAgents").parent().click(function () {
         $("#map").css("visibility", "");
         $("#map").css("position", "");
         $(".agent-toggle").css("visibility", "");
+
+        $("#style_selector").css("display", "block");
+
         map.updateSize();
         $.getScript("modules/gestionAgents/gestionAgents.js");
     }
@@ -98,6 +108,9 @@ $("#accidentologie").parent().click(function () {
         $("#map").css("visibility", "");
         $("#map").css("position", "");
         $(".agent-toggle").css("visibility", "");
+        
+        $("#style_selector").css("display", "block");
+
         map.updateSize();
         $.getScript("modules/accidentologie/accidentologie.js");
     }
@@ -112,6 +125,9 @@ $("#criminologie").parent().click(function () {
         $("#map").css("visibility", "");
         $("#map").css("position", "");
         $(".agent-toggle").css("visibility", "");
+        
+        $("#style_selector").css("display", "block");
+
         map.updateSize();
         $.getScript("modules/criminologie/criminologie.js");
     }
@@ -126,6 +142,9 @@ $("#activitesRisque").parent().click(function () {
         $("#map").css("visibility", "");
         $("#map").css("position", "");
         $(".agent-toggle").css("visibility", "");
+        
+        $("#style_selector").css("display", "block");
+
         map.updateSize();
         $.getScript("modules/activitesRisque/activitesRisque.js");
     }
@@ -141,6 +160,9 @@ $("#suiviTempsReel").parent().click(function () {
         $("#map").css("position", "");
         $(".agent-toggle").css("visibility", "hidden");
         $("#main_agent_list_content").css("display", "none");
+        
+        $("#style_selector").css("display", "block");
+        
         map.updateSize();
         $.getScript("modules/suiviTempsReel/suiviTempsReel.js");
     }

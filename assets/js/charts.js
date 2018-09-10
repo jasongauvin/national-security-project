@@ -213,22 +213,6 @@ function chartLigne(container, data, titre, couleurs) {
         plotOptions: {
             series: {
                 cursor: 'pointer',
-                point: {
-                    events: {
-                        click: function (e) {
-                            hs.htmlExpand(null, {
-                                pageOrigin: {
-                                    x: e.pageX || e.clientX,
-                                    y: e.pageY || e.clientY
-                                },
-                                headingText: this.series.name,
-                                maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) + ':<br/> ' +
-                                    this.y + ' sessions',
-                                width: 200
-                            });
-                        }
-                    }
-                },
                 marker: {
                     lineWidth: 1
                 }

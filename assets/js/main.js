@@ -163,21 +163,28 @@ var Main = function () {
             }, 1000);
         });
     };
+
     //function to reduce the size of the Main Menu
     var runNavigationToggler = function () {
         $('.navigation-toggler').bind('click', function () {
             if (!$('body').hasClass('navigation-small')) {
                 $('body').addClass('navigation-small');
                 // UPDATE SIZE POUR MAP
-                statistiquesAccidentTabBord();
-                statistiquesCrimeTabBord();
-                map.updateSize();
+                if($(".main-navigation-menu li:eq(0)").hasClass('active open')){
+                    statistiquesAccidentTabBord();
+                    statistiquesCrimeTabBord();
+                }else{
+                    map.updateSize();
+                }
             } else {
                 $('body').removeClass('navigation-small');
                 // UPDATE SIZE POUR MAP
-                statistiquesAccidentTabBord();
-                statistiquesCrimeTabBord();
-                map.updateSize();
+                if($(".main-navigation-menu li:eq(0)").hasClass('active open')){
+                    statistiquesAccidentTabBord();
+                    statistiquesCrimeTabBord();
+                }else{
+                    map.updateSize();
+                }
             };
         });
     };
