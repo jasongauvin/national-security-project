@@ -360,11 +360,11 @@ function zoomToPoi(nom, coord0, coord1, el) {
             var ext = feature.getGeometry().getExtent();
             map.getView().fit(ext, map.getSize());
             var coordinates = ol.proj.transform([Number(feature.get('x')), Number(feature.get('y'))], 'EPSG:4326', 'EPSG:3857');
-            poi_popup.show(feature.getGeometry().getCoordinates(), name);
+            popup.show(feature.getGeometry().getCoordinates(), name);
             map.getView().setZoom(17);
         }
     });
-    removeActiveClass();
+//    removeActiveClass();
     $(el).addClass("active");
 }
 
@@ -394,6 +394,18 @@ function nearbyPoisContexteMenu(obj) {
     critere = 266;
     getNearbyPois(critere);
     nearbyPoisGeometryVector.changed();
+
+    //COUCHE DES PHARMACIES
+    changerClasseCss("listeCouchePharmacies", "dropdown");
+    critere = 216;
+    getNearbyPois(critere);
+    nearbyPoisGeometryVector.changed();
+
+     //COUCHE DES PHARMACIES
+     changerClasseCss("listeCoucheDispensaires", "dropdown");
+     critere = 207;
+     getNearbyPois(critere);
+     nearbyPoisGeometryVector.changed();
 
 
 }
@@ -472,7 +484,7 @@ function getNearbyPois(critere) {
         var features = mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures();
         var coordinates = ol.proj.transform(features[0].getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
 
-        var res = '', res_b = '', res_e = '', res_h = '', res_m = '';
+        var res = '', res_b = '', res_e = '', res_h = '', res_m = '', res_p = '', res_d = '';
 
         $.ajax({
             url: 'http://www.navcities.com/api/proximite/?user=demo&maxNumberOfPois=20',
@@ -508,6 +520,18 @@ function getNearbyPois(critere) {
                     $("#nbrHotels").empty();
                     $("#nbrHotels").append((result.features.length));
                     $("#nbrHotelsTitre").text($('#nbrHotels').text() + " Hôtels disponibles");
+
+                }
+                else if (critere == 216) {
+                    $("#nbrPharmacies").empty();
+                    $("#nbrPharmacies").append((result.features.length));
+                    $("#nbrPharmaciesTitre").text($('#nbrPharmacies').text() + "Pharmacies disponibles");
+
+                }
+                else if (critere == 207) {
+                    $("#nbrDispensaires").empty();
+                    $("#nbrDispensaires").append((result.features.length));
+                    $("#nbrDispensairesTitre").text($('#nbrDispensaires').text() + "Pharmacies disponibles");
 
                 }
 
@@ -556,7 +580,43 @@ function getNearbyPois(critere) {
                             if (f[i].get("siteweb") != "") {
                                 res_e += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
                             }
-                        } else if (f[i].get('souscategorie') == 'Hôtel') {
+
+                        } 
+                        else if(f[i].get('souscategorie') == 'Pharmacie'){
+                            res_p += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res_p += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res_p += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+                             if (f[i].get("tl") != "") {
+                                res_p += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                            }
+                            if (f[i].get("fax") != "") {
+                                res_p += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                            }
+                            if (f[i].get("email") != "") {
+                                res_p += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                            }
+                            if (f[i].get("siteweb") != "") {
+                                res_p += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                            }
+                        }else if(f[i].get('souscategorie') == 'Dispensaire, Centre Médical'){
+                            res_d += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
+                            res_d += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
+                            res_d += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
+                             if (f[i].get("tl") != "") {
+                                res_d += '<small><i class="icon-phone" style="color: green"></i> ' + f[i].get("tl") + '</small><br />';
+                            }
+                            if (f[i].get("fax") != "") {
+                                res_d += '<small><i class="icon-tv2"  style="color: blue"></i> ' + f[i].get("fax") + '</small><br />';
+                            }
+                            if (f[i].get("email") != "") {
+                                res_d += '<small><i class="icon-mail5"  style="color: red"></i> ' + f[i].get("email") + '</small><br />';
+                            }
+                            if (f[i].get("siteweb") != "") {
+                                res_d += '<small><i class="icon-at"  style="color: black"></i> ' + f[i].get("siteweb") + '</small><br />';
+                            }
+                        }
+                        
+                        else if (f[i].get('souscategorie') == 'Hôtel') {
                             res_h += '<a href="javascript:void(0);" onclick="zoomToPoi(\'' + f[i].get("nom").replace(/[']/g, "|") + '\',\'' + f[i].get("x") + '\',\'' + f[i].get("y") + '\', this)" class="list-group-item list-group-item-action flex-column align-items-start">';
                             res_h += '<div class="d-flex w-100 justify-content-between"><h5 style="margin-top: 0px;margin-bottom: 0px;" ><i class="glyphicon glyphicon-bookmark" style="margin-top: 11px;color: #007aff;"></i> ' + f[i].get("nom") + '</h5><small><span class="badge badge-secondary" style="background-color: #ff1744;" >' + dis + '</span></small><br /></div>';
                             res_h += '<strong>' + f[i].get("adresse") + '</strong><br />' + f[i].get("categorie") + '<br /><small>' + f[i].get("souscategorie") + '</small><br />';
@@ -617,6 +677,12 @@ function getNearbyPois(critere) {
                 if (critere == 301) {
                     $("#ulMosquees").empty();
                     $("#ulMosquees").append(res + res_m + fin);
+                }else if (critere == 216) {
+                    $("#ulPharmacies").empty();
+                    $("#ulPharmacies").append(res+res_p+fin);
+                }else if (critere == 207) {
+                    $("#ulDispensaires").empty();
+                    $("#ulDispensaires").append(res+res_d+fin);
                 } else if (critere == 150) {
                     $("#ulBanques").empty();
                     $("#ulBanques").append(res + res_b + fin);
@@ -650,10 +716,12 @@ function getFeatureStyle(feature) {
     function AppliquerStyleIcone(img) {
         st.push(new ol.style.Style({
             image: new ol.style.Icon(({
-                anchor: [0.5, 46],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                src: "assets/img/" + img + ".png"
+                // anchor: [0.5, 46],
+                // anchorXUnits: 'fraction',
+                // anchorYUnits: 'pixels',
+
+                anchor: [0.5, 1],
+        src: "assets/img/" + img + ".png"
             }))
         }));
     }
@@ -670,6 +738,12 @@ function getFeatureStyle(feature) {
             break;
         case "Hôtel":
             AppliquerStyleIcone("hotel");
+            break;
+        case "Pharmacie":
+            AppliquerStyleIcone("pharmacie");
+            break;
+        case "Dispensaire, Centre Médical":
+            AppliquerStyleIcone("dispensaire");
             break;
     }
 
