@@ -90,7 +90,7 @@
 						<img src="assets/img/logo.png">
 					</a>
 					<!-- /LOGO -->
-					<div><p style="text-shadow: -1px -1px 1px #aaa;width: 160px;padding-top: 5p;margin-bottom: 0px;margin-top: 6.5px;text-align: right;">La direction générale de la sûreté nationale</p></div>
+					<div><a href="" style="color:inherit;text-decoration: none;"><p style="text-shadow: -1px -1px 1px #aaa;width: 160px;padding-top: 5p;margin-bottom: 0px;margin-top: 6.5px;text-align: right;">La direction générale de la sûreté nationale</p></a></div>
 
 				</div>
 				
@@ -347,7 +347,7 @@
 					<ul class="main-navigation-menu">
 						<li class="active open">
 							<a href="#"><i class="fas fa-tachometer-alt"></i>
-								<span class="title">TABLEAU DE BORD</span><span class="selected"></span>
+								<span id="tableauBord" class="title">TABLEAU DE BORD</span><span class="selected"></span>
 							</a>
 						</li>
 						<li class="">
@@ -438,8 +438,12 @@
 					</div>
 					
 					<!-- SECTION MAP -->
-					<div id="map"></div>
+					<div id="map" style="visibility: hidden"></div>
 					<!-- /SECTION MAP -->
+
+					<!-- SECTION TABLEAU DE BORD -->
+					<div id="sectionTabBord"></div>
+					<!-- SECTION TABLEAU DE BORD -->
 					
 					<!-- TABLE DES DONNÉES ATTRIBUTAIRES -->
 					<div id="main_agent_list_content_toggle">
@@ -826,6 +830,18 @@
 		<script src="assets/plugins/data-tables/buttons.html5.min.js"></script>
 		<script src="assets/plugins/data-tables/buttons.print.min.js"></script>
 		<!-- /SCRIPT DATATABLE-EXPORTATION -->
+
+		<!-- SCRIPT HIGHCHARTS -->
+		<script src="assets/plugins/highcharts/highcharts.js"></script>
+		<script src="assets/plugins/highcharts/data.js"></script>
+		<script src="assets/plugins/highcharts/series-label.js"></script>	
+		<script src="assets/plugins/highcharts/exporting.js"></script>
+		<script src="assets/plugins/highcharts/export-data.js"></script>
+		<!-- /SCRIPT HIGHCHARTS -->
+		
+		<!-- SCRIPT DE GESTION DES CHARTS -->
+		<script src="assets/js/charts.js"></script>
+		<!-- /SCRIPT DE GESTION DES CHARTS -->
 		
 		<!-- SCRIPT DE LA GESTION DES MODULES -->
 		<script src="assets/js/GestionDesModules.js"></script>
@@ -876,18 +892,6 @@
 		<script src="assets/plugins/libsXlsxXls/xls/xls.core.min.js"></script>
 		<script src="assets/plugins/libsXlsxXls/xlsx/xlsx.core.min.js"></script>
 		<!-- /SCRIPT DE GESTION DES FICHIERS .XLSX ET XLS -->
-
-		<!-- SCRIPT HIGHCHARTS -->
-		<script src="assets/plugins/highcharts/highcharts.js"></script>
-		<script src="assets/plugins/highcharts/data.js"></script>
-		<script src="assets/plugins/highcharts/series-label.js"></script>	
-		<script src="assets/plugins/highcharts/exporting.js"></script>
-		<script src="assets/plugins/highcharts/export-data.js"></script>
-		<!-- /SCRIPT HIGHCHARTS -->
-
-		<!-- SCRIPT DE GESTION DES CHARTS -->
-		<script src="assets/js/charts.js"></script>
-		<!-- /SCRIPT DE GESTION DES CHARTS -->
 
 		<!-- SCRIPT DU TURF -->
 		<script src="assets/plugins/turf/turf.min.js"></script>

@@ -270,7 +270,6 @@ $(document).off("change", "#fichierExcel").on("change", "#fichierExcel", functio
             noms_cols_excel: Object.keys(json[0]),
             lignes_excel: json
         }
-        console.log(json);
         error_fatale = function (jqXhr) {
             rapportErreurs(jqXhr);
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des accidents");
@@ -423,7 +422,6 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
             }
             
             chartZoomable("chartZoomable", resultat.chartZoomable, titre1, "Nombre de victimes");
-            console.log(resultat.chartZoomable);
             chartPie("piePourceBlesMorts", resultat.piePourceBlesMorts, titre2, ['#ff4444', '#33b5e5']);
             chartPie("piePourceGravite", resultat.piePourceGravite, titre3, ['#1b5e20', '#4caf50', '#c8e6c9']);
 
@@ -442,7 +440,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
                     radius: 4
                 }
             }]
-
+            
             chartLigne("chartLigneBlesMorts", donnees, titre4, ["#00695c", "#e65100 "]);
 
             chartPie("piePourceTranchesH", resultat.piePourceTranchesH, titre5, ["#795548", '#aa66cc', '#00C851', '#2BBBAD']);

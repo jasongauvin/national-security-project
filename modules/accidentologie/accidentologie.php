@@ -241,10 +241,10 @@ if($_POST['statistiques']){
     if($req4) {
 		while($ligne = pg_fetch_assoc($req4)) {
             array_push($chartLigneBles,
-                [intval($ligne["dateheure"]), intval($ligne["nbrblesses"])]
+                [intval($ligne["dateheure"])*1000, intval($ligne["nbrblesses"])]
             );
             array_push($chartLigneMorts,
-                [intval($ligne["dateheure"]), intval($ligne["nbrmorts"])]
+                [intval($ligne["dateheure"])*1000, intval($ligne["nbrmorts"])]
             );
         }
     }

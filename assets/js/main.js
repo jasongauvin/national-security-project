@@ -62,6 +62,7 @@ var Main = function () {
     var runContainerHeight = function () {
         // MAP DIV
         mapdiv = $('#map');
+        tabBorddiv = $('#sectionTabBord');
         // /MAP DIV
         mainContainer = $('.main-content > .container');
         mainNavigation = $('.main-navigation');
@@ -75,6 +76,7 @@ var Main = function () {
             mainContainer.css('min-height', $pageArea);
             // MAP HEIGHT RELATIVE AU CONTAINER
             mapdiv.css('height', $pageArea);
+            tabBorddiv.css('height', $pageArea);
             map.updateSize();
         };
         if ($windowWidth < 768) {
@@ -167,10 +169,12 @@ var Main = function () {
             if (!$('body').hasClass('navigation-small')) {
                 $('body').addClass('navigation-small');
                 // UPDATE SIZE POUR MAP
+                statistiquesTabBord();
                 map.updateSize();
             } else {
                 $('body').removeClass('navigation-small');
                 // UPDATE SIZE POUR MAP
+                statistiquesTabBord();
                 map.updateSize();
             };
         });

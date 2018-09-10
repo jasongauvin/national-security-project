@@ -7,6 +7,11 @@ function changerClasseCss(id, classe) {
 // INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
 function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, largeurMenu, marginTop) {
 
+    // AFFICHER MENU DROIT TOGGLE
+    $("#boutonToggle").css("visibility", "visible");
+    $("#style_selector").css("visibility", "visible");
+    // /AFFICHER MENU DROIT TOGGLE
+
     // CHANGEMENT DE TEXTE DANS LA BALISE <title>
     $("title").text($('#' + idModule).text());
     // /CHANGEMENT DE TEXTE DANS LA BALISE <title>

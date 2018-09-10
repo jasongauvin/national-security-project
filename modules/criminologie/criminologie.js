@@ -272,7 +272,6 @@ $(document).off("change", "#fichierExcel").on("change", "#fichierExcel", functio
             noms_cols_excel: Object.keys(json[0]),
             lignes_excel: json
         }
-        console.log(json);
         error_fatale = function (jqXhr) {
             rapportErreurs(jqXhr);
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'importation des crimes");
