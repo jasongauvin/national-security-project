@@ -349,6 +349,9 @@ $(document).off("click", "#supprimerCrimeBouton").on("click", "#supprimerCrimeBo
 // PARTIE HISTORIQUE
 $(document).off("click", "#historiqueCrimeBouton").on("click", "#historiqueCrimeBouton", function (e) {
 
+    $('#dateDebH').datetimepicker('destroy');
+    $('#dateFinH').datetimepicker('destroy');
+    
     $("#dateDebH").datetimepicker({
         maxDate: 0,
         minDate: mindatec,

@@ -346,6 +346,10 @@ $(document).off("click", "#SupprimerAccidentBouton").on("click", "#SupprimerAcci
 
 // PARTIE HISTORIQUE
 $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAccidentBouton", function (e) {
+    
+    $('#dateDebH').datetimepicker('destroy');
+    $('#dateFinH').datetimepicker('destroy');
+
     $("#dateDebH").datetimepicker({
         maxDate: 0,
         minDate: mindate,

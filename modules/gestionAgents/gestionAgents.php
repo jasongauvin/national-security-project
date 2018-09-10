@@ -221,10 +221,18 @@ if($_POST['tableAttributaire']){
 }
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
 
-// AGENTS A PROXIMITE
-
-// /AGENTS A PROXIMITE
-
-
-
+// LE CAS DU SELECTION DE LA DATE MIN
+if($_POST['mindate']){
+    $req = executerRequete("SELECT to_char(MIN(dateheure), 'dd/mm/yyyy') AS mindate FROM agent");
+    
+    if($req) {
+		while($ligne = pg_fetch_assoc($req)) {
+            echo json_encode(
+                $ligne['mindate']
+            );
+        }
+    }
+    
+}
+// /LE CAS DU SELECTION DE LA DATE MIN
 ?>

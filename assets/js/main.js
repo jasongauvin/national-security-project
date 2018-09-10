@@ -169,12 +169,14 @@ var Main = function () {
             if (!$('body').hasClass('navigation-small')) {
                 $('body').addClass('navigation-small');
                 // UPDATE SIZE POUR MAP
-                statistiquesTabBord();
+                statistiquesAccidentTabBord();
+                statistiquesCrimeTabBord();
                 map.updateSize();
             } else {
                 $('body').removeClass('navigation-small');
                 // UPDATE SIZE POUR MAP
-                statistiquesTabBord();
+                statistiquesAccidentTabBord();
+                statistiquesCrimeTabBord();
                 map.updateSize();
             };
         });

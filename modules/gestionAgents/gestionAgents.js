@@ -1,6 +1,6 @@
 // DECLARATION DES VARIABLES
 var agent_police_geojson = new ol.format.GeoJSON(), source_couche_agent = new ol.source.Vector();
-var draw, json, coords, coucheAgent;
+var draw, json, coords, coucheAgent, mindate_agent;
 // /DECLARATION DES VARIABLES
 
 // LE STYLE CSS DU CONTENU HTML DU MENU DROIT
@@ -36,9 +36,17 @@ cliqueLigneTableAttr(coucheAgent, "Agent");
 // /GESTION DE CLIQUE SUR UNE LIGNE DE LA TABLE ATTRIBUTAIRE D'AGENTS
 
 
+// FAIRE RESSORTIR LA DATE MIN
+data = {
+    mindate: true
+}
+success = function (resultat) {
+    mindate_agent = resultat;
+}
+ajax("modules/gestionAgents/gestionAgents.php", data, undefined, success);
+// /FAIRE RESSORTIR LA DATE MIN
+
 // CAS DE MODIFICATION
-
-
 $(document).off("change", "#modifierAgent #Mobilite").on("change", "#modifierAgent #Mobilite", function() {
     if(this.value == "true"){
         $("#modifierAgent #imei").parent().show()
@@ -356,7 +364,37 @@ $(document).off("click", "#SupprimerAgentBouton").on("click", "#SupprimerAgentBo
 
 // PARTIE HISTORIQUE
 $(document).off("click", "#historiqueAgentBouton").on("click", "#historiqueAgentBouton", function (e) {
+
+    $('#dateDebH').datetimepicker('destroy');
+    $('#dateFinH').datetimepicker('destroy');
     
+    $("#dateDebH").datetimepicker({
+        maxDate: 0,
+        minDate: mindate_agent,
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateFinH").datepicker("option", "minDate", $("#dateDebH").datepicker("getDate"));
+        }
+    });
+
+    $("#dateFinH").datetimepicker({
+        maxDate: 0,    
+        currentText: "Maintenant",
+        closeText: "Ok",
+        timeInput: true,
+        timeText: "",
+        hourText: "Heure",
+        minuteText: "Minute",
+        onSelect: function(){
+            $("#dateDebH").datepicker("option", "maxDate", $("#dateFinH").datepicker("getDate"));
+        }
+    });
+
     // REMPLISSAGE DE LA TABLE D'HISTORIQUE
     remplirTableHistorique("agent", "modules/gestionAgents/gestionAgents.php");
     // /REMPLISSAGE DE LA TABLE D'HISTORIQUE
