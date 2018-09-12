@@ -63,7 +63,7 @@ var contextmenu_items = [
         callback: nearbyPoisContexteMenu
     },
     {
-        text: 'Rafraichir la carte',
+        text: 'Rafraichir',
         icon: refresh_icon,
         callback: reloadMap
     },
@@ -81,16 +81,20 @@ map.addControl(contextmenu);
 
 function roadFromHere(obj) {
     changerClasseCss("itineraire", "dropdown open");
+    $("#start_location_input").next().addClass("active");
+
     $("#direction_road_map_content").show();
     var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-    getSelectedAddressRoad('Where you clicked: Start', c[0], c[1], 'start_location_suggestion_list', 'start_location_input', 'start');
+    getSelectedAddressRoad('Départ', c[0], c[1], 'start_location_suggestion_list', 'start_location_input', 'start');
 }
 
 function roadToHere(obj) {
     changerClasseCss("itineraire", "dropdown open");
+    $("#destination_input").next().addClass("active")
+
     $("#direction_road_map_content").show();
     var c = ol.proj.transform(obj.coordinate, 'EPSG:3857', 'EPSG:4326');
-    getSelectedAddressRoad('Where you clicked: Destination', c[0], c[1], 'destination_suggestion_list', 'destination_input', 'destination');
+    getSelectedAddressRoad('Destination', c[0], c[1], 'destination_suggestion_list', 'destination_input', 'destination');
 }
 
 var direction_start_popup = new ol.Overlay.Popup(
@@ -759,11 +763,11 @@ function getAddressRoadList(string, id, url, id_input,type){
                     name = name.replace(/[']/g, "|");
                     //console.log(name);
                     if(features[i].properties.typedata=='POI'){
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-marker-alt"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect" style="padding-left: 20px !important;"><i class="fas fa-map-marker-alt"></i> '+features[i].properties.nom+' '+features[i].properties.adresse+'</a>';	
                     }else if(features[i].properties.typedata=='Localite'){
-                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
+                        res+='<a href="javascript:void(0)"  onclick="getSelectedAddressRoad(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect" style="padding-left: 20px !important;"><i class="fas fa-map-signs"></i> '+features[i].properties.adresse+'</a>';
                     }else{
-                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoadDepart(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
+                        res+='<a href="javascript:void(0)" onclick="getSelectedAddressRoadDepart(\''+name+'\', '+features[i].geometry.coordinates[0]+', '+features[i].geometry.coordinates[1]+',\''+id+'\',\''+id_input+'\',\''+type+'\');" class="list-group-item list-group-item-action waves-effect" style="padding-left: 20px !important;"><i class="fas fa-road"></i> '+features[i].properties.nom+'</a>';
                     }
                     
                 }
@@ -771,7 +775,6 @@ function getAddressRoadList(string, id, url, id_input,type){
                 $("#"+id).empty();
                 $("#"+id).append(res);
             }
-            //console.log(result.features);
         },
         error: function(){
             console.log('error parse !');

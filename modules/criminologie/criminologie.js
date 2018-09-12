@@ -484,13 +484,7 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
 // /PARTIE STATISTIQUES
 
 // PARTIE THÉMATIQUES
-$(document).off("click", "#centroideCrimes").on("click", "#centroideCrimes", function (e) {
 
-    reinit();
-    // CALCULE DU CENTROÏDE
-    pulse(calculerCentroide(coucheCrime),"Le centroïde des crimes");
-    // /CALCULE DU CENTROÏDE
-});
 
 $(document).off("click", "#heatMapCrimes").on("click", "#heatMapCrimes", function (e) {
 

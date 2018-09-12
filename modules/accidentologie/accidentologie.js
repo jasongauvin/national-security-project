@@ -500,13 +500,6 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
 // /PARTIE STATISTIQUES
 
 // PARTIE THÉMATIQUES
-$(document).off("click", "#centroideAccidents").on("click", "#centroideAccidents", function (e) {
-
-    reinit();
-    // CALCULE DU CENTROÏDE
-    pulse(calculerCentroide(coucheAccident), "Le centroïde des accidents");
-    // /CALCULE DU CENTROÏDE
-});
 
 $(document).off("click", "#heatMapAccidents").on("click", "#heatMapAccidents", function (e) {
 
