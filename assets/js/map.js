@@ -126,8 +126,18 @@ function supprimerCouches(couche) {
     }
     if (typeof buffer_trajet !== "undefined") {
         couches.push(buffer_trajet);
-    }if (typeof nearbyPoisGeometryVector !== "undefined") {
+    }
+    if (typeof nearbyPoisGeometryVector_M !== "undefined") {
+        couches.push(nearbyPoisGeometryVector_M);
+    }
+    if (typeof nearbyPoisGeometryVector !== "undefined") {
         couches.push(nearbyPoisGeometryVector);
+    }
+    if (typeof mapAdvancedSearch_AddressGeometryVector_M !== "undefined") {
+        couches.push(mapAdvancedSearch_AddressGeometryVector_M);
+    }
+    if (typeof mapAdvancedSearch_AddressGeometryVector !== "undefined") {
+        couches.push(mapAdvancedSearch_AddressGeometryVector);
     }
     if (typeof pts_intersection !== "undefined") {
         couches.push(pts_intersection);
