@@ -101,6 +101,20 @@ function supprimerCouches(couche) {
     if (typeof coucheSuivi !== "undefined") {
         couches.push(coucheSuivi);
     }
+    if (typeof trajet !== "undefined") {
+        couches.push(trajet);
+    }
+    if (typeof pts_inters !== "undefined") {
+        couches.push(pts_inters);
+    }
+    if (typeof pts_inters2 !== "undefined") {
+        couches.push(pts_inters2);
+    }
+    if (typeof buffer_trajet !== "undefined") {
+        couches.push(buffer_trajet);
+    }if (typeof nearbyPoisGeometryVector_M !== "undefined") {
+        couches.push(nearbyPoisGeometryVector_M);
+    }
     if (typeof pts_intersection !== "undefined") {
         couches.push(pts_intersection);
 

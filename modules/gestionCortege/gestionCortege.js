@@ -1,7 +1,7 @@
 // DECLARATION DES VARIABLES
-var source = new ol.source.Vector({ wrapX: false });
+var source_trajet = new ol.source.Vector({ wrapX: false });
 var trajet = new ol.layer.Vector({
-    source: source,
+    source: source_trajet,
     style: new ol.style.Style({
         fill: new ol.style.Fill({
             color: 'rgba(255, 255, 255, 0.2)'
@@ -19,8 +19,8 @@ var trajet = new ol.layer.Vector({
     })
 });
 var draw, snap;
-var modify = new ol.interaction.Modify({ source: source });
-var pts_inters, buffer_trajet;
+var modify = new ol.interaction.Modify({ source: source_trajet });
+var pts_inters, pts_inters2, buffer_trajet;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -54,7 +54,7 @@ function style_pts() {
             radius: 7,
             fill: new ol.style.Fill({ color: 'black' }),
             stroke: new ol.style.Stroke({
-                color: [255, 0, 0], width: 2
+                color: [0, 200, 81], width: 2
             })
         })
     }),
@@ -83,14 +83,50 @@ function style_pts() {
 }
 // /STYLE DES BOUCHONS
 
+// STYLES DES POIS
+function style_pts2() {
+    return [new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 7,
+            fill: new ol.style.Fill({ color: 'black' }),
+            stroke: new ol.style.Stroke({
+                color: [255, 0, 0], width: 2
+            })
+        })
+    }),
+    new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: '#FF0000'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#000000',
+            width: 3
+        }),
+        text: new ol.style.Text({
+            font: '13px sans-serif',
+            fill: new ol.style.Fill({ color: '#FF0000' }),
+            stroke: new ol.style.Stroke({
+                color: '#000000', width: 3
+            }),
+            text: this.get('description')
+            ,
+            offsetX: 45,
+            offsetY: 0,
+            rotation: 0
+        })
+    })
+    ];
+}
+// /STYLES DES POIS
+
 // AJOUT D'INTERACTION DRAW
 function addInteractions() {
     draw = new ol.interaction.Draw({
-        source: source,
+        source: source_trajet,
         type: "LineString"
     });
     map.addInteraction(draw);
-    snap = new ol.interaction.Snap({ source: source });
+    snap = new ol.interaction.Snap({ source: source_trajet});
     map.addInteraction(snap);
 }
 // /AJOUT D'INTERACTION DRAW
@@ -98,7 +134,7 @@ function addInteractions() {
 // DESSIN DU TRAJET
 $(document).off("click", "#dessinerCheminGestionCortege").on("click", "#dessinerCheminGestionCortege", function (e) {
 
-    source.clear();
+    source_trajet.clear();
     map.addLayer(trajet);
     map.addInteraction(modify);
     addInteractions();
@@ -108,16 +144,25 @@ $(document).off("click", "#dessinerCheminGestionCortege").on("click", "#dessiner
 
 // REINITIALISATION DU DESSIN
 $(document).off("click", "#reinitGestionCortege").on("click", "#reinitGestionCortege", function (e) {
-    source.clear();
-    map.removeLayer(buffer_trajet);
+    $("#nbrAgentsPoi").val(1);
+    $("#nbrAgentsBouchon").val(1);
+    $("#buffer").val(20);
     
+    source_trajet.clear();
+    popup.hide();
+    map.removeLayer(buffer_trajet);
+
     map.removeInteraction(modify);
     map.removeInteraction(draw);
     map.removeInteraction(snap);
     map.removeLayer(trajet);
 
     map.removeLayer(pts_inters);
+    map.removeLayer(pts_inters2);
     map.removeLayer(buffer_trajet);
+
+    map.removeLayer(nearbyPoisGeometryVector_M);
+
 });
 // /REINITIALISATION DU DESSIN
 
@@ -127,16 +172,17 @@ $(document).off("click", "#appliquerGestionCortege").on("click", "#appliquerGest
     map.removeInteraction(snap);
 
     map.removeLayer(pts_inters);
+    map.removeLayer(pts_inters2);
     map.removeLayer(buffer_trajet);
 
-    if(trajet.getSource().getFeatures().length === 0){
+    if (trajet.getSource().getFeatures().length === 0) {
         afficherNotif("warning", "Veuillez dessiner un trajet");
-    }else if(trajet.getSource().getFeatures().length > 1){
+    } else if (trajet.getSource().getFeatures().length > 1) {
         afficherNotif("warning", "Veuillez dessiner un seul trajet, vous avez dessiné plusieurs trajets");
-    }else{
+    } else {
 
         // BUFFER DE LA MARCHE
-        buffer = turf.buffer(coucheVersGeoJSON(trajet), 10/1000); // Unité kilomètre
+        buffer = turf.buffer(coucheVersGeoJSON(trajet), parseInt($("#buffer").val()) / 1000); // Unité kilomètre
 
         buffer_trajet = new ol.layer.Vector({
             source: new ol.source.Vector({
@@ -146,28 +192,60 @@ $(document).off("click", "#appliquerGestionCortege").on("click", "#appliquerGest
                 fill: new ol.style.Fill({
                     color: [0, 188, 212, 0.7]
                 })
-              })
+            })
         });
         map.addLayer(buffer_trajet);
         // /BUFFER DE LA MARCHE
 
-        // POINTS D'INTERSECTION
-        intersection = turf.lineIntersect(coucheVersGeoJSON(coucheRues), buffer);
-        
-        pts_inters = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                features: geojson.readFeatures(intersection, { featureProjection: 'EPSG:3857' })
-            })
-        });
-        id_bouchon = 1;
-        pts_inters.getSource().getFeatures().forEach(function (pts) {
-            //tab_bouchons.push(ol.proj.toLonLat(pts.getGeometry().getCoordinates()));
-            pts.set('description', "   Bouchon N° " + id_bouchon++);
-            pts.setStyle(style_pts);
-        });
+        // AFFICHAGE DES POINTS D'INTÉRÊTS
+        nearbyPoisGeometryVector_M.getSource().clear();
+        map.removeLayer(nearbyPoisGeometryVector_M);
 
-        map.addLayer(pts_inters);
-        // /POINTS D'INTERSECTION
+        nearbyPoisContexteMenu({ "coordinate": [ol.proj.transform(turf.pointOnFeature(buffer).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[0], ol.proj.transform(turf.pointOnFeature(buffer).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[1]] });
+
+        setTimeout(function () {
+            map.addLayer(nearbyPoisGeometryVector_M);
+            // POINTS D'INTERSECTION
+            intersection = turf.lineIntersect(coucheVersGeoJSON(coucheRues), buffer);
+            intersection2 = turf.pointsWithinPolygon(coucheVersGeoJSON(nearbyPoisGeometryVector_M), buffer);
+
+            console.log(intersection);
+            console.log(intersection2);
+
+            id_bouchon = 1;
+            id_poi = 1;
+
+            pts_inters = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features:   geojson.readFeatures(intersection, { featureProjection: 'EPSG:3857' })
+                })
+            });
+
+            pts_inters2 = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features:   geojson.readFeatures(intersection2, { featureProjection: 'EPSG:3857' })
+                })
+            });
+
+
+            pts_inters.getSource().getFeatures().forEach(function (pts) {
+                pts.set('description', "    Bouchon N° " + id_bouchon++);
+                pts.setStyle(style_pts);
+            });
+            
+            pts_inters2.getSource().getFeatures().forEach(function (pts) {
+                pts.set('description', "  Poi N° " + id_poi++);
+                pts.setStyle(style_pts2);
+            });
+            
+            map.addLayer(pts_inters);
+            map.addLayer(pts_inters2);
+
+            // map.getView().fit(trajet.getSource().getFeatures()[0].getGeometry(), map.getSize());
+            popup.show(ol.proj.transform(turf.pointOnFeature(coucheVersGeoJSON(trajet)).geometry.coordinates, 'EPSG:4326', map.getView().getProjection()), "Nombre de bouchons : "+(id_bouchon-1)+" | Nombre d'agents pour les bouchons : "+((id_bouchon-1)*parseInt($("#nbrAgentsBouchon").val()))+"<br>Nombre de pois : "+(id_poi-1)+" | Nombre d'agents pour les pois : "+((id_poi-1)*parseInt($("#nbrAgentsPoi").val()))+"<br>Nombre total d'agents : "+(((id_bouchon-1)*parseInt($("#nbrAgentsBouchon").val()))+((id_poi-1)*parseInt($("#nbrAgentsPoi").val()))));
+
+        }, 2000);
+
     }
 
 

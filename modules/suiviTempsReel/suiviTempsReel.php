@@ -7,7 +7,7 @@ require_once "../../assets/php/fonctions.php";
 // CAS DU REMPLISSAGE DES INPUTS SELECT
 if($_POST['selection']){
     $donnees = array();
-    $req = executerRequete("SELECT nom, prenom, imei FROM agent WHERE mobilite = true");
+    $req = executerRequete("SELECT nom, prenom, imei FROM agent WHERE mobilite = true AND imei IS NOT NULL");
     
     if($req) {
 		while($ligne = pg_fetch_assoc($req)) {

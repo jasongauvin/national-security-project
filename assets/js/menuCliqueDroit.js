@@ -1,3 +1,16 @@
+var mapAdvancedSearch_AddressStyleM = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: 'assets/img/marker.png'
+    })
+});
+
+var mapAdvancedSearch_AddressGeometryVector_M = new ol.layer.Vector(
+    {
+        name: 'MapAdvancedSearch_Address',
+        source: new ol.source.Vector(),
+        style: mapAdvancedSearch_AddressStyleM
+    });
 
 //ICON DE LA RUBRIQUE RAFRAICHIR
 
@@ -342,17 +355,17 @@ function reloadMap(obj) {
 
 
 function removePoisFeatures(categorie) {
-    nearbyPoisGeometryVector.getSource().forEachFeature(function (feature) {
+    nearbyPoisGeometryVector_M.getSource().forEachFeature(function (feature) {
         if (feature.get('souscategorie') == categorie) {
-            nearbyPoisGeometryVector.getSource().removeFeature(feature);
+            nearbyPoisGeometryVector_M.getSource().removeFeature(feature);
         }
     });
     $("#nearby_pois_count").empty();
-    $("#nearby_pois_count").append(nearbyPoisGeometryVector.getSource().getFeatures().length + ' POIS');
+    $("#nearby_pois_count").append(nearbyPoisGeometryVector_M.getSource().getFeatures().length + ' POIS');
 }
 
 function zoomToPoi(nom, coord0, coord1, el) {
-    nearbyPoisGeometryVector.getSource().forEachFeature(function (feature) {
+    nearbyPoisGeometryVector_M.getSource().forEachFeature(function (feature) {
         var name = feature.get('nom').replace(/[']/g, "|");
         var cx = feature.get('x');
         var cy = feature.get('y');
@@ -374,38 +387,38 @@ function nearbyPoisContexteMenu(obj) {
     //COUCHE DES ECOLES
     changerClasseCss("listeCoucheEcoles", "dropdown");
     critere = 142;
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
+    getNearbyPois_menuCliDroit(critere);
+    nearbyPoisGeometryVector_M.changed();
 
     //COUCHE DES MOSQUEES
     changerClasseCss("listeCoucheMosquees", "dropdown");
     critere = 301;
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
+    getNearbyPois_menuCliDroit(critere);
+    nearbyPoisGeometryVector_M.changed();
 
     //COUCHE DES BANQUES
     changerClasseCss("listeCoucheBanques", "dropdown");
     critere = 150;
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
+    getNearbyPois_menuCliDroit(critere);
+    nearbyPoisGeometryVector_M.changed();
 
     //COUCHE DES HOTELS
     changerClasseCss("listeCoucheHotels", "dropdown");
     critere = 266;
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
+    getNearbyPois_menuCliDroit(critere);
+    nearbyPoisGeometryVector_M.changed();
 
     //COUCHE DES PHARMACIES
     changerClasseCss("listeCouchePharmacies", "dropdown");
     critere = 216;
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
+    getNearbyPois_menuCliDroit(critere);
+    nearbyPoisGeometryVector_M.changed();
 
      //COUCHE DES PHARMACIES
      changerClasseCss("listeCoucheDispensaires", "dropdown");
      critere = 207;
-     getNearbyPois(critere);
-     nearbyPoisGeometryVector.changed();
+     getNearbyPois_menuCliDroit(critere);
+     nearbyPoisGeometryVector_M.changed();
 
 
 }
@@ -413,75 +426,34 @@ function nearbyPoisContexteMenu(obj) {
 
 
 function getNearbyPoisPopup(name, longitude, latitude) {
-    mapAdvancedSearch_AddressGeometryVector.getSource().clear();
+    mapAdvancedSearch_AddressGeometryVector_M.getSource().clear();
     map_advanced_search_address_popup.hide(undefined, '');
     $("#address_find_input").val(name);
     $("#nearby_address").empty();
     $("#nearby_address").append(name);
     var point_pos_search_inp = new ol.geom.Point([longitude, latitude]);
     var point_position_search_inp = new ol.Feature(point_pos_search_inp);
-    mapAdvancedSearch_AddressGeometryVector.getSource().addFeature(point_position_search_inp);
-
-
-    /*------------------------ Banque ---------------------*/
-
-    removePoisFeatures('Banque');
-    $('#banque_tab').empty();
-    critere = 150;
-    $("#banque_btn").prop('checked', true);
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
-
-    /*------------------------ Mosquee ---------------------*/
-
-    removePoisFeatures('Mosquée');
-    $('#mosque_tab').empty();
-    critere = 301;
-    $("#mosque_btn").prop('checked', true);
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
-
-    /*------------------------- Ecoles --------------------*/
-
-    removePoisFeatures('Ecole Supérieure Et Institut Public');
-    $('#ecoles_tab').empty();
-    critere = 142;
-    $("#ecoles_btn").prop('checked', true);
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
-
-    /*-------------------------- Hotel ---------------------*/
-
-    removePoisFeatures('Hôtel');
-    $('#hotel_tab').empty();
-    critere = 266;
-    $("#hotel_btn").prop('checked', true);
-    getNearbyPois(critere);
-    nearbyPoisGeometryVector.changed();
+    mapAdvancedSearch_AddressGeometryVector_M.getSource().addFeature(point_position_search_inp);
 }
-
-
 
 function nearbyPoisStyle(feature, resolution) {
     var s = getFeatureStyle(feature);
     return s;
 };
 
-
-
-var nearbyPoisGeometryVector = new ol.layer.Vector(
+var nearbyPoisGeometryVector_M = new ol.layer.Vector(
     {
         name: 'Nearby Pois',
         source: new ol.source.Vector(),
         style: nearbyPoisStyle
     });
-map.addLayer(nearbyPoisGeometryVector);
+map.addLayer(nearbyPoisGeometryVector_M);
 
 
-function getNearbyPois(critere) {
+function getNearbyPois_menuCliDroit(critere) {
 
-    if (mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures().length > 0) {
-        var features = mapAdvancedSearch_AddressGeometryVector.getSource().getFeatures();
+    if (mapAdvancedSearch_AddressGeometryVector_M.getSource().getFeatures().length > 0) {
+        var features = mapAdvancedSearch_AddressGeometryVector_M.getSource().getFeatures();
         var coordinates = ol.proj.transform(features[0].getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
 
         var res = '', res_b = '', res_e = '', res_h = '', res_m = '', res_p = '', res_d = '';
@@ -505,7 +477,7 @@ function getNearbyPois(critere) {
                 }
                 else if (critere == 142) {
                     $("#nbrEcoles").empty();
-                    // $("#nbrEcoles").append((result.features.length + nearbyPoisGeometryVector.getSource().getFeatures().length));
+                    // $("#nbrEcoles").append((result.features.length + nearbyPoisGeometryVector_M.getSource().getFeatures().length));
                     $("#nbrEcoles").append((result.features.length));
                     $("#nbrEcolesTitre").text($('#nbrEcoles').text() + " Écoles disponibles");
 
@@ -538,8 +510,8 @@ function getNearbyPois(critere) {
 
                 var features = geojsonFormat_geom.readFeatures(result, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' });
 
-                nearbyPoisGeometryVector.getSource().addFeatures(features);
-                var f = nearbyPoisGeometryVector.getSource().getFeatures();
+                nearbyPoisGeometryVector_M.getSource().addFeatures(features);
+                var f = nearbyPoisGeometryVector_M.getSource().getFeatures();
 
                 if (f.length > 0) {
                     res += '<div class="todo-actions" style="overflow-y: scroll; height:250px;" >';
