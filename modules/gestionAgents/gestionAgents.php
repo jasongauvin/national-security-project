@@ -4,22 +4,6 @@
 require_once "../../assets/php/fonctions.php";
 // /INCLURE DES FONCTIONS UTILES PHP-POSTGRES
 
-function ConvertDistance ($longueur) {
-	//$longueur input en kilometre
-
-	//on le converti ensuite en metre
-	$longueur=round($longueur,0);
-	if ($longueur>=1000) {
-	$longueur = round($longueur,0);
-	$longueur_metre=$longueur % 1000;
-	$longueur_km = ($longueur - $longueur_metre)/1000;
-	$msg= $longueur_km.'km'.$longueur_metre.'m';
-	} else {
-	$msg= $longueur.'m';
-	}
-	return $msg;
-}
-
 
 // LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE AGENT
 if($_POST["importation"]){
@@ -133,32 +117,6 @@ if($_GET['table']){
 
 	if($query) {
         $result =executerRequete("SELECT gid, st_asgeojson(emplacement) as geom, st_Distance(ST_Transform(emplacement,900913),ST_Transform(ST_GeomFromText('POINT(".$_GET["emplacement"][0]." ".$_GET["emplacement"][1].")',4326),900913)) as dis FROM agent order by dis asc");
-    //     if($result) {
-	// 	    while($row = pg_fetch_assoc($result)) {
-	// 	    	if($row['mobilite']=='Fixe'){
-	// 	    		$type='<span class="badge badge-success">'.$row['mobilite'].'</span>';
-	// 	    	}else{
-	// 	    		$type='<span class="badge badge-secondary">'.$row['mobilite'].'</span>';
-	// 	    	}
-	// 	    	$list[] = array(
-	// 	    		'gid' => $row['gid'],
-	// 	    		'nom' => $row['nom'], 
-	// 	    		'prenom' => $row['prenom'], 
-	// 	    		'mobilite' => $type, 
-	// 	    		'emplacement' => $row['emplacement'], 
-	// 	    		'distance' => '<span class="badge badge-secondary">'.ConvertDistance($row['dis']).'</span>',
-	// 	    		'action' => '<button type="button" class="btn btn-outline-primary btn-rounded btn-sm" style="margin-right:3px;"><i class="icon-location2" title="Localiser" onclick="locateAgent('.$row['longitude'].','.$row['latitude'].');"></i></button><button type="button" class="btn btn-outline-primary btn-rounded btn-sm" style="margin-right:3px;"><i class="icon-eyedropper" title="Modifier" onclick="updateAgent('.$row['gid'].');"></i></button><button type="button" class="btn btn-outline-primary btn-rounded btn-sm" style="margin-right:3px;" title="Supprimer" onclick="deleteAgent('.$row['gid'].');"><i class="icon-bin"></i></button>' 
-	// 	    	);
-				
-    //         }
-    //         echo '{"data" :'.json_encode($list).'}';
-    //     }else{
-    //     	echo '{}';
-	// 		exit;
-    //     }
-    // }else{
-    // 	echo '{}';
-	// 	exit;
     }
 }
 // /TABLEAU DES INFORMATION SUR LES AGENTS 
@@ -220,6 +178,48 @@ if($_POST['tableAttributaire']){
     echo json_encode(array("data" => $donnees) + array("columns" => $colonnes));
 }
 // /LE CAS DE LA TABLE ATTRIBUTAIRE
+
+
+// LE CAS DE LA TABLE ATTRIBUTAIRE-DISTANCE
+if($_POST['tableAttributaire_distance']){
+
+    $colonnes = array();
+    $noms_cols = array("Id", "Nom", "Prenom", "Mobilité", "Date et heure d'ajout");
+    $donnees = array();
+
+    for($i = 0; $i < count(colsTabVersArray("agent"))-2; $i++){
+        array_push($colonnes, array(
+            "data" => colsTabVersArray("agent")[$i],
+            "name" => mb_strtoupper($noms_cols[$i])
+            )
+        );
+    }
+
+    array_push($colonnes, array(
+        "data" => "distance",
+        "name" => "DISTANCE (m)"
+        )
+    );
+
+    $req = executerRequete("SELECT gid , COALESCE(nom, '') AS nom, COALESCE(prenom, '') as prenom, CASE WHEN mobilite THEN 'mobile' WHEN mobilite = false THEN 'fixe' END AS mobilite, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure, ST_Distance(ST_Transform(emplacement,900913),ST_Transform(ST_GeomFromText('POINT(".$_POST['lon']." ".$_POST['lat'].")',4326),900913)) AS distance FROM agent");
+        if($req) {
+		    while($ligne = pg_fetch_assoc($req)) {
+                array_push($donnees, array(
+                    colsTabVersArray("agent")[0] => $ligne[colsTabVersArray("agent")[0]],
+                    colsTabVersArray("agent")[1] => $ligne[colsTabVersArray("agent")[1]],
+                    colsTabVersArray("agent")[2] => $ligne[colsTabVersArray("agent")[2]],
+                    colsTabVersArray("agent")[3] => $ligne[colsTabVersArray("agent")[3]],
+                    colsTabVersArray("agent")[4] => $ligne[colsTabVersArray("agent")[4]],
+                    "distance" => round(floatval($ligne['distance']), 2)
+                    )
+                );
+            }
+        }
+    
+    echo json_encode(array("data" => $donnees) + array("columns" => $colonnes));
+}
+// /LE CAS DE LA TABLE ATTRIBUTAIRE-DISTANCE
+
 
 // LE CAS DU SELECTION DE LA DATE MIN
 if($_POST['mindate']){

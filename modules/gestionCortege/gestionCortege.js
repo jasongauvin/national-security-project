@@ -175,6 +175,7 @@ $(document).off("click", "#appliquerGestionCortege").on("click", "#appliquerGest
     map.removeLayer(pts_inters);
     map.removeLayer(pts_inters2);
     map.removeLayer(buffer_trajet);
+    popup.hide();
 
     if (trajet.getSource().getFeatures().length === 0) {
         afficherNotif("warning", "Veuillez dessiner un trajet");
@@ -199,9 +200,9 @@ $(document).off("click", "#appliquerGestionCortege").on("click", "#appliquerGest
         // /BUFFER DE LA MARCHE
 
         // AFFICHAGE DES POINTS D'INTÉRÊTS
-
+       
         nearbyPoisContexteMenu({ "coordinate": [ol.proj.transform(turf.pointOnFeature(coucheVersGeoJSON(trajet)).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[0], ol.proj.transform(turf.pointOnFeature(coucheVersGeoJSON(trajet)).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[1]] });
-
+        
         setTimeout(function () {
             // POINTS D'INTERSECTION
             intersection = turf.lineIntersect(coucheVersGeoJSON(coucheRues), buffer);

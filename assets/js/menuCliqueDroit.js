@@ -282,44 +282,20 @@ function nearbyAgentContexteMenu(obj){
 
 function getNearbyAgentsPopup(name, longitude, latitude){
     $("#main_agent_list_content").show();
-    // $('#tableAttributaire').append('<th>DISTANCE</th>');
-    str = '<th class="th-sm">DISTANCE<i aria-hidden="true"></i></th>';
-    $(str).appendTo('#tableAttributaire' + '>thead>tr');
     $('.agent-toggle').removeClass('close').addClass('open');
     $('.agent-toggle').empty();
-    // $('.agent-toggle').append('<i class="icon-chevron-thin-down"></i>');
     
     var c = ol.proj.transform([longitude, latitude], 'EPSG:3857', 'EPSG:4326');
-
-    refreshAgentPoliceTable(c[0], c[1]);
-
+    data = {
+        tableAttributaire_distance: true,
+        lon: c[0],
+        lat: c[1]
+    }
+    // REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE AGENT - DISTANCE
+    remplirTableAttributaire("agent", "modules/gestionAgents/gestionAgents.php", data, [[ 5, "asc" ]]);
+    // /REMPLIR LA TABLE ATTRIBUTAIRE DE LA TABLE AGENT - DISTANCE
     
 }
-
-function refreshAgentPoliceTable(longitude, latitude){
-    console.log(longitude+','+latitude);
-    var table = $('#tableAttributaire').DataTable();
-    table.ajax.url( '../modules/gestionAgents/gestionAgents.php');
-}
-
-function getAgentPoliceTable(param, longitude, latitude){
-
-    $('#tableAttributaire').DataTable({
-        "ajax": '../modules/gestionAgents/gestionAgents.php',
-        "order": [],
-        "columns": [
-            { "data": "gid" },
-            { "data": "nom" },
-            { "data": "prenom" },
-            { "data": "mobilite" },
-            { "data": "distance" },
-           
-        ],
-        'iDisplayLength': 5,
-    });
-}
-
-
 
 function mapRoadDirectionGetRoadMap(start, destination, mode, service, id_roadmap_content) {
     $("#" + id_roadmap_content).empty();
@@ -429,7 +405,7 @@ function nearbyPoisContexteMenu(obj) {
      getNearbyPois_menuCliDroit(critere);
      nearbyPoisGeometryVector_M.changed();
 
-
+     return nearbyPoisGeometryVector_M.changed();
 }
 
 

@@ -39,7 +39,9 @@ $.fn.dataTableExt.afnFiltering.push(
 // /FILTRAGE SUR LA DATE
 
 // REMPLISSAGE DE LA TABLE ATTRIBUTAIRE
-function remplirTableAttributaire(nom_couche, lien_php) {
+function remplirTableAttributaire(nom_couche, lien_php, data = {
+    tableAttributaire: true
+}, order = [[0, 'asc']]) {
     $("#chargement").css("display" ,"block");
     $("#titreTableAttributaire").parent().css("display", "block");
     $("#titreTableAttributaire").text("La liste des "+nom_couche+"s");
@@ -51,9 +53,7 @@ function remplirTableAttributaire(nom_couche, lien_php) {
         $(tableName + '>tbody>tr').empty();
     }
 
-    data = {
-        tableAttributaire: true
-    }
+    data = data
 
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
@@ -75,6 +75,7 @@ function remplirTableAttributaire(nom_couche, lien_php) {
         }
         table_attr = $(tableName).DataTable({
             destroy: true,
+            "order": order,
             "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "Tous"] ],
             "data": data.data,
             "columns": data.columns,
