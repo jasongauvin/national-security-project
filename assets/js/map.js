@@ -85,6 +85,20 @@ function changerPointeurAjout(icone = "pointeur.png", check = false) {
 // SUPPRESSION DE TOUTES LES AUTRES COUCHES SAUF LA COUCHE PASSÉE EN PARAMÈTRE
 function supprimerCouches(couche) {
 
+    function f(id){
+        $("#ul"+id).empty();
+        $("#nbr"+id).empty();
+        $("#nbr"+id+"Titre").empty();
+
+    }
+
+    f("Mosquees");
+    f("Ecoles");
+    f("Banques");
+    f("Hotels");
+    f("Pharmacies");
+    f("Dispensaires");
+
     couches = [];
     if (typeof coucheAccident !== "undefined") {
         couches.push(coucheAccident);
@@ -112,8 +126,8 @@ function supprimerCouches(couche) {
     }
     if (typeof buffer_trajet !== "undefined") {
         couches.push(buffer_trajet);
-    }if (typeof nearbyPoisGeometryVector_M !== "undefined") {
-        couches.push(nearbyPoisGeometryVector_M);
+    }if (typeof nearbyPoisGeometryVector !== "undefined") {
+        couches.push(nearbyPoisGeometryVector);
     }
     if (typeof pts_intersection !== "undefined") {
         couches.push(pts_intersection);
