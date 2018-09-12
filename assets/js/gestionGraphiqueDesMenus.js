@@ -59,7 +59,7 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
 // /INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
 
 // GESTION DES NOTIFICATIONS
-function afficherNotif(type, msg, temps = 500000, gif = false, autohide = true) {
+function afficherNotif(type, msg, temps = 4000, gif = false, autohide = true) {
     var classe, titre;
     if (type == "erreur") {
         classe = "alert alert-block alert-danger fade in";
