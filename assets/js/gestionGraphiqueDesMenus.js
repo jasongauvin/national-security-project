@@ -59,7 +59,7 @@ function interactionGraphiqueMenuDeNavigation(ordre, idModule, titreMenuDroit, l
 // /INTERACTION GRAPHIQUE POUR CHAQUE MODULE DANS LE MENU PRINCIPAL DE NAVIGATION
 
 // GESTION DES NOTIFICATIONS
-function afficherNotif(type, msg, temps = 5000, gif = false, autohide = true) {
+function afficherNotif(type, msg, temps = 500000, gif = false, autohide = true) {
     var classe, titre;
     if (type == "erreur") {
         classe = "alert alert-block alert-danger fade in";
@@ -105,6 +105,7 @@ function afficherNotif(type, msg, temps = 5000, gif = false, autohide = true) {
                 "</div>"
         });
     }
+    $.notify.defaults({globalPosition: 'top left'})
 
     $.notify({
         title: titre,
@@ -122,7 +123,7 @@ function afficherNotif(type, msg, temps = 5000, gif = false, autohide = true) {
 
     $("#notif").removeClass("notifyjs-foo-base notifyjs-foo-alert");
     $("#notif").addClass("alert");
-    $('.notifyjs-container').css('left', '-633px');
+    $('.notifyjs-container').css('left', ($(".main-navigation").width()+32)+"px");
     $('.notifyjs-container').css('top', '99px');
 
 }

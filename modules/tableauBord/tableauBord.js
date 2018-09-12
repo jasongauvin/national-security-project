@@ -65,7 +65,7 @@ function statistiquesAccidentTabBord() {
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
-
+        $("#tabBordAccident").css("display", "none");
         if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
             afficherNotif("erreur", "Pas d'accidents disponibles");  
         }else{
@@ -135,9 +135,9 @@ function statistiquesCrimeTabBord() {
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
-
+        $("#tabBordCrime").css("display", "none");
         if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
-            afficherNotif("erreur", "Pas de crimes disponibles");  
+            afficherNotif("erreur", "Pas de crimes disponibles");
         }else{
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage du tableau de bord");
         }
