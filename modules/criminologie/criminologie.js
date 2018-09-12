@@ -399,7 +399,12 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
         }
         error_fatale = function (jqXhr) {
             rapportErreurs(jqXhr);
-            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les crimes");
+
+            if(JSON.stringify(jqXhr).includes("division by zero")){
+                afficherNotif("erreur", "Pas de crimes disponibles");  
+            }else{
+                afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les crimes");
+            }
         }
         success = function (resultat) {
             if($('#dateDebSC').val() && $('#dateFinSC').val()){

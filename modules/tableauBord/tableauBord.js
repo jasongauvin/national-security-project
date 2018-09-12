@@ -65,7 +65,12 @@ function statistiquesAccidentTabBord() {
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
-        afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage du tableau de bord");
+
+        if(JSON.stringify(jqXhr).includes("division by zero")){
+            afficherNotif("erreur", "Pas d'accidents disponibles");  
+        }else{
+            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage du tableau de bord");
+        }
     }
     success = function (resultat) {
         titre1 = "Nombre de victimes des accidents depuis " + mindate_accident;
@@ -130,7 +135,12 @@ function statistiquesCrimeTabBord() {
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
-        afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage du tableau de bord");
+
+        if(JSON.stringify(jqXhr).includes("division by zero")){
+            afficherNotif("erreur", "Pas de crimes disponibles");  
+        }else{
+            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage du tableau de bord");
+        }
     }
     success = function (resultat) {
         titre1 = "Nombre de crimes depuis " + mindate_crime;

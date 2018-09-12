@@ -385,10 +385,7 @@ $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAc
 // /PARTIE HISTORIQUE
 
 $(document).off("click", "#test_b").on("click", "#test_b", function (e) {
-    var layer = new ol.layer.Tile({ source: new ol.source.Stamen({ layer: 'watercolor' }) });
-    map.addLayer(layer);
-
-
+   
     var styleCache={};
 
     function getFeatureStyle (feature, sel){
@@ -473,7 +470,12 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
         }
         error_fatale = function (jqXhr) {
             rapportErreurs(jqXhr);
-            afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les accidents");
+
+            if(JSON.stringify(jqXhr).includes("division by zero")){
+                afficherNotif("erreur", "Pas d'accidents disponibles");  
+            }else{
+                afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les accidents");
+            }
         }
         success = function (resultat) {
             if($('#dateDebS').val() && $('#dateFinS').val()){
