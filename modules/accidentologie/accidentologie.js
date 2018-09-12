@@ -408,7 +408,7 @@ $(document).off("click", "#pourceMortsBles").on("click", "#pourceMortsBles", fun
 			// Create chart style
 			style = [ new ol.style.Style(
 				{	image: new ol.style.Chart(
-					{	type: "pie", 
+					{	type: "pie3D", 
 						radius: radius, 
 						data: data, 
 						rotateWithView: true,
@@ -421,12 +421,7 @@ $(document).off("click", "#pourceMortsBles").on("click", "#pourceMortsBles", fun
 
 			// Show values on select
 			if (sel)
-			{	/*
-				var sum = 0;
-				for (var i=0; i<data.length; i++)
-				{	sum += data[i];
-				}
-				*/
+			{	
 				var sum = feature.get("sum");
       
 				var s = 0;
@@ -436,8 +431,10 @@ $(document).off("click", "#pourceMortsBles").on("click", "#pourceMortsBles", fun
                     var v = Math.round(d/sum*1000);
                     if(i==0){
                         msg = d+" Blessés";
+                        couleur = "#ffa500"
                     }else{
                         msg = d+" Morts";
+                        couleur = "#0000ff";
                     }
 					if (v>0)
       				{	style.push(new ol.style.Style(
@@ -448,8 +445,8 @@ $(document).off("click", "#pourceMortsBles").on("click", "#pourceMortsBles", fun
           						offsetY: Math.sin(a)*(radius+3),
 								textAlign: (a < Math.PI/2 ? "left":"right"),
 								textBaseline: "middle",
-								stroke: new ol.style.Stroke({ color:"#fff", width:3 }),
-								fill: new ol.style.Fill({color:"#000"})
+								stroke: new ol.style.Stroke({ color:"#000", width:3 }),
+                                fill: new ol.style.Fill({color: couleur})
 							})
 						}));
 					}
