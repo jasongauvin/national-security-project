@@ -162,6 +162,7 @@ $(document).off("click", "#reinitGestionCortege").on("click", "#reinitGestionCor
     map.removeLayer(buffer_trajet);
 
     map.removeLayer(nearbyPoisGeometryVector_M);
+    map.removeLayer(mapAdvancedSearch_AddressGeometryVector_M);
 
 });
 // /REINITIALISATION DU DESSIN
@@ -198,19 +199,13 @@ $(document).off("click", "#appliquerGestionCortege").on("click", "#appliquerGest
         // /BUFFER DE LA MARCHE
 
         // AFFICHAGE DES POINTS D'INTÉRÊTS
-        nearbyPoisGeometryVector_M.getSource().clear();
-        map.removeLayer(nearbyPoisGeometryVector_M);
 
-        nearbyPoisContexteMenu({ "coordinate": [ol.proj.transform(turf.pointOnFeature(buffer).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[0], ol.proj.transform(turf.pointOnFeature(buffer).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[1]] });
+        nearbyPoisContexteMenu({ "coordinate": [ol.proj.transform(turf.pointOnFeature(coucheVersGeoJSON(trajet)).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[0], ol.proj.transform(turf.pointOnFeature(coucheVersGeoJSON(trajet)).geometry.coordinates, 'EPSG:4326', map.getView().getProjection())[1]] });
 
         setTimeout(function () {
-            map.addLayer(nearbyPoisGeometryVector_M);
             // POINTS D'INTERSECTION
             intersection = turf.lineIntersect(coucheVersGeoJSON(coucheRues), buffer);
             intersection2 = turf.pointsWithinPolygon(coucheVersGeoJSON(nearbyPoisGeometryVector_M), buffer);
-
-            console.log(intersection);
-            console.log(intersection2);
 
             id_bouchon = 1;
             id_poi = 1;
@@ -241,8 +236,7 @@ $(document).off("click", "#appliquerGestionCortege").on("click", "#appliquerGest
             map.addLayer(pts_inters);
             map.addLayer(pts_inters2);
 
-            // map.getView().fit(trajet.getSource().getFeatures()[0].getGeometry(), map.getSize());
-            popup.show(ol.proj.transform(turf.pointOnFeature(coucheVersGeoJSON(trajet)).geometry.coordinates, 'EPSG:4326', map.getView().getProjection()), "Nombre de bouchons : "+(id_bouchon-1)+" | Nombre d'agents pour les bouchons : "+((id_bouchon-1)*parseInt($("#nbrAgentsBouchon").val()))+"<br>Nombre de pois : "+(id_poi-1)+" | Nombre d'agents pour les pois : "+((id_poi-1)*parseInt($("#nbrAgentsPoi").val()))+"<br>Nombre total d'agents : "+(((id_bouchon-1)*parseInt($("#nbrAgentsBouchon").val()))+((id_poi-1)*parseInt($("#nbrAgentsPoi").val()))));
+            popup.show(ol.proj.transform(turf.pointOnFeature(coucheVersGeoJSON(trajet)).geometry.coordinates, 'EPSG:4326', map.getView().getProjection()), "Nombre de bouchons : "+(id_bouchon-1)+" | Nombre d'agents affectés aux bouchons : "+((id_bouchon-1)*parseInt($("#nbrAgentsBouchon").val()))+"<br>Nombre de pois : "+(id_poi-1)+" | Nombre d'agents affectés aux pois : "+((id_poi-1)*parseInt($("#nbrAgentsPoi").val()))+"<br>Nombre total d'agents affectés : "+(((id_bouchon-1)*parseInt($("#nbrAgentsBouchon").val()))+((id_poi-1)*parseInt($("#nbrAgentsPoi").val()))));
 
         }, 2000);
 
