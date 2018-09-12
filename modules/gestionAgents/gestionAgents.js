@@ -445,10 +445,11 @@ function actualiserCoucheAgent() {
         selection: true
     }
     success = function (result) {
-        var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
-        source_couche_agent.addFeatures(features);
-        afficherNotif("info", "La couche des agents a été bien actualisée");
-     
+        if(result.features !== "empty"){
+            var features = agent_police_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+            source_couche_agent.addFeatures(features);
+            afficherNotif("info", "La couche des agents a été bien actualisée");
+        }
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);

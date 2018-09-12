@@ -388,41 +388,75 @@ $(document).off("click", "#test_b").on("click", "#test_b", function (e) {
     var layer = new ol.layer.Tile({ source: new ol.source.Stamen({ layer: 'watercolor' }) });
     map.addLayer(layer);
 
-    // ol.style.Chart
-	var animation=false;
-	var styleCache={};
 
+    var styleCache={};
 
     function getFeatureStyle (feature, sel){
-        var k = "pie3D"+"-"+ "classic"+"-"+(sel?"1-":"")+feature.get("data");
-		var style = styleCache[k];
+        var k = "pie"+"-"+ "classic"+"-"+(sel?"1-":"")+feature.get("data");
+  		var style = styleCache[k];
 		if (!style) 
 		{	var radius = 15;
 			// area proportional to data size: s=PI*r^2
-			if ($("#graph").val()!="bar")
-			{	radius = 8* Math.sqrt (feature.get("size") / Math.PI);
-			}
+			radius = 8* Math.sqrt (feature.get("sum") / Math.PI);
+			var data = feature.get("data");
+			radius *= (sel?1.2:1);
 			// Create chart style
-			var c = "classic";
-			styleCache[k] = style = new ol.style.Style(
-			{	image: new ol.style.Chart(
-				{	type: "pie3D", 
-					radius: (sel?1.2:1)*radius, 
-					offsetY: "pie3D" ? 0 : (sel?-1.2:-1)*feature.get("radius"),
-					data: feature.get("data") || [10,30,20], 
-					colors: /,/.test(c) ? c.split(",") : c,
-					rotateWithView: true,
-					animation: animation,
-					stroke: new ol.style.Stroke(
-					{	color: $("#color").val()!="neon" ? "#fff":"#000",
-						width: 2
-					}),
-				})
-			});
+			style = [ new ol.style.Style(
+				{	image: new ol.style.Chart(
+					{	type: "pie", 
+						radius: radius, 
+						data: data, 
+						rotateWithView: true,
+						stroke: new ol.style.Stroke(
+						{	color: "#fff",
+							width: 2
+						}),
+					})
+				})];
+
+			// Show values on select
+			if (sel)
+			{	/*
+				var sum = 0;
+				for (var i=0; i<data.length; i++)
+				{	sum += data[i];
+				}
+				*/
+				var sum = feature.get("sum");
+      
+				var s = 0;
+				for (var i=0; i<data.length; i++)
+				{	var d = data[i];
+      				var a = (2*s+d)/sum * Math.PI - Math.PI/2; 
+					var v = Math.round(d/sum*1000);
+					if (v>0)
+      				{	style.push(new ol.style.Style(
+						{	text: new ol.style.Text(
+							{	text: (v/10)+"%", /* d.toString() */
+          						offsetX: Math.cos(a)*(radius+3),
+          						offsetY: Math.sin(a)*(radius+3),
+								textAlign: (a < Math.PI/2 ? "left":"right"),
+								textBaseline: "middle",
+								stroke: new ol.style.Stroke({ color:"#fff", width:2.5 }),
+								fill: new ol.style.Fill({color:"#333"})
+							})
+						}));
+					}
+					s += d;
+				}
+			}
 		}
-		style.getImage().setAnimation(animation);
-		return [style];
+		styleCache[k] = style;
+		return style;
 	}
+
+
+    // Control Select 
+	var select = new ol.interaction.Select({
+        style: function(f) { return getFeatureStyle(f, true); }
+      });
+    map.addInteraction(select);
+
 
 
 });
@@ -616,9 +650,11 @@ function actualiserCoucheAccident() {
         selection: true
     }
     success = function (result) {
-        var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
-        source_couche_accident.addFeatures(features);
-        afficherNotif("info", "La couche des accidents a été bien actualisée");   
+        if (result.features !== "empty") {
+            var features = accidentologie_geojson.readFeatures(result, { featureProjection: 'EPSG:3857' });
+            source_couche_accident.addFeatures(features);
+            afficherNotif("info", "La couche des accidents a été bien actualisée");
+        }
     }
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
