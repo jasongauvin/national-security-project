@@ -84,6 +84,9 @@ var map_advanced_search_address_popup = new ol.Overlay.Popup(
     map_advanced_search_address_popup.addPopupClass('shadow');
 
 function getSelectedAddress(name, longitude, latitude, id) {
+    map.removeLayer(mapAdvancedSearch_AddressGeometryVector);
+    map.addLayer(mapAdvancedSearch_AddressGeometryVector);
+
     // CACHER LA LISTE DES ADRESSES
     $("#listeAddr").hide();
     // /CACHER LA LISTE DES ADRESSES
@@ -109,11 +112,4 @@ function getSelectedAddress(name, longitude, latitude, id) {
     });
 
 }
-
-
-map.addLayer(mapAdvancedSearch_AddressGeometryVector);
-//map.addOverlay(map_advanced_search_address_popup);
-
-
-
 // /CHAMP DE RECHERCHE

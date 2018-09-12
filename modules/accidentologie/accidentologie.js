@@ -384,6 +384,49 @@ $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAc
 });
 // /PARTIE HISTORIQUE
 
+$(document).off("click", "#test_b").on("click", "#test_b", function (e) {
+    var layer = new ol.layer.Tile({ source: new ol.source.Stamen({ layer: 'watercolor' }) });
+    map.addLayer(layer);
+
+    // ol.style.Chart
+	var animation=false;
+	var styleCache={};
+
+
+    function getFeatureStyle (feature, sel){
+        var k = "pie3D"+"-"+ "classic"+"-"+(sel?"1-":"")+feature.get("data");
+		var style = styleCache[k];
+		if (!style) 
+		{	var radius = 15;
+			// area proportional to data size: s=PI*r^2
+			if ($("#graph").val()!="bar")
+			{	radius = 8* Math.sqrt (feature.get("size") / Math.PI);
+			}
+			// Create chart style
+			var c = "classic";
+			styleCache[k] = style = new ol.style.Style(
+			{	image: new ol.style.Chart(
+				{	type: "pie3D", 
+					radius: (sel?1.2:1)*radius, 
+					offsetY: "pie3D" ? 0 : (sel?-1.2:-1)*feature.get("radius"),
+					data: feature.get("data") || [10,30,20], 
+					colors: /,/.test(c) ? c.split(",") : c,
+					rotateWithView: true,
+					animation: animation,
+					stroke: new ol.style.Stroke(
+					{	color: $("#color").val()!="neon" ? "#fff":"#000",
+						width: 2
+					}),
+				})
+			});
+		}
+		style.getImage().setAnimation(animation);
+		return [style];
+	}
+
+
+});
+
 // PARTIE STATISTIQUES
 $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiquesAccidentBouton", function (e) {
     $("#statistiquesTitre").text("les statistiques des accidents");
@@ -506,7 +549,7 @@ $(document).off("click", "#heatMapAccidents").on("click", "#heatMapAccidents", f
     reinit();
     heatmapLayer = new ol.layer.Heatmap({
         source: source_couche_accident,
-        radius: 25,
+        radius: 28,
         blur: 30,
         shadow: 300
     });
