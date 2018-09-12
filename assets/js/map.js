@@ -109,6 +109,9 @@ function supprimerCouches(couche) {
     if (typeof coucheAgent !== "undefined") {
         couches.push(coucheAgent);
     }
+    if (typeof vectorStatis !== "undefined") {
+        couches.push(vectorStatis);
+    }
     if (typeof cercle !== "undefined") {
         couches.push(cercle);
     }

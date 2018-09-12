@@ -1,6 +1,7 @@
 // DECLARATION DES VARIABLES
 var accidentologie_geojson = new ol.format.GeoJSON(), source_couche_accident = new ol.source.Vector();
 var json, coords, coucheAccident, execFonc = false, gid, mindate = '0';
+var vectorStatis;
 // /DECLARATION DES VARIABLES
 
 // INTERACTION GRAPHIQUE POUR LE MENU DROIT
@@ -384,14 +385,19 @@ $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAc
 });
 // /PARTIE HISTORIQUE
 
-$(document).off("click", "#test_b").on("click", "#test_b", function (e) {
+$(document).off("click", "#viderCarteStat").on("click", "#viderCarteStat", function (e) {
+    vectorStatis.getSource().clear();
+    map.removeLayer(vectorStatis);
+});
+
+$(document).off("click", "#pourceMortsBles").on("click", "#pourceMortsBles", function (e) {
     
-    new ol.layer.Tile({ source: new ol.source.Stamen({ layer: 'watercolor' }) });
 
-    var styleCache={};
-
-    function getFeatureStyle (feature, sel){
-        var k = "pie"+"-"+ "classic"+"-"+(sel?"1-":"")+feature.get("data");
+    map.removeLayer(vectorStatis);
+	var styleCache={};
+	
+	function getFeatureStyle (feature, sel)
+	{	var k = $("#graph").val()+"-"+ $("#color").val()+"-"+(sel?"1-":"")+feature.get("data");
   		var style = styleCache[k];
 		if (!style) 
 		{	var radius = 15;
@@ -427,17 +433,23 @@ $(document).off("click", "#test_b").on("click", "#test_b", function (e) {
 				for (var i=0; i<data.length; i++)
 				{	var d = data[i];
       				var a = (2*s+d)/sum * Math.PI - Math.PI/2; 
-					var v = Math.round(d/sum*1000);
+                    var v = Math.round(d/sum*1000);
+                    if(i==0){
+                        msg = d+" Blessés";
+                    }else{
+                        msg = d+" Morts";
+                    }
 					if (v>0)
       				{	style.push(new ol.style.Style(
 						{	text: new ol.style.Text(
-							{	text: (v/10)+"%", /* d.toString() */
+                            {	text: (v/10)+"% ( "+msg+" )",
+                                font: '14px sans-serif',
           						offsetX: Math.cos(a)*(radius+3),
           						offsetY: Math.sin(a)*(radius+3),
 								textAlign: (a < Math.PI/2 ? "left":"right"),
 								textBaseline: "middle",
-								stroke: new ol.style.Stroke({ color:"#fff", width:2.5 }),
-								fill: new ol.style.Fill({color:"#333"})
+								stroke: new ol.style.Stroke({ color:"#fff", width:3 }),
+								fill: new ol.style.Fill({color:"#000"})
 							})
 						}));
 					}
@@ -449,43 +461,30 @@ $(document).off("click", "#test_b").on("click", "#test_b", function (e) {
 		return style;
 	}
 
+	
+    var features=[];
+    coucheAccident.getSource().forEachFeature(function (f) {
+        
+        nbrblesses = f.get("nbrblesses")? parseInt(f.get("nbrblesses")): 0;
+        nbrmorts = f.get("nbrmorts")? parseInt(f.get("nbrmorts")): 0;
 
-    // Control Select 
-	var select = new ol.interaction.Select({
-        style: function(f) { return getFeatureStyle(f, true); }
-      });
-    map.addInteraction(select);
+        features.push(new ol.Feature(
+            {
+                geometry: f.getGeometry(),
+                data: [nbrblesses, nbrmorts],
+                sum: nbrmorts+nbrblesses
+            })
+        );
+    });
 
+	vectorStatis = new ol.layer.Vector(
+	{	name: 'Vecteur',
+		source: new ol.source.Vector({ features: features }),
+		renderOrder: ol.ordering.yOrdering(),
+		style: function(f) { return getFeatureStyle(f, true); }
+	})
 
-    // Animate function 
-	var listenerKey;
-	function doAnimate()
-	{	if (listenerKey) return;
-		var start = new Date().getTime();
-		var duration = 1000;
-		animation = 0;
-		listenerKey = vector.on('precompose', function(event)
-		{	var frameState = event.frameState;
-			var elapsed = frameState.time - start;
-			if (elapsed > duration) 
-			{	ol.Observable.unByKey(listenerKey);
-				listenerKey = null;
-				animation = false;
-			}	
-			else
-			{	animation = ol.easing.easeOut (elapsed / duration);
-				frameState.animate = true;
-			}
-			vector.changed();
-		});
-		// Force redraw
-		vector.changed();
-		//map.renderSync();
-	}
-
-	doAnimate();
-
-
+	map.addLayer(vectorStatis);
 
 
 });
