@@ -407,7 +407,7 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
             }
         }
         success = function (resultat) {
-            if($('#dateDebSC').val() && $('#dateFinSC').val()){
+            if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
                 titre1 = "Nombre de crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
                 titre2 = "Pourcentage des crimes par type entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
                 titre3 = "Pourcentage de la gravité des crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();

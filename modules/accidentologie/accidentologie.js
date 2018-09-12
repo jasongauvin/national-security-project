@@ -385,7 +385,9 @@ $(document).off("click", "#historiqueAccidentBouton").on("click", "#historiqueAc
 // /PARTIE HISTORIQUE
 
 $(document).off("click", "#test_b").on("click", "#test_b", function (e) {
-   
+    
+    new ol.layer.Tile({ source: new ol.source.Stamen({ layer: 'watercolor' }) });
+
     var styleCache={};
 
     function getFeatureStyle (feature, sel){
@@ -455,6 +457,36 @@ $(document).off("click", "#test_b").on("click", "#test_b", function (e) {
     map.addInteraction(select);
 
 
+    // Animate function 
+	var listenerKey;
+	function doAnimate()
+	{	if (listenerKey) return;
+		var start = new Date().getTime();
+		var duration = 1000;
+		animation = 0;
+		listenerKey = vector.on('precompose', function(event)
+		{	var frameState = event.frameState;
+			var elapsed = frameState.time - start;
+			if (elapsed > duration) 
+			{	ol.Observable.unByKey(listenerKey);
+				listenerKey = null;
+				animation = false;
+			}	
+			else
+			{	animation = ol.easing.easeOut (elapsed / duration);
+				frameState.animate = true;
+			}
+			vector.changed();
+		});
+		// Force redraw
+		vector.changed();
+		//map.renderSync();
+	}
+
+	doAnimate();
+
+
+
 
 });
 
@@ -471,7 +503,7 @@ $(document).off("click", "#statistiquesAccidentBouton").on("click", "#statistiqu
         error_fatale = function (jqXhr) {
             rapportErreurs(jqXhr);
 
-            if(JSON.stringify(jqXhr).includes("division by zero")){
+            if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
                 afficherNotif("erreur", "Pas d'accidents disponibles");  
             }else{
                 afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les accidents");

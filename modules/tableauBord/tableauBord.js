@@ -66,7 +66,7 @@ function statistiquesAccidentTabBord() {
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
 
-        if(JSON.stringify(jqXhr).includes("division by zero")){
+        if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
             afficherNotif("erreur", "Pas d'accidents disponibles");  
         }else{
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage du tableau de bord");
@@ -136,7 +136,7 @@ function statistiquesCrimeTabBord() {
     error_fatale = function (jqXhr) {
         rapportErreurs(jqXhr);
 
-        if(JSON.stringify(jqXhr).includes("division by zero")){
+        if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
             afficherNotif("erreur", "Pas de crimes disponibles");  
         }else{
             afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage du tableau de bord");
