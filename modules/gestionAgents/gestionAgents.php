@@ -123,6 +123,7 @@ if($_GET['table']){
 
 // SELECTION DES DONNEES 
 if($_POST['selection']){
+    $feature = array();
 	$result = executerRequete("SELECT gid, nom, prenom, mobilite, imei, st_asgeojson(emplacement) as geom FROM agent");
 	if($result) {
 		    while($row = pg_fetch_assoc($result)) {
