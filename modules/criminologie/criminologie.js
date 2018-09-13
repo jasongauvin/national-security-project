@@ -400,14 +400,14 @@ $(document).off("click", "#statistiquesCrimeBouton").on("click", "#statistiquesC
         error_fatale = function (jqXhr) {
             rapportErreurs(jqXhr);
 
-            if(JSON.stringify(jqXhr).includes("division by zero")){
+            if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
                 afficherNotif("erreur", "Pas de crimes disponibles");  
             }else{
                 afficherNotif("erreur_fatale", "Une erreur est survenu lors de l'affichage des statistiques sur les crimes");
             }
         }
         success = function (resultat) {
-            if(JSON.stringify(jqXhr).includes("division by zero") || JSON.stringify(jqXhr).includes("division par zéro")){
+            if($('#dateDebSC').val() && $('#dateFinSC').val()){
                 titre1 = "Nombre de crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
                 titre2 = "Pourcentage des crimes par type entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
                 titre3 = "Pourcentage de la gravité des crimes entre "+$('#dateDebSC').val()+ " et "+$('#dateFinSC').val();
