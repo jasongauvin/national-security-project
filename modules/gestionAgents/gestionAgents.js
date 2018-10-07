@@ -196,8 +196,8 @@ $(document).off("click", "#ajouterAgent").on("click", "#ajouterAgent", function 
     
     data = {
 		ajout: true,
-		nom: $("#Prenom").val(),
-        prenom: $("#Nom").val(),
+		nom: $("#Nom").val(),
+        prenom: $("#Prenom").val(),
         mobilite: $("#Mobilite").val(),
         imei: $("#imei").val()? "'"+$("#imei").val()+"'": "null",
         emplacement: coords,
