@@ -440,7 +440,7 @@ $(document).off("click", "#pourceMortsBles").on("click", "#pourceMortsBles", fun
       				{	style.push(new ol.style.Style(
 						{	text: new ol.style.Text(
                             {	text: (v/10)+"% ( "+msg+" )",
-                                font: '14px sans-serif',
+                                font: '10px sans-serif',
           						offsetX: Math.cos(a)*(radius+3),
           						offsetY: Math.sin(a)*(radius+3),
 								textAlign: (a < Math.PI/2 ? "left":"right"),
