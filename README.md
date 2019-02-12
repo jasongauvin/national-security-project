@@ -4,3 +4,8 @@ This project consists in the development of a web application, which presents fe
 Finally, all the information can be exported in the form of map or report thanks to the developed tool of export that in several forms according to the need of the investigator.
 
 spatial database script (PostgreSQL Backup) : https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup
+
+mb_strtoupper : sudo apt install php-mbstring
+
+pgsql module for php : sudo apt install php-pgsql
+
