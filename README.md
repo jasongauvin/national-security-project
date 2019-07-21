@@ -12,7 +12,7 @@ Finally, all the information can be exported in the form of map or report thanks
 - Risky Activities Module
 - Real-time Tracking of Protests Module
 - Management of Procession Module
-
+- Dashboard Module
 
 ## Prerequisites
 - mb_strtoupper : sudo apt install php-mbstring
