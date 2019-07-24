@@ -23,13 +23,14 @@ Finally, all the information can be exported in the form of map or report thanks
 ### Prerequisites
 - mb_strtoupper : sudo apt install php-mbstring
 - pgsql module for php : sudo apt install php-pgsql
-- spatial database script (PostgreSQL Backup) : https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup
+- spatial database script (PostgreSQL Backup) : 
 
 ### Installation
 
 1. Clone this repository to your local php server directory.
-2. Create a database in your PostgreSQL.
-3. Change the parameters of the **connection_string** in [assets/php/connect.php](https://github.com/sambakk/national-security-project/blob/master/assets/php/connect.php) based on your credentials, see the example below :
+2. Open pgadmin, then create a PostgreSQL database.
+3. Right click on your database, choose **Restore** and put this [database backup](https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup) in **Filename**, then click on **Restore** button.
+4. Change the parameters of the **connection_string** in [assets/php/connect.php](https://github.com/sambakk/national-security-project/blob/master/assets/php/connect.php) based on your credentials, see the example below :
 
 ```
 host=localhost
@@ -41,8 +42,9 @@ password=postgres
 4. Open your browser, then access to the web application, by default : [localhost/national-security-project](http://localhost/national-security-project).
 
 ## Notes
+- If you get 
 
-To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js).
+- To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js).
 
 ```javascript
 var rappErreurs = true;
