@@ -16,7 +16,12 @@ Finally, all the information can be exported in the form of map or report thanks
 
 ## Built With
 
-- OpenLayers4
+- [OpenLayers v4.6.5](https://openlayers.org/en/v4.6.5/apidoc/)
+- [jQuery v2.1.1](https://code.jquery.com/jquery/)
+- [Highcharts JS v6.1.1](https://www.highcharts.com/blog/download/)
+- [jQuery UI - v1.10.2](https://jqueryui.com/download/all/)
+- [Turf.js](http://turfjs.org/getting-started)
+- [DataTables v1.10.19](https://cdn.datatables.net/1.10.19/)
 
 ## Getting Started
 
