@@ -26,7 +26,18 @@ Finally, all the information can be exported in the form of map or report thanks
 - spatial database script (PostgreSQL Backup) : https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup
 
 ### Installation
-test
+
+1. Clone this repository to your local php server directory
+2. Create a database in your PostgreSQL
+3. Change the parameters of the **connection_string** in [assets/php/connect.php](https://github.com/sambakk/national-security-project/blob/master/assets/php/connect.php) based on your credentials, see the example below :
+
+```
+host=localhost
+port=5432
+dbname=test2
+user=postgres
+password=postgres
+```
 
 ## Notes
 
