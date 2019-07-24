@@ -21,9 +21,22 @@ Finally, all the information can be exported in the form of map or report thanks
 ## Getting Started
 
 ### Prerequisites
-- mb_strtoupper : sudo apt install php-mbstring
-- pgsql module for php : sudo apt install php-pgsql
-- spatial database script (PostgreSQL Backup) : 
+- PHP 7.
+- PostgreSQL **10.5** or above.
+- PgAmin 4.
+- Any PHP Server.
+- Activate **mb_strtoupper** extension :
+
+  - In Windows :
+  
+    Edit your php.ini.
+
+  - In a Linux-based system :
+  
+    ```console
+    $ sudo apt install php-mbstring // Installing extension
+    $ sudo service apache2 restart // Restarting Apache Server
+    ```
 
 ### Installation
 
@@ -32,13 +45,13 @@ Finally, all the information can be exported in the form of map or report thanks
 3. Right click on your database, choose **Restore** and put this [database backup](https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup) in **Filename**, then click on **Restore** button.
 4. Change the parameters of the **connection_string** in [assets/php/connect.php](https://github.com/sambakk/national-security-project/blob/master/assets/php/connect.php) based on your credentials, see the example below :
 
-```
-host=localhost
-port=5432
-dbname=test2
-user=postgres
-password=postgres
-```
+    ```
+    host=localhost
+    port=5432
+    dbname=test2
+    user=postgres
+    password=postgres
+    ```
 5. Open your browser, then access to the web application, by default : [localhost/national-security-project](http://localhost/national-security-project).
 
 ## Notes
