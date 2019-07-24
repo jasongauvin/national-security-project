@@ -3,7 +3,6 @@ var defaultCenter = ol.proj.transform([-6.863757, 34.010152], 'EPSG:4326', 'EPSG
 var defaultExtent = [-840080.4335449198, 3988950.4443487297, -674212.0821660873, 4072419.6792361424];
 var geojsonFormat_geom = new ol.format.GeoJSON();
 var draw;
-var coucheArrondis;
 var coucheRues;
 var navcitiesXYZSource = new ol.source.XYZ({
     attributions: [new ol.Attribution({
@@ -315,16 +314,6 @@ $("#imprimerCarte").click(function (e) {
 
 });
 
-// /EXPORTATION DE LA CARTE
-
-
-// L'AJOUT DE LA COUCHE FRONTIÈRE
-// data = {
-//     frontiere: true
-// }
-// actualiserCouche("coucheArrondis", 'coucheArrondis', 'Couche Arrondis', data);
-// /L'AJOUT DE LA COUCHE FRONTIÈRE
-
 // L'AJOUT DE LA COUCHE RUES
 data = {
     rues: true
@@ -342,7 +331,7 @@ function actualiserCouche(couche, name, title, data) {
     style = new ol.style.Style ({
         stroke: new ol.style.Stroke({
            color: [23, 39, 38, 1],
-            width: 2
+            width: 1
           })                               
       });
     // /DÉFINITION DU STYLE DE LA COUCHE
