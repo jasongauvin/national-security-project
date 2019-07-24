@@ -25,7 +25,7 @@ test
 
 ## Notes
 
-To enable errors output in the browser's console, change this variable to *true* in *assets/js/GestionDesModules.js*
+To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js)
 
 ```javascript
 var rappErreurs = true;
