@@ -34,8 +34,8 @@ Finally, all the information can be exported in the form of map or report thanks
   - In a Linux-based system :
   
     ```console
-    $ sudo apt install php-mbstring // Installing extension
-    $ sudo service apache2 restart // Restarting Apache Server
+    $ sudo apt install php-mbstring // Installing the extension
+    $ sudo service apache2 restart // Restarting the apache server
     ```
 
 ### Installation
@@ -55,13 +55,13 @@ Finally, all the information can be exported in the form of map or report thanks
 5. Open your browser, then access to the web application, by default : [localhost/national-security-project](http://localhost/national-security-project).
 
 ## Notes
-- If you get any warnings while restoring the database but the four tables were imported successfully, just ignore them and continue.
+- If you get any warnings while restoring the database but the tables were imported successfully, just ignore them and continue.
 
 - To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js).
 
-```javascript
-var rappErreurs = true;
-```
+    ```javascript
+    var rappErreurs = true;
+    ```
 
 ## Authors
 :octocat: [sambakk](https://github.com/sambakk)
