@@ -38,7 +38,7 @@ dbname=test2
 user=postgres
 password=postgres
 ```
-4. Open your browser, then access to application folder, by default : [localhost/national-security-project](http://localhost/national-security-project).
+4. Open your browser, then access to the web application, by default : [localhost/national-security-project](http://localhost/national-security-project).
 
 ## Notes
 
