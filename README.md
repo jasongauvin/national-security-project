@@ -27,8 +27,8 @@ Finally, all the information can be exported in the form of map or report thanks
 
 ### Installation
 
-1. Clone this repository to your local php server directory
-2. Create a database in your PostgreSQL
+1. Clone this repository to your local php server directory.
+2. Create a database in your PostgreSQL.
 3. Change the parameters of the **connection_string** in [assets/php/connect.php](https://github.com/sambakk/national-security-project/blob/master/assets/php/connect.php) based on your credentials, see the example below :
 
 ```
@@ -38,10 +38,11 @@ dbname=test2
 user=postgres
 password=postgres
 ```
+4. Open your browser, then access to application folder, by default : [localhost/national-security-project](http://localhost/national-security-project).
 
 ## Notes
 
-To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js)
+To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js).
 
 ```javascript
 var rappErreurs = true;
