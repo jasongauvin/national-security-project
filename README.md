@@ -23,7 +23,7 @@ Finally, all the information can be exported in the form of map or report thanks
 ### Prerequisites
 - PHP 7.
 - PostgreSQL **10.5** or above.
-- PgAmin 4.
+- PgAdmin 4.
 - Any PHP Server.
 - Activate **mb_strtoupper** extension :
 
