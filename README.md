@@ -14,22 +14,63 @@ Finally, all the information can be exported in the form of map or report thanks
 - Management of Procession Module
 - Dashboard Module
 
-## Prerequisites
-- mb_strtoupper : sudo apt install php-mbstring
-- pgsql module for php : sudo apt install php-pgsql
-- spatial database script (PostgreSQL Backup) : https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup
+## Built With
 
+- [OpenLayers v4.6.5](https://openlayers.org/en/v4.6.5/apidoc/).
+- [Ol-ext](https://viglino.github.io/ol-ext/).
+- [Highcharts JS v6.1.1](https://www.highcharts.com/blog/download/).
+- [Turf.js](http://turfjs.org/getting-started).
+- [DataTables v1.10.19](https://cdn.datatables.net/1.10.19/).
+- [SheetJS](http://sheetjs.com/).
+- [jQuery v2.1.1](https://code.jquery.com/jquery/).
+- [jQuery UI - v1.10.2](https://jqueryui.com/download/all/).
+- [MDB](https://mdbootstrap.com/docs/jquery/getting-started/download/).
+- Etc.
 
-## Installation
-test
+## Getting Started
+
+### Prerequisites
+- PHP 7.
+- PostgreSQL **10.5** or above.
+- PgAdmin 4.
+- Any PHP Server.
+- Activate **mb_strtoupper** extension :
+
+  - In Windows :
+  
+    Edit your php.ini.
+
+  - In a Linux-based system :
+  
+    ```console
+    $ sudo apt install php-mbstring // Installing the extension
+    $ sudo service apache2 restart // Restarting the apache server
+    ```
+
+### Installation
+
+1. Clone this repository to your local php server directory.
+2. Open pgadmin, then create a PostgreSQL database.
+3. Right click on your database, choose **Restore** and put this [database backup](https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup) in **Filename**, then click on **Restore** button.
+4. Change the parameters of the **connection_string** in [assets/php/connect.php](https://github.com/sambakk/national-security-project/blob/master/assets/php/connect.php) based on your credentials, see the example below :
+
+    ```
+    host=localhost
+    port=5432
+    dbname=test2
+    user=postgres
+    password=postgres
+    ```
+5. Open your browser, then access to the web application, by default : [localhost/national-security-project](http://localhost/national-security-project).
 
 ## Notes
+- If you get any warnings while restoring the database but the tables were imported successfully, just ignore them and continue.
 
-To enable errors output in the browser's console, change this variable to *true* in *assets/js/GestionDesModules.js*
+- To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js).
 
-```javascript
-var rappErreurs = true;
-```
+    ```javascript
+    var rappErreurs = true;
+    ```
 
 ## Authors
 :octocat: [sambakk](https://github.com/sambakk)
