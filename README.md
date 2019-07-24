@@ -22,6 +22,15 @@ Finally, all the information can be exported in the form of map or report thanks
 
 ## Installation
 test
+
+## Notes
+
+To enable errors output in the browser's console, change this variable to *true* in *assets/js/GestionDesModules.js*
+
+```javascript
+var rappErreurs = true;
+```
+
 ## Authors
 :octocat: [sambakk](https://github.com/sambakk)
 
