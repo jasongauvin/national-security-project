@@ -39,10 +39,10 @@ dbname=test2
 user=postgres
 password=postgres
 ```
-4. Open your browser, then access to the web application, by default : [localhost/national-security-project](http://localhost/national-security-project).
+5. Open your browser, then access to the web application, by default : [localhost/national-security-project](http://localhost/national-security-project).
 
 ## Notes
-- If you get 
+- If you get any warnings while restoring the database but the four tables were imported successfully, just ignore them and continue.
 
 - To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js).
 
