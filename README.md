@@ -14,13 +14,18 @@ Finally, all the information can be exported in the form of map or report thanks
 - Management of Procession Module
 - Dashboard Module
 
-## Prerequisites
+## Built With
+
+- OpenLayers4
+
+## Getting Started
+
+### Prerequisites
 - mb_strtoupper : sudo apt install php-mbstring
 - pgsql module for php : sudo apt install php-pgsql
 - spatial database script (PostgreSQL Backup) : https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup
 
-
-## Installation
+### Installation
 test
 
 ## Notes
