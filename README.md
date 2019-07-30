@@ -13,7 +13,7 @@ This project consists of developing a **Geoenriched Web GIS Platform** to enhanc
 - Risky Activities Module
 - Real-time Tracking of Protests Module
 - Management of Processions Module
-- Dashboard Module
+- Data Analysis Dashboard Module
 
 ## Demo Video
 
