@@ -6,10 +6,6 @@ Finally, all the information can be exported in the form of map or report thanks
 Crime mapping
 accident mapping
 
-## Demo
-
-[![](demo/images/thumbnail.png)](https://player.vimeo.com/video/350945354?autoplay=true)
-
 ## Features
 
 - Layers of Interest Module
@@ -20,6 +16,11 @@ accident mapping
 - Real-time Tracking of Protests Module
 - Management of Procession Module
 - Dashboard Module
+
+## Demo
+
+[![](demo/images/thumbnail.png)](https://player.vimeo.com/video/350945354?autoplay=true)
+
 
 ## Built With
 
