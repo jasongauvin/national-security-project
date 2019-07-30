@@ -17,7 +17,7 @@ accident mapping
 - Management of Procession Module
 - Dashboard Module
 
-## Demo
+## Demo Video
 
 [![](demo/images/thumbnail.png)](https://player.vimeo.com/video/350945354?autoplay=true)
 
