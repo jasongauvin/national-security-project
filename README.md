@@ -8,13 +8,13 @@ accident mapping
 
 ## Features
 
-- Layers of Interest Module
+- Points of interest Layers Module
 - Agents Management Module
 - Accidentology Module
 - Criminology Module
 - Risky Activities Module
 - Real-time Tracking of Protests Module
-- Management of Procession Module
+- Management of Processions Module
 - Dashboard Module
 
 ## Demo Video
