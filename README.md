@@ -3,7 +3,12 @@
 This project consists in the development of a web application, which presents features helping to improve, develop, speed and good management for the decision making, we find in particular the management of the agents, the crimes, the accidents and some processes (heat map of density, statistics and histories are tools developed for the modules concerned), specification of risky activities such as terrorist acts, real-time monitoring of events and display layers of interest (Pharmacies, hospitals, schools, hotels and banks) being in the position selected by the investigator in the fourth district of Rabat.
 Finally, all the information can be exported in the form of map or report thanks to the developed tool of export that in several forms according to the need of the investigator.
 
-![](demo/images/image1.png)
+Crime mapping
+accident mapping
+
+## Demo
+
+[![](demo/images/thumbnail.png)](https://player.vimeo.com/video/350945354?autoplay=true)
 
 ## Features
 
@@ -20,6 +25,7 @@ Finally, all the information can be exported in the form of map or report thanks
 
 - [OpenLayers v4.6.5](https://openlayers.org/en/v4.6.5/apidoc/).
 - [Ol-ext](https://viglino.github.io/ol-ext/).
+- [API Navcities](http://www.navcities.com/site/documentation/index.html)
 - [Highcharts JS v6.1.1](https://www.highcharts.com/blog/download/).
 - [Turf.js](http://turfjs.org/getting-started).
 - [DataTables v1.10.19](https://cdn.datatables.net/1.10.19/).
