@@ -8,7 +8,7 @@ accident mapping
 
 ## Features
 
-- Points of interest Layers Module
+- Points of interest layers Module
 - Agents Management Module
 - Accidentology Module
 - Criminology Module
@@ -60,8 +60,8 @@ accident mapping
 
 1. Clone this repository to your local php server directory.
 2. Open pgadmin, then create a PostgreSQL database.
-3. Right click on your database, choose **Restore** and put this [database backup](https://github.com/samkach/projet-surete-nationale/blob/master/script_base_donnees/base_donnees_spatiale.backup) in **Filename**, then click on **Restore** button.
-4. Change the parameters of the **connection_string** in [assets/php/connect.php](https://github.com/sambakk/national-security-project/blob/master/assets/php/connect.php) based on your credentials, see the example below :
+3. Right click on your database, choose **Restore** and put this [database backup](spatial_database/spatial-database.backup) in **Filename**, then click on **Restore** button.
+4. Change the parameters of the **connection_string** in [assets/php/connect.php](assets/php/connect.php) based on your credentials, see the example below :
 
     ```
     host=localhost
@@ -75,7 +75,7 @@ accident mapping
 ## Notes
 - If you get any warnings while restoring the database but the tables were imported successfully, just ignore them and continue.
 
-- To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](https://github.com/sambakk/national-security-project/blob/master/assets/js/GestionDesModules.js).
+- To enable errors output in the browser's console, change this variable to **true** in [assets/js/GestionDesModules.js](assets/js/GestionDesModules.js).
 
     ```javascript
     var rappErreurs = true;
