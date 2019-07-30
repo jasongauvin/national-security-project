@@ -60,7 +60,7 @@ accident mapping
 
 1. Clone this repository to your local php server directory.
 2. Open pgadmin, then create a PostgreSQL database.
-3. Right click on your database, choose **Restore** and put this [database backup](spatial_database/spatial-database.backup) in **Filename**, then click on **Restore** button.
+3. Right click on your database, choose **Restore** and put this [database backup](spatial-database/script.backup) in **Filename**, then click on **Restore** button.
 4. Change the parameters of the **connection_string** in [assets/php/connect.php](assets/php/connect.php) based on your credentials, see the example below :
 
     ```
