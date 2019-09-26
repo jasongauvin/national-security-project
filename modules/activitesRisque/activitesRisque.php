@@ -5,7 +5,7 @@ require_once "../../assets/php/fonctions.php";
 // /INCLURE DES FONCTIONS UTILES PHP-POSTGRES
 
 // LE CAS DE SELECTION RUES-BOUCHONS
-if($_POST['rue_bouchon']){
+if(isset($_POST['rue_bouchon'])){
     $colonnes = array();
     $donnees = array();
 
