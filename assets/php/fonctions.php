@@ -22,7 +22,7 @@ function executerRequete($requete){
 // /L'EXECUTION DES REQUÊTE SQL
 
 // LE CAS SELECTION-FRONTIÈRE
-if($_POST['frontiere']){
+if(isset($_POST['frontiere'])){
     $feature = array();
     $result = executerRequete("SELECT st_asgeojson(geom) AS geom FROM frontiere4emeArrondissement");
         if($result) {
@@ -47,7 +47,7 @@ if($_POST['frontiere']){
 // /LE CAS SELECTION-FRONTIÈRE
 
 // LE CAS SELECTION-RUES
-if($_POST['rues']){
+if(isset($_POST['rues'])){
     $feature = array();
     $result = executerRequete("SELECT id, \"name\", \"on\", st_asgeojson(geom) AS geom FROM rues4emearrondissement");
         if($result) {

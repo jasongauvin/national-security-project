@@ -5,7 +5,7 @@ require_once "../../assets/php/fonctions.php";
 // /INCLURE DES FONCTIONS UTILES PHP-POSTGRES
 
 // LE CAS D'AJOUT
-if($_POST["ajout"]){
+if(isset($_POST["ajout"])){
     $var = executerRequete("INSERT INTO accident VALUES (DEFAULT, ".$_POST['nbrBlesses'].", ".$_POST['nbrMorts'].", ".$_POST['gravite'].", ".$_POST['desc'].", to_timestamp('".$_POST['dateHeure']."', 'dd/mm/yyyy hh24:mi'), st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) )");
     if($var){
     echo json_encode(array(
@@ -17,7 +17,7 @@ if($_POST["ajout"]){
 // /LE CAS D'AJOUT
 
 // LE CAS DE LA MODIFICATION OU BIEN LE DÉPLACEMENT
-if($_POST['modification']){
+if(isset($_POST['modification'])){
     if($_POST['emplacement']){
         $var = executerRequete("UPDATE accident SET nbrblesses = ".$_POST['nbrBlesses'].", nbrmorts = ".$_POST['nbrMorts'].", gravite = ".$_POST['gravite'].", description = ".$_POST['desc'].", dateheure = to_timestamp('".$_POST['dateHeure']."', 'dd/mm/yyyy hh24:mi'), emplacement = st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) WHERE gid = ".$_POST['gid']."");
     }else{
@@ -34,7 +34,7 @@ if($_POST['modification']){
 // LE CAS DE LA MODIFICATION OU BIEN LE DÉPLACEMENT
 
 // LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
-if($_POST["importation"]){
+if(isset($_POST["importation"])){
     // RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
     $noms_cols_accident = colsTabVersArray("accident");
     // /RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
@@ -90,7 +90,7 @@ if($_POST["importation"]){
 // /LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE ACCIDENT
 
 // LE CAS SELECTION
-if($_POST['selection']){
+if(isset($_POST['selection'])){
     $feature = array();
     $result = executerRequete("SELECT gid ,nbrblesses, nbrmorts, gravite, description, to_char(dateheure, 'DD/MM/YYYY HH24:MI') AS dateheure, st_asgeojson(emplacement) AS geom FROM accident");
         if($result) {
@@ -116,7 +116,7 @@ if($_POST['selection']){
 // /LE CAS SELECTION
 
 // LE CAS SUPPRESSION
-if($_POST["suppression"]){
+if(isset($_POST["suppression"])){
     $var = executerRequete("DELETE FROM accident WHERE gid = ".$_POST['gid']."");
     if($var){
     echo json_encode(array(
@@ -128,7 +128,7 @@ if($_POST["suppression"]){
 // LE CAS SUPPRESSION
 
 // LE CAS DE LA TABLE ATTRIBUTAIRE
-if($_POST['tableAttributaire']){
+if(isset($_POST['tableAttributaire'])){
 
     $colonnes = array();
     $noms_cols = array("Id", "Nombre de blessés", "Nombre de morts", "Gravité", "Description", "Date et heure");
@@ -163,7 +163,7 @@ if($_POST['tableAttributaire']){
 
 
 // LE CAS STATISTIQUES
-if($_POST['statistiques']){
+if(isset($_POST['statistiques'])){
     $chartZoomable = array();
     $piePourceBlesMorts = array();
     $piePourceGravite = array();
@@ -172,7 +172,7 @@ if($_POST['statistiques']){
     $piePourceTranchesH = array();
     $chartBarGravTranchesH = array();
 
-    if(!$_POST["dateHeureFin"] && $_POST["dateHeureDeb"]){
+    if(!isset($_POST["dateHeureFin"]) && isset($_POST["dateHeureDeb"])){
         $req = executerRequete("SELECT SUM (COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0)) AS nbrvictimes, EXTRACT(epoch FROM dateheure) AS dateheure FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((CAST(SUM(COALESCE(nbrmorts, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceMorts, TRUNC((CAST(SUM(COALESCE(nbrblesses, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceBlesses FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
@@ -180,7 +180,7 @@ if($_POST['statistiques']){
         $req5 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS nuit, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS matin, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS aprem, TRUNC(CAST(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END) AS decimal)*100/(COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 THEN 0 END)+COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 THEN 0 END)), 2) AS soir FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
         $req6 = executerRequete("SELECT COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=false THEN 0 END) AS  m_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=false THEN 0 END) AS m_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=false THEN 0 END) AS m_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=false THEN 0 END) AS m_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite IS NULL THEN 0 END) AS  g_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite IS NULL THEN 0 END) AS g_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite IS NULL THEN 0 END) AS g_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite IS NULL THEN 0 END) AS g_soir, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) IN (23, 0, 1, 2, 3, 4, 5) AND gravite=true THEN 0 END) AS  p_nuit, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 6 AND 11  AND gravite=true THEN 0 END) AS p_matin, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 12 AND 17 AND gravite=true THEN 0 END) AS p_aprem, COUNT(CASE WHEN EXTRACT(HOURS FROM dateheure) BETWEEN 18 AND 22 AND gravite=true THEN 0 END) AS p_soir FROM accident WHERE dateheure >= to_timestamp('".$_POST['dateHeureDeb']."', 'DD/MM/YYYY HH24:MI')");
 
-    }else if($_POST["dateHeureFin"] && !$_POST["dateHeureDeb"]){
+    }else if(isset($_POST["dateHeureFin"]) && !isset($_POST["dateHeureDeb"])){
         $req = executerRequete("SELECT SUM (COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0)) AS nbrvictimes, EXTRACT(epoch FROM dateheure) AS dateheure FROM accident WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI') GROUP BY dateheure ORDER BY dateheure");
         $req2 = executerRequete("SELECT TRUNC((CAST(SUM(COALESCE(nbrmorts, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceMorts, TRUNC((CAST(SUM(COALESCE(nbrblesses, 0)) AS decimal)*100)/SUM((COALESCE(nbrmorts, 0)+COALESCE(nbrblesses, 0))), 2) AS pourceBlesses FROM accident WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
         $req3 = executerRequete("SELECT TRUNC(CAST(COUNT(CASE WHEN gravite THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS tresgrave, TRUNC(CAST(COUNT(CASE WHEN gravite IS NULL THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS grave, TRUNC(CAST(COUNT(CASE WHEN gravite=false THEN 0 END)*100 AS decimal)/(COUNT(CASE WHEN gravite THEN 0 END)+COUNT(CASE WHEN gravite IS NULL THEN 0 END)+COUNT(CASE WHEN gravite=false THEN 0 END)), 2) AS moinsgrave from accident WHERE dateheure <= to_timestamp('".$_POST['dateHeureFin']."', 'DD/MM/YYYY HH24:MI')");
@@ -295,7 +295,7 @@ if($_POST['statistiques']){
 // /LE CAS STATISTIQUES
 
 // LE CAS DU SELECTION DE LA DATE MIN
-if($_POST['mindate']){
+if(isset($_POST['mindate'])){
     $req = executerRequete("SELECT to_char(MIN(dateheure), 'dd/mm/yyyy') AS mindate FROM accident");
     
     if($req) {

@@ -6,7 +6,7 @@ require_once "../../assets/php/fonctions.php";
 
 
 // LE CAS D'IMPORTATION DU FICHIER EXCEL VERS LA TABLE AGENT
-if($_POST["importation"]){
+if(isset($_POST["importation"])){
     // RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
     $noms_cols_agent = colsTabVersArray("agent");
     // /RÉCUPÉRATION DES NOMS DE COLONNES DE LA TABLE
@@ -65,7 +65,7 @@ if($_POST["importation"]){
 
 
 // LE CAS DE LA MODIFICATION OU BIEN LE DÉPLACEMENT
-if($_POST['modification']){
+if(isset($_POST['modification'])){
     if($_POST['emplacement']){
         $var = executerRequete("UPDATE agent SET nom = ".$_POST['nom'].", prenom = ".$_POST['prenom'].", mobilite = ".$_POST['mobilite'].", imei = ".$_POST['imei']." , emplacement = st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326) WHERE gid = ".$_POST['gid']."");
     }else{
@@ -83,7 +83,7 @@ if($_POST['modification']){
 
 
 // LE CAS D'AJOUT
-if($_POST['ajout']){
+if(isset($_POST['ajout'])){
 	
 	$insert_agent = executerRequete("INSERT INTO agent VALUES (DEFAULT, '".$_POST['nom']."', '".$_POST['prenom']."', ".$_POST['mobilite']." , DEFAULT, st_geomfromtext('POINT(".$_POST['emplacement'][0]." ".$_POST['emplacement'][1].")', 4326), ".$_POST['imei']." )");
 	
@@ -98,7 +98,7 @@ if($_POST['ajout']){
 // /LE CAS D'AJOUT
 
 // LE CAS SUPPRESSION
-if($_POST["suppression"]){
+if(isset($_POST["suppression"])){
     $var = executerRequete("DELETE FROM agent WHERE gid = ".$_POST['gid']."");
     if($var){
     echo json_encode(array(
@@ -111,10 +111,7 @@ if($_POST["suppression"]){
 
 // TABLEAU DES INFORMATION SUR LES AGENT
 
-if($_GET['table']){
-	
-	
-
+if(isset($_GET['table'])){
 	if($query) {
         $result =executerRequete("SELECT gid, st_asgeojson(emplacement) as geom, st_Distance(ST_Transform(emplacement,900913),ST_Transform(ST_GeomFromText('POINT(".$_GET["emplacement"][0]." ".$_GET["emplacement"][1].")',4326),900913)) as dis FROM agent order by dis asc");
     }
@@ -122,7 +119,7 @@ if($_GET['table']){
 // /TABLEAU DES INFORMATION SUR LES AGENTS 
 
 // SELECTION DES DONNEES 
-if($_POST['selection']){
+if(isset($_POST['selection'])){
     $feature = array();
 	$result = executerRequete("SELECT gid, nom, prenom, mobilite, imei, st_asgeojson(emplacement) as geom FROM agent");
 	if($result) {
@@ -148,7 +145,7 @@ if($_POST['selection']){
 // /SELECTION DES  DONNEES
 
 // LE CAS DE LA TABLE ATTRIBUTAIRE
-if($_POST['tableAttributaire']){
+if(isset($_POST['tableAttributaire'])){
 
     $colonnes = array();
     $noms_cols = array("Id", "Nom", "Prenom", "Mobilité", "Date et heure d'ajout");
@@ -182,7 +179,7 @@ if($_POST['tableAttributaire']){
 
 
 // LE CAS DE LA TABLE ATTRIBUTAIRE-DISTANCE
-if($_POST['tableAttributaire_distance']){
+if(isset($_POST['tableAttributaire_distance'])){
 
     $colonnes = array();
     $noms_cols = array("Id", "Nom", "Prenom", "Mobilité", "Date et heure d'ajout");
@@ -223,7 +220,7 @@ if($_POST['tableAttributaire_distance']){
 
 
 // LE CAS DU SELECTION DE LA DATE MIN
-if($_POST['mindate']){
+if(isset($_POST['mindate'])){
     $req = executerRequete("SELECT to_char(MIN(dateheure), 'dd/mm/yyyy') AS mindate FROM agent");
     
     if($req) {

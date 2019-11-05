@@ -68,7 +68,7 @@ The area of interest in the demo is the 4th district of Rabat, Morocco.
     ```
     host=localhost
     port=5432
-    dbname=test2
+    dbname=postgres
     user=postgres
     password=postgres
     ```

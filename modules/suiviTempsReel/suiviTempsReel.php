@@ -5,7 +5,7 @@ require_once "../../assets/php/fonctions.php";
 // /INCLURE DES FONCTIONS UTILES PHP-POSTGRES
 
 // CAS DU REMPLISSAGE DES INPUTS SELECT
-if($_POST['selection']){
+if(isset($_POST['selection'])){
     $donnees = array();
     $req = executerRequete("SELECT nom, prenom, imei FROM agent WHERE mobilite = true AND imei IS NOT NULL");
     
@@ -22,7 +22,7 @@ if($_POST['selection']){
 // CAS DU REMPLISSAGE DES INPUTS SELECT
 
 // CAS DE RÉCUPÉRATION DES POSITIONS DES AGENTS
-if($_POST['agents_pos']){
+if(isset($_POST['agents_pos'])){
     $agent1 = array();
     $agent2 = array();
 
