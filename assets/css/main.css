@@ -374,7 +374,7 @@ a.bricky:hover {
 	position: relative !important;
 }
 .navbar > .container .navbar-brand, .logo {
-	padding: 4px 9px 12px;
+	padding: 8px 9px 12px;
 	margin-left: 0;
 }
 .navbar > .container .navbar-brand i, .logo i {
